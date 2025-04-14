@@ -1,5 +1,4 @@
-
-export interface MessageChoiceEntity   {
+export interface MessageChoice   {
     id: string;
     name: string;
     type: ChoiceType;
@@ -9,7 +8,7 @@ export interface MessageChoiceEntity   {
     updatedAt: Date;
 }
 
-enum ChoiceType {
+export enum ChoiceType {
     SINGLE = 'SINGLE',
     MULTIPLE_SLIDER = 'MULTIPLE_SLIDER',
 }

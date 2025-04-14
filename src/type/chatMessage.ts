@@ -1,19 +1,20 @@
 import {MessageChoice} from "./messageChoice.type";
 
-export interface ChatMessageType {
+export interface ChatMessage {
     id: string;
     name: string;
-    type: MessageType;
-    nextMessageId: string;
+    type?: QuestionType;
+    nextMessageId?: string;
     createdAt: Date;
     updatedAt: Date;
 }
 
-export enum MessageType {
+export enum QuestionType {
     SINGLE = 'SINGLE',
     SLIDER = 'SLIDER',
 }
 
-export interface ChatMessageWithRelations extends ChatMessageType {
-    nextChoices?: MessageChoice[]
+export interface ChatMessageWithRelations extends ChatMessage {
+    nextChoices?: MessageChoice[],
+    nextMessage?: ChatMessage,
 }

@@ -1,0 +1,58 @@
+.chat-list-container {
+    padding: 16px;
+    background-color: #f3f4f6;
+    min-height: 100vh;
+}
+
+.chat-list-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.chat-create-button {
+    padding: 10px 16px;
+    background-color: #10b981;
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+
+.chat-create-button:hover {
+    background-color: #059669;
+}
+
+.chat-loading {
+    text-align: center;
+    font-size: 18px;
+}
+
+.chat-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.pagination-button {
+    padding: 10px 16px;
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.pagination-button:disabled {
+    background-color: #d1d5db;
+}
+
+.pagination-info {
+    font-size: 18px;
+}
