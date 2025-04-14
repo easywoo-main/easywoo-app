@@ -4,7 +4,7 @@ import {QuestionType} from "../../type/chatMessage";
 import {getChatMessageById} from "../../api/chatMessage.service";
 
 const ChatMessageDetails: React.FC = () => {
-    const [treeData, setTreeData] = useState<TreeNode<any>[]>([]);
+    const [treeData, setTreeData] = useState<TreeNode[]>([]);
 
     const getChildren = async (nodeId: string, messageType: QuestionType) => {
         try {
