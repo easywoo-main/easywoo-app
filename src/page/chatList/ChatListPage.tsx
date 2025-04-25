@@ -1,4 +1,3 @@
-// src/pages/ChatListPage.tsx
 import React, { useEffect, useState } from 'react';
 import { Chat } from '../../type/chat.type';
 import { deleteChat, getPaginationChat } from '../../api/chat.service';
@@ -7,6 +6,7 @@ import ChatItem from './components/ChatItem';
 import CreateChatModal from './components/CreateChatModal';
 import EditChatModal from './components/EditChatModal';
 import DeleteChatModal from './components/DeleteChatModal';
+import { Button, CircularProgress, Typography, Box, Alert } from '@mui/material';
 import './ChatListPage.css';
 
 const ChatListPage: React.FC = () => {
@@ -65,8 +65,9 @@ const ChatListPage: React.FC = () => {
         if (selectedChat) {
             try {
                 await deleteChat(selectedChat.id);
-                setChats(chats.filter((chat) => chat.id !== selectedChat.id)); // Remove the deleted chat from the list
-                setShowDeleteModal(false); // Close the delete modal
+                setChats(chats.filter((chat) => chat.id !== selectedChat.id));
+                setShowDeleteModal(false);
+                await fetchChats(currentPage, searchQuery);
             } catch (error) {
                 console.error('Error deleting chat', error);
             }
@@ -74,23 +75,26 @@ const ChatListPage: React.FC = () => {
     };
 
     return (
-        <div className="chat-list-container">
-            <h1 className="chat-list-title">Chat List</h1>
+        <Box className="chat-list-container">
+            <Typography variant="h4" gutterBottom>
+                Chat List
+            </Typography>
 
-            <button
+            <Button
                 onClick={() => setShowCreateModal(true)}
-                className="chat-create-button"
+                variant="contained"
+                color="primary"
+                sx={{ marginBottom: 2 }}
             >
                 Create Chat
-            </button>
+            </Button>
 
-            {/* Search Component */}
             <Search query={searchQuery} onSearch={setSearchQuery} />
 
             {loading ? (
-                <div className="chat-loading">Loading...</div>
+                <CircularProgress />
             ) : (
-                <div className="chat-items">
+                <Box className="chat-items">
                     {chats.map((chat) => (
                         <ChatItem
                             key={chat.id}
@@ -99,30 +103,31 @@ const ChatListPage: React.FC = () => {
                             onDeleteClick={handleDeleteClick}
                         />
                     ))}
-                </div>
+                </Box>
             )}
 
-            <div className="pagination-container">
-                <button
+            <Box className="pagination-container" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Button
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    className="pagination-button"
+                    variant="outlined"
+                    sx={{ marginRight: 2 }}
                 >
                     Previous Page
-                </button>
+                </Button>
 
-                <span className="pagination-info">
+                <Typography variant="body1" sx={{ marginX: 2 }}>
                     Page {currentPage} of {totalPages}
-                </span>
+                </Typography>
 
-                <button
+                <Button
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    className="pagination-button"
+                    variant="outlined"
                 >
                     Next Page
-                </button>
-            </div>
+                </Button>
+            </Box>
 
             {showCreateModal && <CreateChatModal onClose={() => setShowCreateModal(false)} />}
             {showEditModal && selectedChat && <EditChatModal chat={selectedChat} onClose={() => setShowEditModal(false)} />}
@@ -133,7 +138,7 @@ const ChatListPage: React.FC = () => {
                     chat={selectedChat}
                 />
             )}
-        </div>
+        </Box>
     );
 };
 

@@ -2,8 +2,6 @@ import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-d
 import ChatListPage from "./page/chatList/ChatListPage";
 import React from "react";
 import ChatMessageDetails from "./page/chatDetails/ChatDetails";
-// import dotenv from 'dotenv';
-// dotenv.config();
 
 const App: React.FC = () => {
 

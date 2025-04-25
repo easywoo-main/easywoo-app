@@ -1,24 +1,97 @@
-import React, {useState} from "react";
-import {TreeNode} from "./type";
-import {QuestionType} from "../../type/chatMessage";
-import {getChatMessageById} from "../../api/chatMessage.service";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import {createChatMessage} from "../../api/chatMessage.service";
+import {Chat} from "../../type/chat.type";
+import {getChatById} from "../../api/chat.service";
+import CreateEditMessageModal from "./components/CreateEditMessageModal";
+import {CreateUpdateChatMessageDto} from "./type/createUpdateChatMessage.dto";
+import ChatTree from "./components/ChatTree";
+import {Box, Button, CircularProgress, Container, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const ChatMessageDetails: React.FC = () => {
-    const [treeData, setTreeData] = useState<TreeNode[]>([]);
+    const [chat, setChat] = useState<Chat>();
+    const [isLoading, setIsLoading] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const {id: chatId} = useParams<{ id: string }>();
+    const navigate = useNavigate();
 
-    const getChildren = async (nodeId: string, messageType: QuestionType) => {
+
+    useEffect(() => {
+        getChat();
+    }, [chatId]);
+
+    const getChat = async () => {
+        if (!chatId) return;
+        setIsLoading(true);
         try {
-
-        }catch (error) {
-            console.error("Error fetching children:", error);
+            const chatData = await getChatById(chatId);
+            setChat(chatData);
+        } catch (error) {
+            console.error("Failed to fetch chat:", error);
+        } finally {
+            setIsLoading(false);
         }
-    }
+    };
+
+    const handleAddNewStep = async (newStep: CreateUpdateChatMessageDto) => {
+        if (!chat) return;
+        await createChatMessage({...newStep, chatId: chat.id});
+        setIsModalOpen(false);
+        await getChat();
+    };
 
     return (
-        <div>
-            hello
-        </div>
-    )
-}
+        <Container style={{margin: 0, padding: 0}}>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                    mb: 3,
+                    width: "100vw",
+                    padding: "16px",
+                    backgroundColor: "#ebedeb",
+                }}
+            >
+                <Button
+                    variant="outlined"
+                    onClick={() => navigate("/chat")}
+                    startIcon={<ArrowBackIosIcon />}
+                />
+
+                <Typography variant="h4">{chat?.name}</Typography>
+                <Box />
+            </Box>
+
+
+            {isLoading ? (
+                <Box sx={{display: "flex", justifyContent: "center", mt: 4}}>
+                    <CircularProgress/>
+                </Box>
+            ) : chat?.startMessageId ? (
+                <ChatTree chat={chat}/>
+            ) : (
+                <Box sx={{textAlign: "center", mt: 4}}>
+                    <Typography variant="h6" gutterBottom>
+                        No start message found.
+                    </Typography>
+                    <Button variant="outlined" onClick={() => setIsModalOpen(true)}>
+                        Add First Step
+                    </Button>
+                </Box>
+            )}
+
+            {isModalOpen && (
+                <CreateEditMessageModal
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={handleAddNewStep}
+                />
+            )}
+        </Container>
+    );
+};
 
 export default ChatMessageDetails;

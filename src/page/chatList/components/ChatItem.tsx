@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Card, CardContent, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Chat } from '../../../type/chat.type';
 
@@ -12,30 +13,25 @@ const ChatItem: React.FC<ChatItemProps> = ({ chat, onEditDetailsClick, onDeleteC
     const navigate = useNavigate();
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 transition duration-200">
-            <h2 className="text-xl font-semibold">{chat.name}</h2>
-            <p className="text-sm text-gray-600">Created on: {new Date(chat.createdAt).toLocaleDateString()}</p>
-            <div className="mt-2 flex">
-                <button
-                    onClick={() => onEditDetailsClick(chat)}
-                    className="text-blue-500 mr-4"
-                >
-                    Edit Name
-                </button>
-                <button
-                    onClick={() => navigate(`/chat/${chat.id}`)}
-                    className="text-blue-500 mr-4"
-                >
-                    Edit Message
-                </button>
-                <button
-                    onClick={() => onDeleteClick(chat)}
-                    className="text-red-500"
-                >
-                    Delete
-                </button>
-            </div>
-        </div>
+        <Card variant="outlined" sx={{ marginBottom: 2 }}>
+            <CardContent>
+                <Typography variant="h6">{chat.name}</Typography>
+                <Typography variant="body2" color="textSecondary">
+                    Created on: {new Date(chat.createdAt).toLocaleDateString()}
+                </Typography>
+                <div>
+                    <Button onClick={() => onEditDetailsClick(chat)} color="primary" variant="outlined" sx={{ marginRight: 2 }}>
+                        Edit Name
+                    </Button>
+                    <Button onClick={() => navigate(`/chat/${chat.id}`)} variant="outlined" color="primary" sx={{ marginRight: 2 }}>
+                        Edit Message
+                    </Button>
+                    <Button onClick={() => onDeleteClick(chat)} variant="outlined" color="error">
+                        Delete
+                    </Button>
+                </div>
+            </CardContent>
+        </Card>
     );
 };
 

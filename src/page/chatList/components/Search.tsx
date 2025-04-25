@@ -1,4 +1,5 @@
 import React from 'react';
+import { TextField } from '@mui/material';
 
 type SearchProps = {
     query: string;
@@ -11,15 +12,14 @@ const Search: React.FC<SearchProps> = ({ query, onSearch }) => {
     };
 
     return (
-        <div className="mb-4">
-            <input
-                type="text"
-                value={query}
-                onChange={handleInputChange}
-                placeholder="Search chats..."
-                className="px-4 py-2 border border-gray-300 rounded-lg w-full"
-            />
-        </div>
+        <TextField
+            value={query}
+            onChange={handleInputChange}
+            placeholder="Search chats..."
+            fullWidth
+            variant="outlined"
+            sx={{ marginBottom: 2 }}
+        />
     );
 };
 
