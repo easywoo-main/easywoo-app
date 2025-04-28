@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, TextField } from "@mui/material";
 import { CreateUpdateChatMessageDto } from "../type";
-import NewFileForm from "./NewFileForm";
+import NewFilesForm from "./NewFilesForm";
 
 interface Props {
     message: CreateUpdateChatMessageDto;
@@ -11,7 +11,7 @@ interface Props {
 const NewChallengeForm: React.FC<Props> = ({ message, setMessage }) => {
     return (
         <Box>
-            <NewFileForm message={message} setMessage={setMessage} />
+            <NewFilesForm message={message} setMessage={setMessage} />
             <TextField
                 label="Timeout (seconds)"
                 type="number"

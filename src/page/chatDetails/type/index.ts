@@ -13,6 +13,7 @@ export interface CreateUpdateChatMessageDto {
     timeout?: number
     sliderProps?: CreateUpdateSliderPropDto
     prevMessageId?: string
+    prevChoiceId?: string
     chatId?: string
     type: MessageType;
 }
@@ -20,10 +21,11 @@ export interface CreateUpdateChatMessageDto {
 export interface CreateUpdateSliderPropDto {
     name: string;
     type: string;
-    chatMessageId: string
+    chatMessageId: string;
 }
 
 export interface CreateUpdateAnswerDto {
     name: string;
-    prevMessageId: string
+    file?: string;
+    prevMessageId?: string;
 }

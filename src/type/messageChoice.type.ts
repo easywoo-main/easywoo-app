@@ -1,3 +1,5 @@
+import {ChatMessageWithRelations} from "./chatMessage";
+
 export interface MessageChoice   {
     id: string;
     name: string;
@@ -11,4 +13,8 @@ export interface MessageChoice   {
 export enum ChoiceType {
     SINGLE = 'SINGLE',
     MULTIPLE_SLIDER = 'MULTIPLE_SLIDER',
+}
+
+export interface MessageChoiceWithRelationDto extends MessageChoice {
+    nextMessage: ChatMessageWithRelations | null;
 }

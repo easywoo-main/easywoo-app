@@ -10,7 +10,7 @@ interface Props {
     setMessage: (message: CreateUpdateChatMessageDto) => void;
 }
 
-const NewFileForm: React.FC<Props> = ({ message, setMessage }) => {
+const NewFilesForm: React.FC<Props> = ({ message, setMessage }) => {
     const [isLoading, setIsLoading] = React.useState(false);
     const handleUploadFiles = async (files: File[]) => {
         setIsLoading(true);
@@ -71,4 +71,4 @@ const NewFileForm: React.FC<Props> = ({ message, setMessage }) => {
     );
 };
 
-export default NewFileForm;
+export default NewFilesForm;

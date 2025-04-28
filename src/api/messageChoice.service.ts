@@ -1,13 +1,14 @@
 import apiClientV1 from "../config/axios.config";
-import {MessageChoice} from "../type/messageChoice.type";
+import {MessageChoice, MessageChoiceWithRelationDto} from "../type/messageChoice.type";
+import {CreateUpdateAnswerDto} from "../page/chatDetails/type";
 
 
-export const createMessageChoice = async (data: MessageChoice): Promise<MessageChoice> => {
+export const createMessageChoice = async (data: CreateUpdateAnswerDto): Promise<MessageChoice> => {
     const {data: response} = await apiClientV1.post<MessageChoice>(`/message-choice`, data);
     return response;
 }
 
-export const updateMessageChoice = async (id: string, data: MessageChoice): Promise<MessageChoice> => {
+export const updateMessageChoice = async (id: string, data: CreateUpdateAnswerDto): Promise<MessageChoice> => {
     const {data: response} = await apiClientV1.patch<MessageChoice>(`/message-choice/${id}`, data);
     return response;
 }
@@ -17,7 +18,7 @@ export const deleteMessageChoice = async (id: string): Promise<MessageChoice> =>
     return response;
 }
 
-export const getMessageChoiceById = async (id: string): Promise<MessageChoice> => {
-    const {data} = await apiClientV1.get<MessageChoice>(`/message-choice/${id}`);
+export const getMessageChoiceById = async (id: string): Promise<MessageChoiceWithRelationDto> => {
+    const {data} = await apiClientV1.get<MessageChoiceWithRelationDto>(`/message-choice/${id}`);
     return data;
 }

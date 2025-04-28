@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 interface QuestionComponentProps {
-    onEditClick: (nodeId: string) => void;
+    onEditClick: (nodeId: string, type: MessageType) => void;
     treeNode: TreeNode;
     showChildren: (nodeId: string) => void;
     addChildren: (nodeId: string, type: MessageType) => void;
@@ -19,7 +19,7 @@ const Node: React.FC<QuestionComponentProps> = ({
                                                     showChildren
                                                 }: QuestionComponentProps) => {
     const handleEditMessage = () => {
-        onEditClick(treeNode.attributes.id);
+        onEditClick(treeNode.attributes.id, treeNode.attributes.type);
     };
 
     const handleAddChildren = () => {

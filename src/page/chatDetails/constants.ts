@@ -1,5 +1,5 @@
 import {MessageType} from "../../type/chatMessage";
-import { CreateUpdateChatMessageDto } from "./type";
+import {CreateUpdateAnswerDto, CreateUpdateChatMessageDto} from "./type";
 
 
 export const defaultCreateMessage: CreateUpdateChatMessageDto = {
@@ -11,4 +11,10 @@ export const defaultCreateMessage: CreateUpdateChatMessageDto = {
     sliderProps: undefined,
     prevMessageId: undefined,
     chatId: undefined
+}
+
+export const defaultCreateAnswer: CreateUpdateAnswerDto = {
+    name: "",
+    file: undefined,
+    prevMessageId: undefined,
 }

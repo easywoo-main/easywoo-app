@@ -129,7 +129,10 @@ const ChatListPage: React.FC = () => {
                 </Button>
             </Box>
 
-            {showCreateModal && <CreateChatModal onClose={() => setShowCreateModal(false)} />}
+            {showCreateModal && <CreateChatModal onClose={async () => {
+                await fetchChats(currentPage, searchQuery);
+                setShowCreateModal(false);
+            } }/>}
             {showEditModal && selectedChat && <EditChatModal chat={selectedChat} onClose={() => setShowEditModal(false)} />}
             {showDeleteModal && selectedChat && (
                 <DeleteChatModal

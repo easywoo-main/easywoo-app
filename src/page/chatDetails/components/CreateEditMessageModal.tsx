@@ -15,7 +15,7 @@ import { MessageType } from "../../../type/chatMessage";
 import { CreateUpdateChatMessageDto } from "../type";
 import { defaultCreateMessage } from "../constants";
 import NewTextForm from "./NewTextForm";
-import NewFileForm from "./NewFileForm";
+import NewFilesForm from "./NewFilesForm";
 import NewChallengeForm from "./NewChallengeForm";
 
 interface Props {
@@ -66,7 +66,7 @@ const CreateEditMessageModal: React.FC<Props> = ({ onClose, onSubmit, message })
                 ].includes(type) && <NewTextForm message={newMessage} setMessage={setNewMessage} />}
 
                 {type === MessageType.FILE && (
-                    <NewFileForm message={newMessage} setMessage={setNewMessage} />
+                    <NewFilesForm message={newMessage} setMessage={setNewMessage} />
                 )}
 
                 {type === MessageType.CHALLENGE && (
