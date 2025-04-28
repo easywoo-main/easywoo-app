@@ -4,11 +4,10 @@ import {createChatMessage} from "../../api/chatMessage.service";
 import {Chat} from "../../type/chat.type";
 import {getChatById} from "../../api/chat.service";
 import CreateEditMessageModal from "./components/CreateEditMessageModal";
-import {CreateUpdateChatMessageDto} from "./type/createUpdateChatMessage.dto";
+import {CreateUpdateChatMessageDto} from "./type";
 import ChatTree from "./components/ChatTree";
 import {Box, Button, CircularProgress, Container, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const ChatMessageDetails: React.FC = () => {
@@ -44,15 +43,17 @@ const ChatMessageDetails: React.FC = () => {
     };
 
     return (
-        <Container style={{margin: 0, padding: 0}}>
+        <Container style={{width: "100vw", height: "100vh", margin: "0", padding: "0"}}>
             <Box
                 sx={{
                     display: "flex",
                     justifyContent: "space-around",
                     alignItems: "center",
-                    mb: 3,
-                    width: "100vw",
-                    padding: "16px",
+                    // mb: 3,
+                    width: "98vw",
+                    pt: "16px",
+                    pb: "16px",
+
                     backgroundColor: "#ebedeb",
                 }}
             >

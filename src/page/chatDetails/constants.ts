@@ -1,5 +1,5 @@
 import {MessageType} from "../../type/chatMessage";
-import {CreateUpdateChatMessageDto} from "./type/createUpdateChatMessage.dto";
+import { CreateUpdateChatMessageDto } from "./type";
 
 
 export const defaultCreateMessage: CreateUpdateChatMessageDto = {

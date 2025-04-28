@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, CircularProgress, Stack } from "@mui/material";
-import { CreateUpdateChatMessageDto } from "../type/createUpdateChatMessage.dto";
+import { CreateUpdateChatMessageDto } from "../type";
 import { uploadFiles } from "../../../api/chatMessage.service";
 import NewTextForm from "./NewTextForm";
 import UploadFileIcon from '@mui/icons-material/UploadFile';

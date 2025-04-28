@@ -1,6 +1,6 @@
 import React from "react";
 import { TextField, Box } from "@mui/material";
-import { CreateUpdateChatMessageDto } from "../type/createUpdateChatMessage.dto";
+import { CreateUpdateChatMessageDto } from "../type";
 
 interface Props {
     message: CreateUpdateChatMessageDto;

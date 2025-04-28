@@ -12,7 +12,7 @@ import {
     Typography
 } from "@mui/material";
 import { MessageType } from "../../../type/chatMessage";
-import { CreateUpdateChatMessageDto } from "../type/createUpdateChatMessage.dto";
+import { CreateUpdateChatMessageDto } from "../type";
 import { defaultCreateMessage } from "../constants";
 import NewTextForm from "./NewTextForm";
 import NewFileForm from "./NewFileForm";
