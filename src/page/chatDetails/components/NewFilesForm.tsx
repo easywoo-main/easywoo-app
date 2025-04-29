@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, CircularProgress, Stack } from "@mui/material";
 import { CreateUpdateChatMessageDto } from "../type";
 import { uploadFiles } from "../../../api/chatMessage.service";
-import NewTextForm from "./NewTextForm";
+import NewDefaultMessagePropsForm from "./NewDefaultMessagePropsForm";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 interface Props {
@@ -24,7 +24,6 @@ const NewFilesForm: React.FC<Props> = ({ message, setMessage }) => {
 
     return (
         <Box>
-            <NewTextForm message={message} setMessage={setMessage} />
             <Button
                 variant="outlined"
                 component="label"

@@ -66,7 +66,8 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
             files: entity.files,
             timeout: entity.timeout,
             type: entity.type,
-            sliderProps: entity.sliderProps?.map(sliderPropsToDto)
+            sliderProps: entity.sliderProps?.map(sliderPropsToDto),
+            isCheckpoint: entity.isCheckpoint
         };
     }
 

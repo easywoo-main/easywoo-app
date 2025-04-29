@@ -1,7 +1,7 @@
 import {Box, Checkbox, FormControlLabel, TextField, Button} from "@mui/material";
 import React from "react";
 import {CreateUpdateChatMessageDto, SliderPropType} from "../type";
-import NewTextForm from "./NewTextForm";
+import NewDefaultMessagePropsForm from "./NewDefaultMessagePropsForm";
 import {deleteMessageSlider} from "../../../api/messageSliderProps";
 
 interface NewSliderFormProps {
@@ -42,8 +42,6 @@ const NewSliderForm: React.FC<NewSliderFormProps> = ({message, setMessage}) => {
 
     return (
         <Box>
-            <NewTextForm message={message} setMessage={setMessage}/>
-
             {message.sliderProps && message.sliderProps.map((slider, index) => (
                 <Box my={2} key={index}>
                     <TextField

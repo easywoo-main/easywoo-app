@@ -14,7 +14,7 @@ import {
 import {MessageType} from "../../../type/chatMessage";
 import {CreateUpdateChatMessageDto} from "../type";
 import {defaultCreateMessage} from "../constants";
-import NewTextForm from "./NewTextForm";
+import NewDefaultMessagePropsForm from "./NewDefaultMessagePropsForm";
 import NewFilesForm from "./NewFilesForm";
 import NewChallengeForm from "./NewChallengeForm";
 import NewSliderForm from "./NewSliderForm";
@@ -59,12 +59,7 @@ const CreateEditMessageModal: React.FC<Props> = ({ onClose, onSubmit, message })
                         ))}
                     </RadioGroup>
                 </Box>
-
-                {[
-                    MessageType.TEXT,
-                    MessageType.QUESTION_SINGLE,
-                    MessageType.QUESTION_TEXT_FIELD,
-                ].includes(type) && <NewTextForm message={newMessage} setMessage={setNewMessage} />}
+                <NewDefaultMessagePropsForm message={newMessage} setMessage={setNewMessage} />
 
                 {type === MessageType.FILE && (
                     <NewFilesForm message={newMessage} setMessage={setNewMessage} />

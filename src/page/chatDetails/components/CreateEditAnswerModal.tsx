@@ -11,7 +11,7 @@ import {
     Typography
 } from "@mui/material";
 import {MessageType} from "../../../type/chatMessage";
-import NewTextForm from "./NewTextForm";
+import NewDefaultMessagePropsForm from "./NewDefaultMessagePropsForm";
 import NewFilesForm from "./NewFilesForm";
 import NewChallengeForm from "./NewChallengeForm";
 import {CreateUpdateAnswerDto} from "../type";

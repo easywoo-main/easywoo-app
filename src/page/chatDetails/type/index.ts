@@ -16,6 +16,7 @@ export interface CreateUpdateChatMessageDto {
     prevChoiceId?: string
     chatId?: string
     type: MessageType;
+    isCheckpoint: boolean;
 }
 
 export interface CreateUpdateSliderPropDto {

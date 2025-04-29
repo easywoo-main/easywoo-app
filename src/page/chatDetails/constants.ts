@@ -10,7 +10,8 @@ export const defaultCreateMessage: CreateUpdateChatMessageDto = {
     timeout: 0,
     sliderProps: undefined,
     prevMessageId: undefined,
-    chatId: undefined
+    chatId: undefined,
+    isCheckpoint: false
 }
 
 export const defaultCreateAnswer: CreateUpdateAnswerDto = {
