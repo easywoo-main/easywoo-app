@@ -20,5 +20,6 @@ export const deleteMessageChoice = async (id: string): Promise<MessageChoice> =>
 
 export const getMessageChoiceById = async (id: string): Promise<MessageChoiceWithRelationDto> => {
     const {data} = await apiClientV1.get<MessageChoiceWithRelationDto>(`/message-choice/${id}`);
+    console.log(data)
     return data;
 }

@@ -1,4 +1,5 @@
-import {ChoiceType, MessageChoice, MessageChoiceWithRelationDto} from "./messageChoice.type";
+import { MessageChoiceWithRelationDto} from "./messageChoice.type";
+import {SliderProp} from "./messageSlider.type";
 
 export interface ChatMessage {
     name: string;
@@ -26,18 +27,4 @@ export interface ChatMessageWithRelations extends ChatMessage {
     nextChoices?: MessageChoiceWithRelationDto[],
     nextMessage?: ChatMessage,
     sliderProps?: SliderProp[]
-}
-
-enum SliderPropType{
-    NEGATIVE = 'NEGATIVE',
-    POSITIVE = 'POSITIVE'
-}
-
-export interface SliderProp {
-    id: string;
-    name: string;
-    type: SliderPropType;
-    createdAt: Date;
-    updatedAt: Date;
-    chatMessageId: string;
 }

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Chat} from "../../../type/chat.type";
 import Tree from "react-d3-tree";
-import {CreateUpdateAnswerDto, CreateUpdateChatMessageDto, TreeNode} from "../type";
+import {CreateUpdateAnswerDto, CreateUpdateChatMessageDto, CreateUpdateSliderPropDto, TreeNode} from "../type";
 import {useCenteredTree} from "../../../utils/helper";
 import Node from "./Node";
 import {createChatMessage, getChatMessageById, updateChatMessage} from "../../../api/chatMessage.service";
@@ -10,6 +10,7 @@ import {MessageChoice, MessageChoiceWithRelationDto} from "../../../type/message
 import CreateEditMessageModal from "./CreateEditMessageModal";
 import CreateEditAnswerModal from "./CreateEditAnswerModal";
 import {createMessageChoice, getMessageChoiceById, updateMessageChoice} from "../../../api/messageChoice.service";
+import {SliderProp} from "../../../type/messageSlider.type";
 
 interface TreeProps {
     chat: Chat;
@@ -54,6 +55,7 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
     }
 
     const messageChoiceToNode = (entity: MessageChoiceWithRelationDto): TreeNode => {
+        console.log(entity);
         return {name: entity.name, attributes: entity, children: entity.nextMessage? [chatMessageToNode(entity.nextMessage)]: []};
     }
 
@@ -64,7 +66,16 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
             files: entity.files,
             timeout: entity.timeout,
             type: entity.type,
+            sliderProps: entity.sliderProps?.map(sliderPropsToDto)
         };
+    }
+
+    const sliderPropsToDto = (entity: SliderProp): CreateUpdateSliderPropDto => {
+        return {
+            id: entity.id,
+            name: entity.name,
+            type: entity.type
+        }
     }
 
     const answerToDto = (entity: MessageChoice): CreateUpdateAnswerDto => {

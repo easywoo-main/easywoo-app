@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
+    Box,
     Button,
-    RadioGroup,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     FormControlLabel,
     Radio,
-    Box,
+    RadioGroup,
     Typography
 } from "@mui/material";
-import { MessageType } from "../../../type/chatMessage";
-import { CreateUpdateChatMessageDto } from "../type";
-import { defaultCreateMessage } from "../constants";
+import {MessageType} from "../../../type/chatMessage";
+import {CreateUpdateChatMessageDto} from "../type";
+import {defaultCreateMessage} from "../constants";
 import NewTextForm from "./NewTextForm";
 import NewFilesForm from "./NewFilesForm";
 import NewChallengeForm from "./NewChallengeForm";
+import NewSliderForm from "./NewSliderForm";
 
 interface Props {
     onClose: () => void;
@@ -72,6 +73,11 @@ const CreateEditMessageModal: React.FC<Props> = ({ onClose, onSubmit, message })
                 {type === MessageType.CHALLENGE && (
                     <NewChallengeForm message={newMessage} setMessage={setNewMessage} />
                 )}
+
+                {type===MessageType.QUESTION_SLIDERS && (
+                    <NewSliderForm message={newMessage} setMessage={setNewMessage} />
+                )}
+
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>

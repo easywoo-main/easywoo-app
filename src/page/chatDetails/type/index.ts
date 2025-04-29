@@ -11,7 +11,7 @@ export interface CreateUpdateChatMessageDto {
     name: string;
     files: string[]
     timeout?: number
-    sliderProps?: CreateUpdateSliderPropDto
+    sliderProps?: CreateUpdateSliderPropDto[]
     prevMessageId?: string
     prevChoiceId?: string
     chatId?: string
@@ -19,9 +19,14 @@ export interface CreateUpdateChatMessageDto {
 }
 
 export interface CreateUpdateSliderPropDto {
+    id?: string;
     name: string;
-    type: string;
-    chatMessageId: string;
+    type: SliderPropType;
+}
+
+export enum SliderPropType {
+    NEGATIVE= "NEGATIVE",
+    POSITIVE = "POSITIVE",
 }
 
 export interface CreateUpdateAnswerDto {
