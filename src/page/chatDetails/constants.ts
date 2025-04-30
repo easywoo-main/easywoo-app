@@ -19,3 +19,5 @@ export const defaultCreateAnswer: CreateUpdateAnswerDto = {
     file: undefined,
     prevMessageId: undefined,
 }
+
+export const nextChoiceMessageTypes: MessageType[] = [MessageType.QUESTION_SINGLE, MessageType.CHALLENGE]

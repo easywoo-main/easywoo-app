@@ -11,6 +11,7 @@ import CreateEditMessageModal from "./CreateEditMessageModal";
 import CreateEditAnswerModal from "./CreateEditAnswerModal";
 import {createMessageChoice, getMessageChoiceById, updateMessageChoice} from "../../../api/messageChoice.service";
 import {SliderProp} from "../../../type/messageSlider.type";
+import {nextChoiceMessageTypes} from "../constants";
 
 interface TreeProps {
     chat: Chat;
@@ -40,22 +41,22 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
     }
 
     const chatMessageToNode = (entity: ChatMessageWithRelations): TreeNode => {
-        if ([MessageType.TEXT, MessageType.FILE, MessageType.QUESTION_SLIDERS, MessageType.CHALLENGE].includes(entity.type)) {
+        if (nextChoiceMessageTypes.includes(entity.type)) {
             return {
                 name: entity.name,
                 attributes: entity,
-                children: entity.nextMessage ? [chatMessageToNode(entity.nextMessage)] : []
+                children: entity.nextChoices ? entity.nextChoices.map(messageChoiceToNode) : []
             };
         }
+
         return {
             name: entity.name,
             attributes: entity,
-            children: entity.nextChoices ? entity.nextChoices.map(messageChoiceToNode) : []
+            children: entity.nextMessage ? [chatMessageToNode(entity.nextMessage)] : []
         };
     }
 
     const messageChoiceToNode = (entity: MessageChoiceWithRelationDto): TreeNode => {
-        console.log(entity);
         return {name: entity.name, attributes: entity, children: entity.nextMessage? [chatMessageToNode(entity.nextMessage)]: []};
     }
 
@@ -139,7 +140,7 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
         }
         setParentMessageId(parentId);
 
-        if ([MessageType.QUESTION_SINGLE, MessageType.QUESTION_TEXT_FIELD].includes(type)) {
+        if ([MessageType.QUESTION_SINGLE].includes(type)) {
             setOpenCreateEditAnswerModal(true);
         } else {
             setOpenCreateEditMessageModal(true);
