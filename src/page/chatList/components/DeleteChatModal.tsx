@@ -1,14 +1,24 @@
 import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { Chat } from '../../../type/chat.type';
+import {deleteChat} from "../../../api/chat.service";
 
 interface DeleteChatModalProps {
     chat: Chat;
     onClose: () => void;
-    onDelete: () => void;
 }
 
-const DeleteChatModal: React.FC<DeleteChatModalProps> = ({ chat, onClose, onDelete }) => {
+const DeleteChatModal: React.FC<DeleteChatModalProps> = ({ chat, onClose }) => {
+    const handleDeleteChat = async () => {
+        if (chat) {
+            try {
+                await deleteChat(chat.id);
+                onClose();
+            } catch (error) {
+                console.error('Error deleting chat', error);
+            }
+        }
+    }
     return (
         <Dialog open onClose={onClose}>
             <DialogTitle>Delete Chat</DialogTitle>
@@ -17,7 +27,7 @@ const DeleteChatModal: React.FC<DeleteChatModalProps> = ({ chat, onClose, onDele
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color="secondary">Cancel</Button>
-                <Button onClick={onDelete} color="error">Delete</Button>
+                <Button onClick={handleDeleteChat} color="error">Delete</Button>
             </DialogActions>
         </Dialog>
     );

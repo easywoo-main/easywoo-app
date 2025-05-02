@@ -1,16 +1,30 @@
-import React, { useState } from "react";
-import { Box, TextField, MenuItem, Select, InputLabel, FormControl, SelectChangeEvent } from "@mui/material";
-import { CreateUpdateChatMessageDto } from "../type";
-import NewFilesForm from "./NewFilesForm";
+import React, {useEffect, useState} from "react";
+import {Box, TextField, MenuItem, Select, InputLabel, FormControl, SelectChangeEvent} from "@mui/material";
+import {CreateUpdateChatMessageDto} from "../type";
 
 interface Props {
     message: CreateUpdateChatMessageDto;
     setMessage: (message: CreateUpdateChatMessageDto) => void;
 }
 
-const NewChallengeForm: React.FC<Props> = ({ message, setMessage }) => {
+const NewChallengeForm: React.FC<Props> = ({message, setMessage}) => {
     const [unit, setUnit] = useState<string>('seconds');
     const [timeout, setTimeoutState] = useState<number>(message.timeout ?? 0);
+
+
+    useEffect(() => {
+        const messageTimeout = message.timeout ?? 0
+        if (messageTimeout % 86400 === 0) {
+            setUnit("days");
+            setTimeoutState(messageTimeout / 86400)
+        } else if (messageTimeout % 3600 === 0) {
+            setUnit("hours");
+            setTimeoutState(messageTimeout / 3600)
+        } else if (messageTimeout % 60 === 0) {
+            setUnit("minutes");
+            setTimeoutState(messageTimeout / 60)
+        }
+    }, []);
 
     const convertToSeconds = (timeout: number, unit: string): number => {
         console.log(unit)
@@ -28,7 +42,7 @@ const NewChallengeForm: React.FC<Props> = ({ message, setMessage }) => {
         const timeoutValue = Number(e.target.value);
         setTimeoutState(timeoutValue);
         const timeoutInSeconds = convertToSeconds(timeoutValue, unit);
-        setMessage({ ...message, timeout: timeoutInSeconds });
+        setMessage({...message, timeout: timeoutInSeconds});
         console.log(message)
     };
 
@@ -37,12 +51,11 @@ const NewChallengeForm: React.FC<Props> = ({ message, setMessage }) => {
         setUnit(unit);
         const timeoutInSeconds = convertToSeconds(timeout, unit);
         console.log("timeoutInSeconds", timeoutInSeconds, unit)
-        setMessage({ ...message, timeout: timeoutInSeconds });
+        setMessage({...message, timeout: timeoutInSeconds});
     };
 
     return (
         <Box>
-            <NewFilesForm message={message} setMessage={setMessage} />
             <TextField
                 label="Timeout Value"
                 type="number"

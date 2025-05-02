@@ -8,12 +8,17 @@ import {CreateUpdateChatMessageDto} from "./type";
 import ChatTree from "./components/ChatTree";
 import {Box, Button, CircularProgress, Container, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import EditIcon from '@mui/icons-material/Edit';
+
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import EditChatModal from "../chatList/components/EditChatModal";
 
 const ChatMessageDetails: React.FC = () => {
     const [chat, setChat] = useState<Chat>();
     const [isLoading, setIsLoading] = useState(true);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCreateFirstChatMessageModalOpen, setIsCreateFirstChatMessageModalOpen] = useState(false);
+    const [isEditChatOpen, setIsEditChatOpen] = useState(false);
+
     const {id: chatId} = useParams<{ id: string }>();
     const navigate = useNavigate();
 
@@ -38,7 +43,7 @@ const ChatMessageDetails: React.FC = () => {
     const handleAddNewStep = async (newStep: CreateUpdateChatMessageDto) => {
         if (!chat) return;
         await createChatMessage({...newStep, chatId: chat.id});
-        setIsModalOpen(false);
+        setIsCreateFirstChatMessageModalOpen(false);
         await getChat();
     };
 
@@ -60,11 +65,15 @@ const ChatMessageDetails: React.FC = () => {
                 <Button
                     variant="outlined"
                     onClick={() => navigate("/chat")}
-                    startIcon={<ArrowBackIosIcon />}
+                    startIcon={<ArrowBackIosIcon/>}
                 />
 
                 <Typography variant="h4">{chat?.name}</Typography>
-                <Box />
+                <Button
+                    variant="outlined"
+                    onClick={() => setIsEditChatOpen(true)}
+                    startIcon={<EditIcon/>}
+                >Edit</Button>
             </Box>
 
 
@@ -79,18 +88,23 @@ const ChatMessageDetails: React.FC = () => {
                     <Typography variant="h6" gutterBottom>
                         No start message found.
                     </Typography>
-                    <Button variant="outlined" onClick={() => setIsModalOpen(true)}>
+                    <Button variant="outlined" onClick={() => setIsCreateFirstChatMessageModalOpen(true)}>
                         Add First Step
                     </Button>
                 </Box>
             )}
 
-            {isModalOpen && (
+            {isCreateFirstChatMessageModalOpen &&
                 <CreateEditMessageModal
-                    onClose={() => setIsModalOpen(false)}
+                    onClose={() => setIsCreateFirstChatMessageModalOpen(false)}
                     onSubmit={handleAddNewStep}
                 />
-            )}
+            }
+            {isEditChatOpen &&
+                <EditChatModal
+                    onClose={() => setIsEditChatOpen(false)}
+                    chat={chat!}
+                />}
         </Container>
     );
 };

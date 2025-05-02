@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Chat } from '../../type/chat.type';
-import { deleteChat, getPaginationChat } from '../../api/chat.service';
+import React, {useEffect, useState} from 'react';
+import {Chat} from '../../type/chat.type';
+import {getPaginationChat} from '../../api/chat.service';
 import Search from './components/Search';
 import ChatItem from './components/ChatItem';
 import CreateChatModal from './components/CreateChatModal';
-import EditChatModal from './components/EditChatModal';
-import DeleteChatModal from './components/DeleteChatModal';
-import { Button, CircularProgress, Typography, Box, Alert } from '@mui/material';
+import {Button, CircularProgress, Typography, Box} from '@mui/material';
 import './ChatListPage.css';
 
 const ChatListPage: React.FC = () => {
@@ -15,17 +13,14 @@ const ChatListPage: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
-    const [showEditModal, setShowEditModal] = useState<boolean>(false);
-    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-    const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
 
     const pageSize = 10;
 
-    const fetchChats = async (pageNumber: number, search: string = '') => {
+    const fetchChats = async () => {
         setLoading(true);
         try {
-            const data = await getPaginationChat({ pageNumber, pageSize, search });
+            const data = await getPaginationChat({pageNumber: currentPage, pageSize, search: searchQuery});
             setChats(data.content);
             setTotalPages(data.pageCount);
         } catch (error) {
@@ -36,9 +31,14 @@ const ChatListPage: React.FC = () => {
     };
 
     useEffect(() => {
-        fetchChats(currentPage, searchQuery);
+        fetchChats();
     }, [currentPage, searchQuery]);
 
+
+    const handleCreateNewChat = async () => {
+        await fetchChats();
+        setShowCreateModal(false);
+    }
     const handleNextPage = () => {
         if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
@@ -48,29 +48,6 @@ const ChatListPage: React.FC = () => {
     const handlePreviousPage = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
-        }
-    };
-
-    const handleEditClick = (chat: Chat) => {
-        setSelectedChat(chat);
-        setShowEditModal(true);
-    };
-
-    const handleDeleteClick = (chat: Chat) => {
-        setSelectedChat(chat);
-        setShowDeleteModal(true);
-    };
-
-    const handleDelete = async () => {
-        if (selectedChat) {
-            try {
-                await deleteChat(selectedChat.id);
-                setChats(chats.filter((chat) => chat.id !== selectedChat.id));
-                setShowDeleteModal(false);
-                await fetchChats(currentPage, searchQuery);
-            } catch (error) {
-                console.error('Error deleting chat', error);
-            }
         }
     };
 
@@ -84,39 +61,38 @@ const ChatListPage: React.FC = () => {
                 onClick={() => setShowCreateModal(true)}
                 variant="contained"
                 color="primary"
-                sx={{ marginBottom: 2 }}
+                sx={{marginBottom: 2}}
             >
                 Create Chat
             </Button>
 
-            <Search query={searchQuery} onSearch={setSearchQuery} />
+            <Search query={searchQuery} onSearch={setSearchQuery}/>
 
             {loading ? (
-                <CircularProgress />
+                <CircularProgress/>
             ) : (
                 <Box className="chat-items">
                     {chats.map((chat) => (
                         <ChatItem
                             key={chat.id}
                             chat={chat}
-                            onEditDetailsClick={handleEditClick}
-                            onDeleteClick={handleDeleteClick}
                         />
                     ))}
                 </Box>
             )}
 
-            <Box className="pagination-container" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Box className="pagination-container"
+                 sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <Button
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
                     variant="outlined"
-                    sx={{ marginRight: 2 }}
+                    sx={{marginRight: 2}}
                 >
                     Previous Page
                 </Button>
 
-                <Typography variant="body1" sx={{ marginX: 2 }}>
+                <Typography variant="body1" sx={{marginX: 2}}>
                     Page {currentPage} of {totalPages}
                 </Typography>
 
@@ -128,19 +104,7 @@ const ChatListPage: React.FC = () => {
                     Next Page
                 </Button>
             </Box>
-
-            {showCreateModal && <CreateChatModal onClose={async () => {
-                await fetchChats(currentPage, searchQuery);
-                setShowCreateModal(false);
-            } }/>}
-            {showEditModal && selectedChat && <EditChatModal chat={selectedChat} onClose={() => setShowEditModal(false)} />}
-            {showDeleteModal && selectedChat && (
-                <DeleteChatModal
-                    onClose={() => setShowDeleteModal(false)}
-                    onDelete={handleDelete}
-                    chat={selectedChat}
-                />
-            )}
+            {showCreateModal && <CreateChatModal onClose={handleCreateNewChat}/>}
         </Box>
     );
 };

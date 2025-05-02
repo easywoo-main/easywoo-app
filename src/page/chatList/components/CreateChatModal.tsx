@@ -1,32 +1,52 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, CircularProgress, Typography } from '@mui/material';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+    CircularProgress,
+    Typography
+} from '@mui/material';
+import { useForm, Controller } from 'react-hook-form';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { createChat } from "../../../api/chat.service";
-import { Chat } from "../../../type/chat.type";
+
+const validationSchema = Yup.object().shape({
+    name: Yup.string().required('Chat name cannot be empty.'),
+    freeSteps: Yup.number().min(0, 'Free steps must be a positive number or zero.').required('Free steps are required.'),
+    price: Yup.number().min(0, 'Price must be a positive number or zero.').required('Price is required.')
+});
 
 interface CreateChatModalProps {
     onClose: () => void;
 }
 
 const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
-    const [name, setName] = useState<string>('');
+    const [saveLoading, setSaveLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(false);
 
-    const handleSubmit = async () => {
-        if (name.trim() === '') {
-            setError('Chat name cannot be empty.');
-            return;
+    const { control, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(validationSchema),
+        defaultValues: {
+            name: '',
+            freeSteps: 0,
+            price: 0
         }
-        setLoading(true);
+    });
+
+    const onSubmit = async (data: any) => {
+        setSaveLoading(true);
         try {
-            const newChat: Chat = { name } as Chat;
-            await createChat(newChat);
+            await createChat(data);
             onClose();
         } catch (error) {
             setError('An error occurred while creating the chat.');
             console.error(error);
         } finally {
-            setLoading(false);
+            setSaveLoading(false);
         }
     };
 
@@ -34,22 +54,67 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
         <Dialog open onClose={onClose}>
             <DialogTitle>Create Chat</DialogTitle>
             <DialogContent>
-                <TextField
-                    fullWidth
-                    label="Chat Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    variant="outlined"
-                    sx={{ marginBottom: 2 }}
-                />
-                {error && <Typography color="error">{error}</Typography>}
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Controller
+                        name="name"
+                        control={control}
+                        render={({ field }) => (
+                            <TextField
+                                fullWidth
+                                label="Chat Name"
+                                {...field}
+                                error={!!errors.name}
+                                helperText={errors.name ? errors.name.message : ''}
+                                variant="outlined"
+                                sx={{ marginBottom: 2 }}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="freeSteps"
+                        control={control}
+                        render={({ field }) => (
+                            <TextField
+                                fullWidth
+                                label="Free Steps"
+                                type="number"
+                                {...field}
+                                error={!!errors.freeSteps}
+                                helperText={errors.freeSteps ? errors.freeSteps.message : ''}
+                                variant="outlined"
+                                sx={{ marginBottom: 2 }}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="price"
+                        control={control}
+                        render={({ field }) => (
+                            <TextField
+                                fullWidth
+                                label="Price"
+                                type="number"
+                                {...field}
+                                error={!!errors.price}
+                                helperText={errors.price ? errors.price.message : ''}
+                                variant="outlined"
+                                sx={{ marginBottom: 2 }}
+                            />
+                        )}
+                    />
+                    {error && <Typography color="error">{error}</Typography>}
+                    <DialogActions>
+                        <Button onClick={onClose} color="secondary">Cancel</Button>
+                        <Button
+                            type="submit"
+                            color="primary"
+                            disabled={saveLoading}
+                        >
+                            {saveLoading ? <CircularProgress size={24} /> : 'Create'}
+                        </Button>
+                    </DialogActions>
+                </form>
             </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose} color="secondary">Cancel</Button>
-                <Button onClick={handleSubmit} color="primary" disabled={loading || !name}>
-                    {loading ? <CircularProgress size={24} /> : 'Create'}
-                </Button>
-            </DialogActions>
         </Dialog>
     );
 };
