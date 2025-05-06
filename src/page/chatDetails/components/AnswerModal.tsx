@@ -22,10 +22,11 @@ interface AnswerModalProps {
     answer?: CreateUpdateAnswerType;
     onClose: () => void;
     saveMessage: (messageChoice: CreateUpdateAnswerFrom) => void;
+    onDelete?: () => void;
 }
 
 
-const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage }) => {
+const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, onDelete }) => {
     const [isFileLoading, setIsFileLoading] = React.useState(false);
     const [isSaveLoading, setIsSaveLoading] = React.useState(false);
     const [error, setError] = React.useState<string>();
@@ -124,6 +125,11 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage }
             {error && <Typography color="error" align="center">{error}</Typography>}
 
             <DialogActions>
+                {onDelete && (
+                    <Button onClick={onDelete} color="error">
+                        Delete
+                    </Button>
+                )}
                 <Button onClick={onClose} color="secondary">Cancel</Button>
                 <Button onClick={handleSubmit(handleSave)} variant="contained" disabled={isSaveLoading}>
                     {isSaveLoading ? <CircularProgress size={24} /> : "Save"}

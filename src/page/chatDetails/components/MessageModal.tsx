@@ -22,10 +22,11 @@ import NewSliderForm from "./NewSliderForm";
 interface MessageModalProps {
     onClose: () => void;
     saveMessage: (message: CreateUpdateMessageType) => void;
-    message: CreateUpdateMessageType
+    message: CreateUpdateMessageType;
+    onDelete?: () => void;
 }
 
-const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, message}) => {
+const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, message, onDelete}) => {
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
 
@@ -84,6 +85,11 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
             {error && <Typography color="error" align="center">{error}</Typography>}
 
             <DialogActions>
+                {onDelete && (
+                    <Button onClick={onDelete} color="error">
+                        Delete
+                    </Button>
+                )}
                 <Button onClick={onClose} color="secondary">Cancel</Button>
                 <Button onClick={()=>{
                     console.log(watch())
