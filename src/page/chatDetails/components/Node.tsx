@@ -1,41 +1,66 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {TreeNode} from '../type';
-import {MessageType} from "../../../type/chatMessage";
+import {ChatMessage, MessageType} from "../../../type/chatMessage";
 import {Box, Typography, Stack} from "@mui/material";
 import Button from "@mui/material/Button";
-import UploadFileIcon from '@mui/icons-material/UploadFile';
+import EditAnswerModal from "./EditAnswerModal";
+import CreateAnswerModal from './CreateAnswerModal';
+import CreateMessageModal from "./CreateMessageModal";
+import {AddChildrenFunction} from "react-d3-tree/lib/types/types/common";
+import {getChatMessageById} from "../../../api/chatMessage.service";
+import {chatMessageToNode, messageChoiceToNode} from '../helper';
+import {MessageChoice} from "../../../type/messageChoice.type";
+import { getMessageChoiceById } from '../../../api/messageChoice.service';
+import EditMessageModal from './EditMessageModal';
 
 interface QuestionComponentProps {
-    onEditClick: (nodeId: string, type: MessageType) => void;
     treeNode: TreeNode;
     showChildren: (nodeId: string) => void;
-    addChildren: (nodeId: string, type: MessageType) => void;
+    addChildren: AddChildrenFunction;
 }
 
 const Node: React.FC<QuestionComponentProps> = ({
-                                                    onEditClick,
                                                     treeNode,
                                                     addChildren,
                                                     showChildren
                                                 }: QuestionComponentProps) => {
+
+    const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+    const [isOpenCreateChildrenModal, setIsOpenCreateChildrenModal] = useState(false);
+
+
+    const handleCloseEditModal = () => {
+        setIsOpenEditModal(false);
+    }
+
     const handleEditMessage = () => {
-        onEditClick(treeNode.attributes.id, treeNode.attributes.type);
+        setIsOpenEditModal(true)
     };
 
-    const handleAddChildren = () => {
-        addChildren(treeNode.attributes.id, treeNode.attributes.type);
+    const handleAddChatMessageChildren = async (message: ChatMessage) => {
+        const newMessage =  await getChatMessageById(message.id);
+        addChildren([ chatMessageToNode(newMessage)]);
     }
 
-    const handleShowChildren = () => {
-        showChildren(treeNode.attributes.id);
+    const handleAddMessageChoiceChildren = async (messageChoice: MessageChoice) => {
+        const newMessage = await getMessageChoiceById(messageChoice.id);
+        addChildren([ messageChoiceToNode(newMessage)]);
     }
+
+    const handleUpdateChatMessage = async (message: ChatMessage) => {
+        const updatedMessage = await getChatMessageById(message.id);
+    }
+
+    const handleUpdateAnswer = async (answer: MessageChoice) => {
+        const updatedChoice = await getMessageChoiceById(answer.id);
+    }
+
     const typeBorderColorMap: Record<string, string> = {
         TEXT: "blue",
         FILE: "green",
         CHALLENGE: "orange",
         QUESTION_SINGLE: "purple",
         QUESTION_TEXT_FIELD: "teal",
-        // додай інші типи за потреби
     };
 
     const borderColor = typeBorderColorMap[treeNode.attributes.type] || "gray";
@@ -72,7 +97,7 @@ const Node: React.FC<QuestionComponentProps> = ({
                                 variant="contained"
                                 color="info"
                                 fullWidth
-                                onClick={handleShowChildren}
+                                onClick={() => setIsOpenCreateChildrenModal(true)}
                             >
                                 Show Children
                             </Button>
@@ -92,7 +117,7 @@ const Node: React.FC<QuestionComponentProps> = ({
                                 variant="contained"
                                 color="success"
                                 fullWidth
-                                onClick={handleAddChildren}
+                                onClick={()=>setIsOpenCreateChildrenModal(true)}
                             >
                                 Add Children
                             </Button>
@@ -100,6 +125,14 @@ const Node: React.FC<QuestionComponentProps> = ({
                     </Stack>
                 </Box>
 
+                {isOpenEditModal && (treeNode.attributes.type === MessageType.QUESTION_SINGLE ?
+                    <EditAnswerModal answer={treeNode.attributes} onClose={handleCloseEditModal} onSubmit={handleUpdateAnswer}/>:
+                    <EditMessageModal onClose={handleCloseEditModal} chatMessage={treeNode.attributes} onSubmit={handleUpdateChatMessage}/>
+                )}
+
+                {isOpenCreateChildrenModal && (treeNode.attributes.type === MessageType.QUESTION_SINGLE ?
+                    <CreateAnswerModal onClose={() => setIsOpenCreateChildrenModal(false)} onSubmit={handleAddMessageChoiceChildren} prevMessageId={treeNode.attributes.id}/>:
+                    <CreateMessageModal onClose={() => setIsOpenCreateChildrenModal(false)} onSubmit={handleAddChatMessageChildren} prevMessageId={treeNode.attributes.id}/>)}
             </foreignObject>
 
         </svg>

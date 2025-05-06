@@ -1,9 +1,10 @@
 import apiClientV1 from "../config/axios.config";
 import {MessageChoice, MessageChoiceWithRelationDto} from "../type/messageChoice.type";
 import {CreateUpdateAnswerDto} from "../page/chatDetails/type";
+import {CreateUpdateAnswerType} from "../schema/createUpdateAnswer.schema";
 
 
-export const createMessageChoice = async (data: CreateUpdateAnswerDto): Promise<MessageChoice> => {
+export const createMessageChoice = async (data: CreateUpdateAnswerType): Promise<MessageChoice> => {
     const {data: response} = await apiClientV1.post<MessageChoice>(`/message-choice`, data);
     return response;
 }

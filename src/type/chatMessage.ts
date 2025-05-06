@@ -6,7 +6,7 @@ export interface ChatMessage {
     id: string;
     type: MessageType;
     files: string[];
-    timeout: number;
+    timeout: bigint;
     nextMessageId: string;
     isCheckpoint: boolean;
     createdAt: Date;

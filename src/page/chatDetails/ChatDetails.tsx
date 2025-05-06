@@ -3,8 +3,7 @@ import {useParams} from "react-router-dom";
 import {createChatMessage} from "../../api/chatMessage.service";
 import {Chat} from "../../type/chat.type";
 import {getChatById} from "../../api/chat.service";
-import CreateEditMessageModal from "./components/CreateEditMessageModal";
-import {CreateUpdateChatMessageDto} from "./type";
+// import CreateEditMessageModal from "./components/CreateEditMessageModal";
 import ChatTree from "./components/ChatTree";
 import {Box, Button, CircularProgress, Container, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
@@ -12,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import EditChatModal from "../chatList/components/EditChatModal";
+import CreateMessageModal from "./components/CreateMessageModal";
 
 const ChatMessageDetails: React.FC = () => {
     const [chat, setChat] = useState<Chat>();
@@ -40,10 +40,7 @@ const ChatMessageDetails: React.FC = () => {
         }
     };
 
-    const handleAddNewStep = async (newStep: CreateUpdateChatMessageDto) => {
-        if (!chat) return;
-        await createChatMessage({...newStep, chatId: chat.id});
-        setIsCreateFirstChatMessageModalOpen(false);
+    const handleAddNewStep = async () => {
         await getChat();
     };
 
@@ -95,9 +92,10 @@ const ChatMessageDetails: React.FC = () => {
             )}
 
             {isCreateFirstChatMessageModalOpen &&
-                <CreateEditMessageModal
+                <CreateMessageModal
                     onClose={() => setIsCreateFirstChatMessageModalOpen(false)}
                     onSubmit={handleAddNewStep}
+                    chatId={chatId}
                 />
             }
             {isEditChatOpen &&

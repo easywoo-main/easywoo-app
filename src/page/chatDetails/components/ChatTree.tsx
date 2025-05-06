@@ -7,8 +7,7 @@ import Node from "./Node";
 import {createChatMessage, getChatMessageById, updateChatMessage} from "../../../api/chatMessage.service";
 import {ChatMessageWithRelations, MessageType} from "../../../type/chatMessage";
 import {MessageChoice, MessageChoiceWithRelationDto} from "../../../type/messageChoice.type";
-import CreateEditMessageModal from "./CreateEditMessageModal";
-import CreateEditAnswerModal from "./CreateEditAnswerModal";
+// import CreateEditMessageModal from "./CreateEditMessageModal";
 import {createMessageChoice, getMessageChoiceById, updateMessageChoice} from "../../../api/messageChoice.service";
 import {SliderProp} from "../../../type/messageSlider.type";
 import {nextChoiceMessageTypes} from "../constants";
@@ -105,48 +104,6 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
         );
     };
 
-    const handleCreateChatMessage = async (newStep: CreateUpdateChatMessageDto) => {
-        newStep.prevMessageId = parentMessageId!;
-        newStep.prevChoiceId = parentAnswerId!;
-        await createChatMessage(newStep);
-        setOpenCreateEditMessageModal(false)
-        await handleShowChildren(newStep.prevMessageId ?? newStep.prevChoiceId);
-    };
-
-    const handleCreateAnswer = async (newStep: CreateUpdateAnswerDto) => {
-        newStep.prevMessageId = parentMessageId!;
-        await createMessageChoice(newStep);
-        setOpenCreateEditAnswerModal(false)
-        await handleShowChildren(newStep.prevMessageId);
-    }
-
-    const handleUpdateMessage = async (newStep: CreateUpdateChatMessageDto) => {
-        const updatedChatMessage = await updateChatMessage(selectedNode!.id, newStep);
-        setOpenCreateEditMessageModal(false)
-        await handleShowChildren(updatedChatMessage.id);
-    }
-
-    const handleUpdateAnswer = async (newStep: CreateUpdateAnswerDto) => {
-        const updatedMessageChoice = await updateMessageChoice(selectedNode!.id, newStep);
-        setOpenCreateEditAnswerModal(false)
-        await handleShowChildren(updatedMessageChoice.prevMessageId);
-    }
-
-    const handleOpenCreateModal = (parentId: string, type: MessageType) => {
-        if(!type) {
-            setParentAnswerId(parentId);
-            setOpenCreateEditMessageModal(true)
-            return ;
-        }
-        setParentMessageId(parentId);
-
-        if ([MessageType.QUESTION_SINGLE].includes(type)) {
-            setOpenCreateEditAnswerModal(true);
-        } else {
-            setOpenCreateEditMessageModal(true);
-        }
-    }
-
     const handleOpenEditModal = async (nodeId: string, type: MessageType) => {
         if (!type) {
             const node = await getMessageChoiceById(nodeId);
@@ -160,13 +117,6 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
         }
     }
 
-    const handleCloseModal = () => {
-        setOpenCreateEditMessageModal(false);
-        setOpenCreateEditAnswerModal(false);
-        setSelectedNode(null);
-        setParentMessageId(null);
-    }
-
     return (
         <div style={{width: "100vw", height: "100vh"}} ref={containerRef}>
             <Tree
@@ -177,21 +127,21 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
                 collapsible={false}
                 nodeSize={{x: 500, y: 500}}
                 orientation="vertical"
-                renderCustomNodeElement={({nodeDatum}) => (
-                    <Node treeNode={nodeDatum as TreeNode} onEditClick={handleOpenEditModal}
-                          addChildren={handleOpenCreateModal} showChildren={handleShowChildren}/>)}
+                renderCustomNodeElement={({nodeDatum, addChildren}) => (
+                    <Node treeNode={nodeDatum as TreeNode}
+                          addChildren={addChildren} showChildren={handleShowChildren} />)}
             />
-            {openCreateEditMessageModal && <CreateEditMessageModal
-                onClose={handleCloseModal}
-                onSubmit={selectedNode ? handleUpdateMessage : handleCreateChatMessage}
-                message={selectedNode ? chatMessageToDto(selectedNode! as ChatMessageWithRelations) : null}
-            />}
-            {openCreateEditAnswerModal && <CreateEditAnswerModal
-                answer={selectedNode ? answerToDto(selectedNode! as MessageChoice) : null}
-                onSubmit={selectedNode ? handleUpdateAnswer : handleCreateAnswer}
-                onClose={handleCloseModal}
-            />
-            }
+            {/*{openCreateEditMessageModal && <CreateEditMessageModal*/}
+            {/*    onClose={handleCloseModal}*/}
+            {/*    onSubmit={selectedNode ? handleUpdateMessage : handleCreateChatMessage}*/}
+            {/*    message={selectedNode ? chatMessageToDto(selectedNode! as ChatMessageWithRelations) : null}*/}
+            {/*/>}*/}
+            {/*{openCreateEditAnswerModal && <CreateEditAnswerModal*/}
+            {/*    answer={selectedNode ? answerToDto(selectedNode! as MessageChoice) : null}*/}
+            {/*    onSubmit={selectedNode ? handleUpdateAnswer : handleCreateAnswer}*/}
+            {/*    onClose={handleCloseModal}*/}
+            {/*/>*/}
+            {/*}*/}
         </div>
     );
 };

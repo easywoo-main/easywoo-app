@@ -10,7 +10,7 @@ export interface CreateUpdateChatMessageDto {
     parentId?: string;
     name: string;
     files: string[]
-    timeout?: number
+    timeout?: bigint
     sliderProps?: CreateUpdateSliderPropDto[]
     prevMessageId?: string
     prevChoiceId?: string

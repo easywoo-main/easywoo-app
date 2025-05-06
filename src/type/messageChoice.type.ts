@@ -4,6 +4,7 @@ export interface MessageChoice   {
     id: string;
     name: string;
     type: ChoiceType;
+    file?: string;
     prevMessageId: string;
     nextMessageId: string;
     createdAt: Date;

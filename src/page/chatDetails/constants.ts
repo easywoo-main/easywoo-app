@@ -7,7 +7,7 @@ export const defaultCreateMessage: CreateUpdateChatMessageDto = {
     name: "",
     parentId: undefined,
     files: [],
-    timeout: 0,
+    timeout: undefined,
     sliderProps: undefined,
     prevMessageId: undefined,
     chatId: undefined,
