@@ -5,12 +5,9 @@ import {CreateUpdateAnswerDto, CreateUpdateChatMessageDto} from "./type";
 export const defaultCreateMessage: CreateUpdateChatMessageDto = {
     type: MessageType.TEXT,
     name: "",
-    parentId: undefined,
     files: [],
     timeout: undefined,
-    sliderProps: undefined,
-    prevMessageId: undefined,
-    chatId: undefined,
+    sliderProps: [],
     isCheckpoint: false
 }
 

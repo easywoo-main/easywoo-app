@@ -123,7 +123,7 @@ const Node: React.FC<QuestionComponentProps> = ({
 
                 {isOpenEditModal && (!treeNode.attributes.type ?
                     <EditAnswerModal answer={treeNode.attributes} onClose={()=> setIsOpenEditModal(false)} onSubmit={handleUpdateAnswer}/>:
-                    <EditMessageModal onClose={()=> setIsOpenEditModal(false)} chatMessage={treeNode.attributes} onSubmit={handleUpdateChatMessage}/>
+                    <EditMessageModal onClose={()=> setIsOpenEditModal(false)} message={treeNode.attributes} onSubmit={handleUpdateChatMessage}/>
                 )}
 
                 {isOpenCreateChildrenModal && (treeNode.attributes.type === MessageType.QUESTION_SINGLE ?
