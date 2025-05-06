@@ -29,7 +29,7 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
 
-    const {control, handleSubmit, formState: {errors}, setValue, watch} = useForm<CreateUpdateMessageType>({
+    const {control, formState: {errors}, setValue, watch} = useForm<CreateUpdateMessageType>({
         resolver: yupResolver(createUpdateMessageSchema) as any,
         defaultValues: message
     });
