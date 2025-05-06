@@ -44,6 +44,7 @@ const ChatItem: React.FC<ChatItemProps> = ({chat, onUpdateChat}) => {
             {isEditModalOpen && <EditChatModal chat={chat} onClose={() => setIsEditModalOpen(false)} onSubmit={handleUpdateChat}/>}
             {isDeleteModalOpen && <DeleteChatModal
                 onClose={() => setIsDeleteModalOpen(false)}
+                onSubmit={handleUpdateChat}
                 chat={chat}
             />}
         </Card>

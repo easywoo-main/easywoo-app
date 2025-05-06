@@ -24,12 +24,6 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {createChatMessage} from "../../../api/chatMessage.service";
 import MessageModal from "./MessageModal";
 
-const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Message text cannot be empty."),
-    type: Yup.mixed().oneOf(Object.values(MessageType), "Invalid message type").required("Message type is required."),
-    isCheckpoint: Yup.boolean().required("Checkpoint status is required."),
-});
-
 interface Props {
     onClose: () => void;
     onSubmit: (newMessage: ChatMessage) => void;

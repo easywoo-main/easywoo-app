@@ -6,13 +6,15 @@ import {deleteChat} from "../../../api/chat.service";
 interface DeleteChatModalProps {
     chat: Chat;
     onClose: () => void;
+    onSubmit: (chat: Chat) => void;
 }
 
-const DeleteChatModal: React.FC<DeleteChatModalProps> = ({ chat, onClose }) => {
+const DeleteChatModal: React.FC<DeleteChatModalProps> = ({ chat, onClose, onSubmit }) => {
     const handleDeleteChat = async () => {
         if (chat) {
             try {
-                await deleteChat(chat.id);
+                const deletedChat = await deleteChat(chat.id);
+                onSubmit(deletedChat);
                 onClose();
             } catch (error) {
                 console.error('Error deleting chat', error);

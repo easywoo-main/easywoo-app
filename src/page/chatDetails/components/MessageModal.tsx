@@ -85,7 +85,12 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
 
             <DialogActions>
                 <Button onClick={onClose} color="secondary">Cancel</Button>
-                <Button onClick={handleSubmit(handleSave)} variant="contained" disabled={isSaveLoading}>
+                <Button onClick={()=>{
+                    console.log(watch())
+                    console.log(errors);
+                    // handleSubmit(handleSave) //todo
+                    handleSave(watch())
+                }} variant="contained" disabled={isSaveLoading}>
                     {isSaveLoading ? <CircularProgress size={24} /> : 'Save'}
                 </Button>
             </DialogActions>

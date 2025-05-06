@@ -39,7 +39,16 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
     };
 
     return (
-        <MessageModal message={message} saveMessage={handleSave} onClose={onClose}/>
+        <MessageModal message={{
+            name: message.name,
+            type: message.type,
+            isCheckpoint: message.isCheckpoint,
+            files: message.files,
+            timeout: message.timeout,
+            sliderProps: message.sliderProps?.map((item) => {
+                return {id: item.id, name: item.name, type: item.type}
+            }),
+        }} saveMessage={handleSave} onClose={onClose}/>
     );
 };
 

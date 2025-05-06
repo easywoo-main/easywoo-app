@@ -9,9 +9,10 @@ export const createUpdateMessageSchema = Yup.object().shape({
     isCheckpoint: Yup.boolean().required("Checkpoint status is required."),
     files: Yup.array().of(Yup.string().url()).optional(),
     timeout: Yup.mixed()
-        .test("is-bigint", "Timeout must be a bigint", (value) => typeof value === "bigint")
+        // .test("is-bigint", "Timeout must be a bigint", (value) => typeof value === "bigint")
         .optional(),
     sliderProps: Yup.array().of(Yup.object().shape({
+        id: Yup.string().uuid().optional(),
         name: Yup.string().required("Slider text cannot be empty."),
         type: Yup.mixed().oneOf(Object.values(SliderPropType), "Invalid slider type").required("Slider type is required."),
     })).optional(),
