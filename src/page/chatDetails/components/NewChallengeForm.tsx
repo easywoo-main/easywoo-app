@@ -13,6 +13,8 @@ const NewChallengeForm: React.FC<Props> = ({ errors, setValue}) => {
     const [timeout, setTimeoutState] = useState<number>(0);
 
     const handleTimeoutChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target.value)
+        console.log(Number(e.target.value))
         setTimeoutState(Number(e.target.value));
     };
 

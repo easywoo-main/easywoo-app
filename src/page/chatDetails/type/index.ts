@@ -30,8 +30,11 @@ export enum SliderPropType {
     POSITIVE = "POSITIVE",
 }
 
-export interface CreateUpdateAnswerDto {
+export interface CreateUpdateAnswerDto extends CreateUpdateAnswerFrom{
+    prevMessageId?: string;
+}
+
+export interface CreateUpdateAnswerFrom {
     name: string;
     file?: string;
-    prevMessageId?: string;
 }
