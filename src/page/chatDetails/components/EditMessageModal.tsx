@@ -1,9 +1,8 @@
-
 import React, { useState } from "react";
 import {
     Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Radio, RadioGroup, Typography
 } from "@mui/material";
-import { ChatMessage, MessageType } from "../../../type/chatMessage";
+import {ChatMessage, ChatMessageWithRelations, MessageType} from "../../../type/chatMessage";
 import { defaultCreateMessage } from "../constants";
 import NewDefaultMessagePropsForm from "./NewDefaultMessagePropsForm";
 import NewFilesForm from "./NewFilesForm";
@@ -12,12 +11,21 @@ import NewSliderForm from "./NewSliderForm";
 import { useForm, Controller } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { createChatMessage } from "../../../api/chatMessage.service";
+import {createChatMessage, updateChatMessage} from "../../../api/chatMessage.service";
+import {SliderPropType} from "../../../type/messageSlider.type";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required("Message text cannot be empty."),
     type: Yup.mixed().oneOf(Object.values(MessageType), "Invalid message type").required("Message type is required."),
     isCheckpoint: Yup.boolean().required("Checkpoint status is required."),
+    files: Yup.array().of(Yup.string().url()).optional(),
+    timeout: Yup.mixed()
+        .test("is-bigint", "Timeout must be a bigint", (value) => typeof value === "bigint")
+        .optional(),
+    sliderProps: Yup.array().of(Yup.object().shape({
+        name: Yup.string().required("Slider text cannot be empty."),
+        type: Yup.mixed().oneOf(Object.values(SliderPropType), "Invalid slider type").required("Slider type is required."),
+    })),
 });
 
 interface Props {
@@ -25,16 +33,26 @@ interface Props {
     onSubmit: (newMessage: ChatMessage) => void;
     chatId?: string;
     prevMessageId?: string;
-    prevChoiceId?: string;
+    chatMessage: ChatMessageWithRelations;
 }
 
-const CreateMessageModal: React.FC<Props> = ({ onClose, onSubmit, chatId, prevMessageId, prevChoiceId }) => {
+const EditMessageModal: React.FC<Props> = ({ onClose, onSubmit, chatId, prevMessageId, chatMessage }) => {
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
 
     const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm({
         resolver: yupResolver(validationSchema),
-        defaultValues: defaultCreateMessage,
+        defaultValues: {
+            name: chatMessage.name,
+            type: chatMessage.type,
+            isCheckpoint: chatMessage.isCheckpoint,
+            files: chatMessage.files,
+            timeout: chatMessage.timeout,
+            sliderProps: chatMessage.sliderProps?.map((item) => ({
+                name: item.name,
+                type: item.type,
+            }))
+        },
     });
 
     const handleSave = async (data: any) => {
@@ -42,8 +60,7 @@ const CreateMessageModal: React.FC<Props> = ({ onClose, onSubmit, chatId, prevMe
         try {
             data.chatId = chatId;
             data.prevMessageId = prevMessageId;
-            data.prevChoiceId = prevChoiceId;
-            const newChatMessage = await createChatMessage(data);
+            const newChatMessage = await updateChatMessage(chatMessage.id, data);
             onSubmit(newChatMessage);
             onClose();
         } catch (error) {
@@ -56,7 +73,7 @@ const CreateMessageModal: React.FC<Props> = ({ onClose, onSubmit, chatId, prevMe
 
     return (
         <Dialog open onClose={onClose} maxWidth="md" fullWidth>
-            <DialogTitle>Create Message Step</DialogTitle>
+            <DialogTitle>Edit Message</DialogTitle>
             <DialogContent>
                 <Box mb={2}>
                     <Typography variant="subtitle1">Message Type</Typography>
@@ -64,10 +81,7 @@ const CreateMessageModal: React.FC<Props> = ({ onClose, onSubmit, chatId, prevMe
                         name="type"
                         control={control}
                         render={({ field }) => (
-                            <RadioGroup
-                                row
-                                {...field}
-                            >
+                            <RadioGroup row {...field}>
                                 {Object.values(MessageType).map((messageType) => (
                                     <FormControlLabel
                                         key={messageType}
@@ -83,8 +97,8 @@ const CreateMessageModal: React.FC<Props> = ({ onClose, onSubmit, chatId, prevMe
 
                 <NewDefaultMessagePropsForm control={control} errors={errors} />
 
-                {watch("type") === MessageType.FILE && <NewFilesForm control={control} errors={errors} setValue={setValue} watch={watch} />}
-                {watch("type") === MessageType.CHALLENGE && <NewChallengeForm errors={errors} setValue={setValue} />}
+                {watch("type") === MessageType.FILE && <NewFilesForm control={control} errors={errors} setValue={setValue} watch={watch}/>}
+                {watch("type") === MessageType.CHALLENGE && <NewChallengeForm setValue={setValue} errors={errors} />}
                 {watch("type") === MessageType.QUESTION_SLIDERS && <NewSliderForm control={control} errors={errors} setValue={setValue} watch={watch}/>}
             </DialogContent>
 
@@ -92,7 +106,12 @@ const CreateMessageModal: React.FC<Props> = ({ onClose, onSubmit, chatId, prevMe
 
             <DialogActions>
                 <Button onClick={onClose} color="secondary">Cancel</Button>
-                <Button onClick={handleSubmit(handleSave)} variant="contained" disabled={isSaveLoading}>
+                <Button onClick={()=>{
+                    console.log(watch())
+                    console.log(errors);
+                    handleSubmit(handleSave)
+                    console.log("end")
+                }} variant="contained" disabled={isSaveLoading}>
                     {isSaveLoading ? <CircularProgress size={24} /> : 'Save'}
                 </Button>
             </DialogActions>
@@ -100,4 +119,4 @@ const CreateMessageModal: React.FC<Props> = ({ onClose, onSubmit, chatId, prevMe
     );
 };
 
-export default CreateMessageModal;
+export default EditMessageModal;

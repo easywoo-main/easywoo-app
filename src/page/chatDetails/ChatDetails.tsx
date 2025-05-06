@@ -44,6 +44,10 @@ const ChatMessageDetails: React.FC = () => {
         await getChat();
     };
 
+    const handleUpdateChat = async () => {
+        await getChat();
+    }
+
     return (
         <Container style={{width: "100vw", height: "100vh", margin: "0", padding: "0"}}>
             <Box
@@ -102,6 +106,7 @@ const ChatMessageDetails: React.FC = () => {
                 <EditChatModal
                     onClose={() => setIsEditChatOpen(false)}
                     chat={chat!}
+                    onSubmit={handleUpdateChat}
                 />}
         </Container>
     );

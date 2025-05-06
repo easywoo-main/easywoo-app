@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, CircularProgress, Stack } from "@mui/material";
+import {Box, Button, CircularProgress, Stack, Typography} from "@mui/material";
 import { Controller } from "react-hook-form";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { uploadFiles } from "../../../api/chatMessage.service";
@@ -13,13 +13,14 @@ interface Props {
 
 const NewFilesForm: React.FC<Props> = ({ control, errors, setValue, watch }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [files, setFiles] = useState<string[]>([]);
 
     const handleUploadFiles = async (files: File[]) => {
         setIsLoading(true);
         try {
             const newFiles = await uploadFiles(files);
             setValue("files", [...watch("files") || [], ...newFiles]);
-            console.log(watch("files"))
+            setFiles((prev)=> [...prev, ...newFiles])
         } finally {
             setIsLoading(false);
         }
@@ -53,27 +54,26 @@ const NewFilesForm: React.FC<Props> = ({ control, errors, setValue, watch }) => 
                         </Button>
 
                         <Stack direction="row" spacing={2} mt={2} flexWrap="wrap">
-                            {watch("files")?.map((file: File, index: number) => {
-                                // Ensure file is a valid File object
-                                if (file instanceof File) {
-                                    const fileUrl = URL.createObjectURL(file);
-                                    return file.type.match(/\.(jpeg|jpg|gif|png)$/) ? (
-                                        <img key={index} src={fileUrl} alt="preview" style={{ maxWidth: 100 }} />
-                                    ) : file.type.match(/\.(mp4|webm|ogg)$/) ? (
-                                        <video key={index} controls width={200}>
-                                            <source src={fileUrl} />
+                            {files && files.map((file) => (
+                                file ? (
+                                    file.match(/\.(jpeg|jpg|gif|png)$/) ? (
+                                        <img src={file} alt="preview" style={{ maxWidth: 100 }} />
+                                    ) : file.match(/\.(mp4|webm|ogg)$/) ? (
+                                        <video controls width={200}>
+                                            <source src={file} />
                                         </video>
-                                    ) : file.type.match(/\.(mp3|wav|ogg)$/) ? (
-                                        <audio key={index} controls>
-                                            <source src={fileUrl} />
+                                    ) : file.match(/\.(mp3|wav|ogg)$/) ? (
+                                        <audio controls>
+                                            <source src={file} />
                                         </audio>
-                                    ) : null;
-                                } else {
-                                    console.error("Invalid file object:", file);
-                                    return null;  // Handle invalid file objects
-                                }
-                            })}
+                                    ) : (
+                                        <Typography color="error">Unsupported file type</Typography>
+                                    )
+                                ) : null
+                            ))}
                         </Stack>
+                        {errors.files && <Typography color="error" align="center">{errors.files}</Typography>}
+
                     </>
                 )}
             />

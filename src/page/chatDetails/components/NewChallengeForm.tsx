@@ -21,7 +21,7 @@ const NewChallengeForm: React.FC<Props> = ({ errors, setValue}) => {
     };
 
     useEffect(() => {
-        setValue(timeout, timeout * TIME_IN_SECOND[unit])
+        setValue("timeout", timeout * TIME_IN_SECOND[unit])
     }, [unit, timeout]);
 
     return (

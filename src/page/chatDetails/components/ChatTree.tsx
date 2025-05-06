@@ -20,12 +20,6 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
     const [treeData, setTreeData] = useState<TreeNode[]>([{name: chat.name, attributes: chat, children: []}]);
     const [dimensions, translate, containerRef] = useCenteredTree();
 
-    const [openCreateEditMessageModal, setOpenCreateEditMessageModal] = useState(false);
-    const [openCreateEditAnswerModal, setOpenCreateEditAnswerModal] = useState(false);
-    const [parentMessageId, setParentMessageId] = useState<string | null>(null);
-    const [parentAnswerId, setParentAnswerId] = useState<string | null>(null);
-    const [selectedNode, setSelectedNode] = useState<ChatMessageWithRelations | MessageChoice | null>(null);
-
     useEffect(() => {
         handleGetRootNode(chat.startMessageId!);
     }, [chat]);
@@ -35,7 +29,7 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
         setTreeData([chatMessageToNode(node)]);
     }
 
-    const handleShowChildren = async (nodeId: string) => {
+    const handleUpdateNodeAndShowChildren = async (nodeId: string) => {
         setTreeData(await handleRefreshNode(treeData, nodeId));
     }
 
@@ -60,17 +54,6 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
     }
 
 
-    const chatMessageToDto = (entity: ChatMessageWithRelations): CreateUpdateChatMessageDto => {
-        return {
-            name: entity.name,
-            files: entity.files,
-            timeout: entity.timeout,
-            type: entity.type,
-            sliderProps: entity.sliderProps?.map(sliderPropsToDto),
-            isCheckpoint: entity.isCheckpoint
-        };
-    }
-
     const sliderPropsToDto = (entity: SliderProp): CreateUpdateSliderPropDto => {
         return {
             id: entity.id,
@@ -79,12 +62,6 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
         }
     }
 
-    const answerToDto = (entity: MessageChoice): CreateUpdateAnswerDto => {
-        return {
-            name: entity.name,
-            prevMessageId: parentMessageId!,
-        }
-    }
 
     const handleRefreshNode = async (node: TreeNode[], nodeId: string): Promise<TreeNode[]> => {
         return Promise.all(
@@ -104,19 +81,6 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
         );
     };
 
-    const handleOpenEditModal = async (nodeId: string, type: MessageType) => {
-        if (!type) {
-            const node = await getMessageChoiceById(nodeId);
-            setParentMessageId(node.prevMessageId);
-            setSelectedNode(node);
-            setOpenCreateEditAnswerModal(true);
-        } else {
-            const node = await getChatMessageById(nodeId);
-            setSelectedNode(node);
-            setOpenCreateEditMessageModal(true);
-        }
-    }
-
     return (
         <div style={{width: "100vw", height: "100vh"}} ref={containerRef}>
             <Tree
@@ -129,19 +93,8 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
                 orientation="vertical"
                 renderCustomNodeElement={({nodeDatum, addChildren}) => (
                     <Node treeNode={nodeDatum as TreeNode}
-                          addChildren={addChildren} showChildren={handleShowChildren} />)}
+                          addChildren={addChildren} handleUpdateNodeAndShowChildren={handleUpdateNodeAndShowChildren} />)}
             />
-            {/*{openCreateEditMessageModal && <CreateEditMessageModal*/}
-            {/*    onClose={handleCloseModal}*/}
-            {/*    onSubmit={selectedNode ? handleUpdateMessage : handleCreateChatMessage}*/}
-            {/*    message={selectedNode ? chatMessageToDto(selectedNode! as ChatMessageWithRelations) : null}*/}
-            {/*/>}*/}
-            {/*{openCreateEditAnswerModal && <CreateEditAnswerModal*/}
-            {/*    answer={selectedNode ? answerToDto(selectedNode! as MessageChoice) : null}*/}
-            {/*    onSubmit={selectedNode ? handleUpdateAnswer : handleCreateAnswer}*/}
-            {/*    onClose={handleCloseModal}*/}
-            {/*/>*/}
-            {/*}*/}
         </div>
     );
 };

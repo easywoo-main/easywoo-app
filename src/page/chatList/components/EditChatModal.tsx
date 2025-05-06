@@ -24,9 +24,10 @@ const validationSchema = Yup.object().shape({
 interface EditChatModalProps {
     chat: Chat;
     onClose: () => void;
+    onSubmit: (chat: Chat) => void;
 }
 
-const EditChatModal: React.FC<EditChatModalProps> = ({ chat, onClose }) => {
+const EditChatModal: React.FC<EditChatModalProps> = ({ chat, onClose, onSubmit }) => {
     const [saveLoading, setSaveLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
 
@@ -39,10 +40,11 @@ const EditChatModal: React.FC<EditChatModalProps> = ({ chat, onClose }) => {
         }
     });
 
-    const onSubmit = async (data: any) => {
+    const handleSave = async (data: any) => {
         setSaveLoading(true);
         try {
-            await updateChat(chat.id, { ...chat, ...data });
+            const updatedChat = await updateChat(chat.id, { ...chat, ...data });
+            onSubmit(updatedChat)
             onClose();
         } catch (error) {
             setError('An error occurred while updating the chat.');
@@ -56,7 +58,7 @@ const EditChatModal: React.FC<EditChatModalProps> = ({ chat, onClose }) => {
         <Dialog open onClose={onClose}>
             <DialogTitle>Edit Chat</DialogTitle>
             <DialogContent>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(handleSave)}>
                     <Controller
                         name="name"
                         control={control}

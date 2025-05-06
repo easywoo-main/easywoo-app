@@ -1,41 +1,77 @@
 import React from "react";
 import { Box, Button, TextField, FormControlLabel, Checkbox } from "@mui/material";
-import { Controller } from "react-hook-form";
+import { Controller, useFieldArray } from "react-hook-form";
+import { SliderPropType } from "../../../type/messageSlider.type";
 
-const NewSliderForm: React.FC<any> = ({ message, setMessage, control, errors }) => {
+interface NewSliderFormProps {
+    control: any;
+    errors: any;
+    setValue: any;
+    watch: any;
+}
+
+const NewSliderForm: React.FC<NewSliderFormProps> = ({ control, errors, setValue, watch }) => {
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "sliderProps",
+    });
+
+    const handleDeleteSlider = (index: number) => {
+        remove(index);
+    };
+
+    const handleAddSlider = () => {
+        append({ name: "", type: SliderPropType.NEGATIVE });
+    };
+
     return (
         <Box>
-            {message.sliderProps.map((slider: any, index: number) => (
-                <Box key={index}>
+            {fields.map((field, index) => (
+                <Box key={field.id} sx={{ borderRadius: 1 }}>
                     <Controller
                         name={`sliderProps[${index}].name`}
                         control={control}
+                        defaultValue=""
                         render={({ field }) => (
                             <TextField
                                 {...field}
                                 label="Slider Name"
+                                fullWidth
+                                margin="normal"
                                 error={!!errors?.sliderProps?.[index]?.name}
                                 helperText={errors?.sliderProps?.[index]?.name?.message}
                             />
                         )}
                     />
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={slider.type === "POSITIVE"}
-                                onChange={() => {
-                                    const updatedSliders = [...message.sliderProps];
-                                    updatedSliders[index].type = slider.type === "POSITIVE" ? "NEGATIVE" : "POSITIVE";
-                                    setMessage({ ...message, sliderProps: updatedSliders });
-                                }}
+                    <Controller
+                        name={`sliderProps[${index}].type`}
+                        control={control}
+                        defaultValue={SliderPropType.NEGATIVE}
+                        render={({ field: checkboxField }) => (
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={checkboxField.value === SliderPropType.POSITIVE}
+                                        onChange={(e) =>
+                                            checkboxField.onChange(
+                                                e.target.checked ? SliderPropType.POSITIVE : SliderPropType.NEGATIVE
+                                            )
+                                        }
+                                    />
+                                }
+                                label="Is Positive"
                             />
-                        }
-                        label="Is Positive"
+                        )}
                     />
-                    <Button onClick={() => {}}>Delete Slider</Button>
+                    <Button variant="outlined" color="error" onClick={() => handleDeleteSlider(index)}>
+                        Delete Slider
+                    </Button>
                 </Box>
             ))}
-            <Button onClick={() => {}}>Add New Slider</Button>
+
+            <Button variant="contained" onClick={handleAddSlider}>
+                Add New Slider
+            </Button>
         </Box>
     );
 };

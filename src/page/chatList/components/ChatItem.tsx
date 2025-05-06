@@ -7,13 +7,18 @@ import DeleteChatModal from "./DeleteChatModal";
 
 interface ChatItemProps {
     chat: Chat;
+    onUpdateChat: (chat: Chat) => void;
 }
 
-const ChatItem: React.FC<ChatItemProps> = ({chat}) => {
+const ChatItem: React.FC<ChatItemProps> = ({chat, onUpdateChat}) => {
 
     const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
     const navigate = useNavigate();
+
+    const handleUpdateChat = (chat: Chat) => {
+        onUpdateChat(chat);
+    }
 
     return (
         <Card variant="outlined" sx={{marginBottom: 2}}>
@@ -36,7 +41,7 @@ const ChatItem: React.FC<ChatItemProps> = ({chat}) => {
                     </Button>
                 </div>
             </CardContent>
-            {isEditModalOpen && <EditChatModal chat={chat} onClose={() => setIsEditModalOpen(false)}/>}
+            {isEditModalOpen && <EditChatModal chat={chat} onClose={() => setIsEditModalOpen(false)} onSubmit={handleUpdateChat}/>}
             {isDeleteModalOpen && <DeleteChatModal
                 onClose={() => setIsDeleteModalOpen(false)}
                 chat={chat}

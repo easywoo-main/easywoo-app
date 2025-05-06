@@ -51,6 +51,10 @@ const ChatListPage: React.FC = () => {
         }
     };
 
+
+    const handleUpdateChat = async  (chat: Chat)=> {
+        await fetchChats();
+    }
     return (
         <Box className="chat-list-container">
             <Typography variant="h4" gutterBottom>
@@ -76,6 +80,7 @@ const ChatListPage: React.FC = () => {
                         <ChatItem
                             key={chat.id}
                             chat={chat}
+                            onUpdateChat={handleUpdateChat}
                         />
                     ))}
                 </Box>

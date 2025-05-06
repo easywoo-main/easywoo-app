@@ -13,6 +13,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Message text cannot be empty.'),
+    file: Yup.string().optional()
 });
 
 interface EditAnswerModalProps {
@@ -24,13 +25,14 @@ interface EditAnswerModalProps {
 const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSubmit}) => {
     const [isFileLoading, setIsFileLoading] = React.useState(false);
     const [isSaveLoading, setIsSaveLoading] = React.useState(false);
-    const [newAnswer, setNewAnswer] = React.useState<MessageChoice>(answer);
+    const [file, setFile] = React.useState(answer.file);
     const [error, setError] = React.useState<string>();
 
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: {
             name: answer.name,
+            file: answer.file
         }
     });
 
@@ -38,8 +40,8 @@ const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSub
         setIsFileLoading(true);
         try {
             const uploadedFiles = await uploadFiles([file]);
-            setNewAnswer((prevState) => ({...prevState, file: uploadedFiles[0]}));
-        } catch (error) {
+            setValue("file", uploadedFiles[0]);
+            setFile(uploadedFiles[0])        } catch (error) {
             setError('An error occurred while uploading the file.');
             console.error(error);
         } finally {
@@ -50,7 +52,7 @@ const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSub
     const handleSave = async (data: any) => {
         setIsSaveLoading(true);
         try{
-            const updatedMessageChoice = await updateMessageChoice(newAnswer!.id, {...newAnswer, name: data.name});
+            const updatedMessageChoice = await updateMessageChoice(answer.id, data);
             onSubmit(updatedMessageChoice)
             onClose();
         } catch (error) {
@@ -100,16 +102,16 @@ const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSub
                         />
                     </Button>
                     <Stack direction="row" spacing={2} mt={2} flexWrap="wrap">
-                        {newAnswer.file && (
-                            newAnswer.file.match(/\.(jpeg|jpg|gif|png)$/) ? (
-                                <img src={newAnswer.file} alt="preview" style={{maxWidth: 100}}/>
-                            ) : newAnswer.file.match(/\.(mp4|webm|ogg)$/) ? (
+                        {file && (
+                            file.match(/\.(jpeg|jpg|gif|png)$/) ? (
+                                <img src={file} alt="preview" style={{maxWidth: 100}}/>
+                            ) : file.match(/\.(mp4|webm|ogg)$/) ? (
                                 <video controls width={200}>
-                                    <source src={newAnswer.file}/>
+                                    <source src={file}/>
                                 </video>
-                            ) : newAnswer.file.match(/\.(mp3|wav|ogg)$/) ? (
+                            ) : file.match(/\.(mp3|wav|ogg)$/) ? (
                                 <audio controls>
-                                    <source src={newAnswer.file}/>
+                                    <source src={file}/>
                                 </audio>
                             ) : null
                         )}
@@ -121,7 +123,11 @@ const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSub
 
             <DialogActions>
                 <Button onClick={onClose} color="secondary">Cancel</Button>
-                <Button onClick={handleSubmit(handleSave)} variant="contained" disabled={isSaveLoading}>
+                <Button onClick={()=> {
+                    console.log("errors", errors)
+                    console.log("entity", watch())
+                    handleSubmit(handleSave)
+                }} variant="contained" disabled={isSaveLoading}>
                     {isSaveLoading ? <CircularProgress size={24} /> : 'Save'}
                 </Button>
             </DialogActions>
