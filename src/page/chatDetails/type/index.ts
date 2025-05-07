@@ -1,4 +1,6 @@
 import {MessageType} from "../../../type/chatMessage";
+import {CreateUpdateInfoPopUpType} from "../../../schema/createUpdateInfoPopUp.schema";
+import {CreateUpdateSliderPropType} from "../../../schema/createUpdateSliderProp.schema";
 
 export interface TreeNode {
     name: string;
@@ -11,7 +13,8 @@ export interface CreateUpdateChatMessageDto {
     name: string;
     files: string[]
     timeout?: bigint
-    sliderProps?: CreateUpdateSliderPropDto[]
+    sliderProps?: CreateUpdateSliderPropType[]
+    infoPopUps?: CreateUpdateInfoPopUpType[]
     prevMessageId?: string
     prevChoiceId?: string
     chatId?: string
@@ -26,15 +29,22 @@ export interface CreateUpdateSliderPropDto {
 }
 
 export enum SliderPropType {
-    NEGATIVE= "NEGATIVE",
+    NEGATIVE = "NEGATIVE",
     POSITIVE = "POSITIVE",
 }
 
-export interface CreateUpdateAnswerDto extends CreateUpdateAnswerFrom{
+export interface CreateUpdateAnswerDto extends CreateUpdateAnswerFrom {
     prevMessageId?: string;
 }
 
 export interface CreateUpdateAnswerFrom {
     name: string;
     file?: string;
+}
+
+export interface CreateUpdateInfoPopUpDto {
+    id: string;
+    name: string;
+    file?: string;
+    chatMessageId: string;
 }

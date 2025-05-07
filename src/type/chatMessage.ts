@@ -1,5 +1,5 @@
 import { MessageChoiceWithRelationDto} from "./messageChoice.type";
-import {SliderProp} from "./messageSlider.type";
+import {InfoPopUp, SliderProp} from "./messageSlider.type";
 
 export interface ChatMessage {
     name: string;
@@ -28,4 +28,5 @@ export interface ChatMessageWithRelations extends ChatMessage {
     nextChoices?: MessageChoiceWithRelationDto[],
     nextMessage?: ChatMessage,
     sliderProps?: SliderProp[]
+    infoPopUps?: InfoPopUp[]
 }

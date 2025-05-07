@@ -7,7 +7,7 @@ interface Props {
     errors: any;
 }
 
-const NewDefaultMessagePropsForm: React.FC<Props> = ({ control, errors }) => {
+const DefaultMessagePropsForm: React.FC<Props> = ({ control, errors }) => {
     return (
         <Box my={2}>
             <Controller
@@ -40,4 +40,4 @@ const NewDefaultMessagePropsForm: React.FC<Props> = ({ control, errors }) => {
     );
 };
 
-export default NewDefaultMessagePropsForm;
+export default DefaultMessagePropsForm;

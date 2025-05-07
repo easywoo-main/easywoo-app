@@ -8,7 +8,7 @@ interface Props {
 }
 
 
-const NewChallengeForm: React.FC<Props> = ({ errors, setValue}) => {
+const ChallengeForm: React.FC<Props> = ({ errors, setValue}) => {
     const [unit, setUnit] = useState<TimeUnit>(TimeUnit.SECONDS);
     const [timeout, setTimeoutState] = useState<number>(0);
 
@@ -49,4 +49,4 @@ const NewChallengeForm: React.FC<Props> = ({ errors, setValue}) => {
     );
 };
 
-export default NewChallengeForm;
+export default ChallengeForm;

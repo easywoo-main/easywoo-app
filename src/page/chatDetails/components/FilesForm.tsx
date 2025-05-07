@@ -12,7 +12,7 @@ interface Props {
     watch: any;
 }
 
-const NewFilesForm: React.FC<Props> = ({ control, errors, setValue, watch }) => {
+const FilesForm: React.FC<Props> = ({ control, errors, setValue, watch }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [files, setFiles] = useState<string[]>([]);
 
@@ -93,4 +93,4 @@ const NewFilesForm: React.FC<Props> = ({ control, errors, setValue, watch }) => 
     );
 };
 
-export default NewFilesForm;
+export default FilesForm;

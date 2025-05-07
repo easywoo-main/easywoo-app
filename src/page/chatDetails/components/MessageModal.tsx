@@ -14,14 +14,14 @@ import {
     RadioGroup,
     Typography
 } from "@mui/material";
-import NewDefaultMessagePropsForm from "./NewDefaultMessagePropsForm";
-import NewFilesForm from "./NewFilesForm";
-import NewChallengeForm from "./NewChallengeForm";
-import NewSliderForm from "./NewSliderForm";
+import DefaultMessagePropsForm from "./DefaultMessagePropsForm";
+import FilesForm from "./FilesForm";
+import ChallengeForm from "./ChallengeForm";
+import SliderForm from "./SliderForm";
 
 interface MessageModalProps {
     onClose: () => void;
-    saveMessage: (message: CreateUpdateMessageType) => void;
+    saveMessage: (message: CreateUpdateMessageType) => Promise<void>;
     message: CreateUpdateMessageType;
     onDelete?: () => void;
 }
@@ -38,7 +38,7 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
     const handleSave = async (data: CreateUpdateMessageType) => {
         setIsSaveLoading(true);
         try {
-            saveMessage(data);
+            await saveMessage(data);
             onClose();
         } catch (error) {
             setError('An error occurred while creating the message.');
@@ -75,11 +75,11 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
                     />
                 </Box>
 
-                <NewDefaultMessagePropsForm control={control} errors={errors} />
+                <DefaultMessagePropsForm control={control} errors={errors} />
 
-                {watch("type") === MessageType.FILE && <NewFilesForm control={control} errors={errors} setValue={setValue} watch={watch} />}
-                {watch("type") === MessageType.CHALLENGE && <NewChallengeForm errors={errors} setValue={setValue} />}
-                {watch("type") === MessageType.QUESTION_SLIDERS && <NewSliderForm control={control} errors={errors} setValue={setValue} watch={watch}/>}
+                {watch("type") === MessageType.FILE && <FilesForm control={control} errors={errors} setValue={setValue} watch={watch} />}
+                {watch("type") === MessageType.CHALLENGE && <ChallengeForm errors={errors} setValue={setValue} />}
+                {watch("type") === MessageType.QUESTION_SLIDERS && <SliderForm control={control} errors={errors}/>}
             </DialogContent>
 
             {error && <Typography color="error" align="center">{error}</Typography>}

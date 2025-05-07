@@ -1,26 +1,6 @@
-import React, {useState} from "react";
-import {
-    Box,
-    Button,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
-    Typography
-} from "@mui/material";
-import {ChatMessage, MessageType} from "../../../type/chatMessage";
+import React from "react";
+import {ChatMessage} from "../../../type/chatMessage";
 import {defaultCreateMessage} from "../constants";
-import NewDefaultMessagePropsForm from "./NewDefaultMessagePropsForm";
-import NewFilesForm from "./NewFilesForm";
-import NewChallengeForm from "./NewChallengeForm";
-import NewSliderForm from "./NewSliderForm";
-import {useForm, Controller} from "react-hook-form";
-import * as Yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
 import {createChatMessage} from "../../../api/chatMessage.service";
 import MessageModal from "./MessageModal";
 

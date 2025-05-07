@@ -52,7 +52,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
     const handleSave = async (data: CreateUpdateAnswerFrom) => {
         setIsSaveLoading(true);
         try {
-            saveMessage(data);
+            await saveMessage(data);
             onClose();
         } catch (error) {
             setError('An error occurred while saving the answer.');

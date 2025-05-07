@@ -1,7 +1,8 @@
 import * as Yup from "yup";
 import {MessageType} from "../type/chatMessage";
-import {SliderPropType} from "../type/messageSlider.type";
 import {InferType} from "yup";
+import {createUpdateInfoPopupSchema} from "./createUpdateInfoPopUp.schema";
+import {createUpdateSliderPropSchema} from "./createUpdateSliderProp.schema";
 
 export const createUpdateMessageSchema = Yup.object().shape({
     name: Yup.string().required("Message text cannot be empty."),
@@ -11,11 +12,8 @@ export const createUpdateMessageSchema = Yup.object().shape({
     timeout: Yup.mixed()
         // .test("is-bigint", "Timeout must be a bigint", (value) => typeof value === "bigint")
         .optional(),
-    sliderProps: Yup.array().of(Yup.object().shape({
-        id: Yup.string().uuid().optional(),
-        name: Yup.string().required("Slider text cannot be empty."),
-        type: Yup.mixed().oneOf(Object.values(SliderPropType), "Invalid slider type").required("Slider type is required."),
-    })).optional(),
+    sliderProps: Yup.array().of(createUpdateSliderPropSchema).optional(),
+    infoPopUps: Yup.array().of(createUpdateInfoPopupSchema).optional(),
 });
 
 

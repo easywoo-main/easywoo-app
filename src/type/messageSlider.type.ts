@@ -7,6 +7,15 @@ export interface SliderProp {
     chatMessageId: string;
 }
 
+export interface InfoPopUp {
+    name: string;
+    id: string;
+    file: string;
+    chatMessageId: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 export enum SliderPropType{
     NEGATIVE = 'NEGATIVE',
     POSITIVE = 'POSITIVE'

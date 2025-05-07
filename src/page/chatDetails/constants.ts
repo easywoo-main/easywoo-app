@@ -8,6 +8,7 @@ export const defaultCreateMessage: CreateUpdateChatMessageDto = {
     files: [],
     timeout: undefined,
     sliderProps: [],
+    infoPopUps: [],
     isCheckpoint: false
 }
 

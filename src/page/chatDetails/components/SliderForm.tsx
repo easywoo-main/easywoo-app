@@ -3,14 +3,12 @@ import { Box, Button, TextField, FormControlLabel, Checkbox } from "@mui/materia
 import { Controller, useFieldArray } from "react-hook-form";
 import { SliderPropType } from "../../../type/messageSlider.type";
 
-interface NewSliderFormProps {
+interface SliderFormProps {
     control: any;
     errors: any;
-    setValue: any;
-    watch: any;
 }
 
-const NewSliderForm: React.FC<NewSliderFormProps> = ({ control, errors, setValue, watch }) => {
+const SliderForm: React.FC<SliderFormProps> = ({ control, errors }) => {
     const { fields, append, remove } = useFieldArray({
         control,
         name: "sliderProps",
@@ -76,4 +74,4 @@ const NewSliderForm: React.FC<NewSliderFormProps> = ({ control, errors, setValue
     );
 };
 
-export default NewSliderForm;
+export default SliderForm;
