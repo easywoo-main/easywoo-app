@@ -25,7 +25,6 @@ interface AnswerModalProps {
     onDelete?: () => void;
 }
 
-
 const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, onDelete }) => {
     const [isFileLoading, setIsFileLoading] = React.useState(false);
     const [isSaveLoading, setIsSaveLoading] = React.useState(false);

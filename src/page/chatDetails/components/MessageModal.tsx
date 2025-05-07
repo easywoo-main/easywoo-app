@@ -18,6 +18,7 @@ import DefaultMessagePropsForm from "./DefaultMessagePropsForm";
 import FilesForm from "./FilesForm";
 import ChallengeForm from "./ChallengeForm";
 import SliderForm from "./SliderForm";
+import InfoPopUpForm from "./InfoPopUpForm";
 
 interface MessageModalProps {
     onClose: () => void;
@@ -80,6 +81,7 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
                 {watch("type") === MessageType.FILE && <FilesForm control={control} errors={errors} setValue={setValue} watch={watch} />}
                 {watch("type") === MessageType.CHALLENGE && <ChallengeForm errors={errors} setValue={setValue} />}
                 {watch("type") === MessageType.QUESTION_SLIDERS && <SliderForm control={control} errors={errors}/>}
+            <InfoPopUpForm control={control} errors={errors} />
             </DialogContent>
 
             {error && <Typography color="error" align="center">{error}</Typography>}
