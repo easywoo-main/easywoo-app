@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Chat} from "../../../type/chat.type";
 import Tree from "react-d3-tree";
-import {CreateUpdateAnswerDto, CreateUpdateChatMessageDto, CreateUpdateSliderPropDto, TreeNode} from "../type";
+import {TreeNode} from "../type";
 import {useCenteredTree} from "../../../utils/helper";
 import Node from "./Node";
-import {createChatMessage, getChatMessageById, updateChatMessage} from "../../../api/chatMessage.service";
-import {ChatMessageWithRelations, MessageType} from "../../../type/chatMessage";
-import {MessageChoice, MessageChoiceWithRelationDto} from "../../../type/messageChoice.type";
-// import CreateEditMessageModal from "./CreateEditMessageModal";
-import {createMessageChoice, getMessageChoiceById, updateMessageChoice} from "../../../api/messageChoice.service";
-import {SliderProp} from "../../../type/messageSlider.type";
+import {getChatMessageById} from "../../../api/chatMessage.service";
+import {ChatMessageWithRelations} from "../../../type/chatMessage";
+import {MessageChoiceWithRelationDto} from "../../../type/messageChoice.type";
+import {getMessageChoiceById} from "../../../api/messageChoice.service";
 import {nextChoiceMessageTypes} from "../constants";
 
 interface TreeProps {
@@ -51,15 +49,6 @@ const ChatTree: React.FC<TreeProps> = ({chat}) => {
 
     const messageChoiceToNode = (entity: MessageChoiceWithRelationDto): TreeNode => {
         return {name: entity.name, attributes: entity, children: entity.nextMessage? [chatMessageToNode(entity.nextMessage)]: []};
-    }
-
-
-    const sliderPropsToDto = (entity: SliderProp): CreateUpdateSliderPropDto => {
-        return {
-            id: entity.id,
-            name: entity.name,
-            type: entity.type
-        }
     }
 
 
