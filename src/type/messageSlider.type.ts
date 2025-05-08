@@ -8,9 +8,9 @@ export interface SliderProp {
 }
 
 export interface InfoPopUp {
-    name: string;
+    title: string;
     id: string;
-    file: string;
+    description?: string;
     chatMessageId: string;
     createdAt: Date;
     updatedAt: Date;

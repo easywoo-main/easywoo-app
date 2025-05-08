@@ -39,10 +39,10 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                     timeout: message.timeout,
                     sliderProps: message.sliderProps?.map((item) => {
                         return {id: item.id, name: item.name, type: item.type}
-                    }),
+                    })|| [],
                     infoPopUps: message.infoPopUps?.map((item)=>{
-                        return {id: item.id, name: item.name, file: item.file};
-                    })
+                        return {id: item.id, title: item.title, description: item.description};
+                    }) || []
                 }}/>
             {isOpenDeleteModal &&
                 <DeleteModal

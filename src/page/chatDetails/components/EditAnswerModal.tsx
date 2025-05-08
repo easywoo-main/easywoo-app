@@ -30,7 +30,11 @@ const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSub
             <AnswerModal
                 onClose={onClose}
                 saveMessage={handleSave}
-                answer={answer}
+                answer={{
+                    name: answer.name,
+                    file: answer.file,
+                    prevMessageId: answer.prevMessageId,
+                }}
             />
             {isOpenDeleteModal &&
                 <DeleteModal

@@ -25,7 +25,7 @@ const InfoPopUpForm: React.FC<InfoPopUpFormProps> = ({control, errors}) => {
     };
 
     const handleAddSlider = () => {
-        append({ name: "" });
+        append({ title: "" });
     };
 
     return <Accordion>
@@ -38,13 +38,28 @@ const InfoPopUpForm: React.FC<InfoPopUpFormProps> = ({control, errors}) => {
             {fields.map((field, index) => (
                 <Box key={field.id} sx={{ borderRadius: 1 }}>
                     <Controller
-                        name={`sliderProps[${index}].name`}
+                        name={`infoPopUps[${index}].title`}
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
                             <TextField
                                 {...field}
-                                label="Pop-up Name"
+                                label="Pop-up Title"
+                                fullWidth
+                                margin="normal"
+                                error={!!errors?.sliderProps?.[index]?.name}
+                                helperText={errors?.sliderProps?.[index]?.name?.message}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name={`infoPopUps[${index}].description`}
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                label="Pop-up description"
                                 fullWidth
                                 margin="normal"
                                 error={!!errors?.sliderProps?.[index]?.name}

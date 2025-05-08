@@ -3,8 +3,8 @@ import {InferType} from "yup";
 
 export const createUpdateInfoPopupSchema = Yup.object().shape({
     id: Yup.string().uuid().optional(),
-    name: Yup.string().required('Name is required.'),
-    file: Yup.string().url('File must be a valid URL.').optional(),
+    title: Yup.string().required('Title is required.'),
+    description: Yup.string().optional(),
 });
 
 export type CreateUpdateInfoPopUpType = InferType<typeof createUpdateInfoPopupSchema>;

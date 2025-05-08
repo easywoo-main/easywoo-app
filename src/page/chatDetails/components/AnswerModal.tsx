@@ -10,13 +10,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 import { uploadFiles } from "../../../api/chatMessage.service";
-import {CreateUpdateAnswerType} from "../../../schema/createUpdateAnswer.schema";
+import {createUpdateAnswerSchema, CreateUpdateAnswerType} from "../../../schema/createUpdateAnswer.schema";
 import {CreateUpdateAnswerFrom} from "../type";
 
-const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Message text cannot be empty.'),
-    file: Yup.string().optional(),
-});
 
 interface AnswerModalProps {
     answer?: CreateUpdateAnswerType;
@@ -31,7 +27,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
     const [error, setError] = React.useState<string>();
 
     const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm<CreateUpdateAnswerFrom>({
-        resolver: yupResolver(validationSchema) as any,
+        resolver: yupResolver(createUpdateAnswerSchema) as any,
         defaultValues: answer
     });
 
@@ -130,7 +126,12 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
                     </Button>
                 )}
                 <Button onClick={onClose} color="secondary">Cancel</Button>
-                <Button onClick={handleSubmit(handleSave)} variant="contained" disabled={isSaveLoading}>
+                <Button onClick={()=> {
+                    // console.log(watch())
+                    // console.log(errors)
+                    // handleSubmit(handleSave)
+                    handleSave(watch())
+                }} variant="contained" disabled={isSaveLoading}>
                     {isSaveLoading ? <CircularProgress size={24} /> : "Save"}
                 </Button>
             </DialogActions>
