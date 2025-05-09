@@ -9,4 +9,22 @@ const apiClientV1 = axios.create({
 });
 
 
+apiClientV1.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response) {
+            if (error.response.status === 401) {
+                window.location.href = '/login';
+            } else {
+                console.error(`Error: ${error.response.status} - ${error.response.data.message || error.response.statusText}`);
+            }
+        } else if (error.request) {
+            console.error('No response received from server.');
+        } else {
+            console.error(`Request error: ${error.message}`);
+        }
+        return Promise.reject(error);
+    }
+);
+
 export default apiClientV1;

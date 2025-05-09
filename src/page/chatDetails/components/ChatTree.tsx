@@ -9,21 +9,23 @@ import {ChatMessageWithRelations} from "../../../type/chatMessage";
 import {MessageChoiceWithRelationDto} from "../../../type/messageChoice.type";
 import {getMessageChoiceById} from "../../../api/messageChoice.service";
 import {nextChoiceMessageTypes} from "../constants";
+import {User} from "../../../type/user.type";
 
 interface TreeProps {
     chat: Chat;
+    users: User[]
 }
 
-const ChatTree: React.FC<TreeProps> = ({chat}) => {
+const ChatTree: React.FC<TreeProps> = ({chat, users}) => {
     const [treeData, setTreeData] = useState<TreeNode[]>([{name: chat.name, attributes: chat, children: []}]);
     const [dimensions, translate, containerRef] = useCenteredTree();
 
     useEffect(() => {
         handleGetRootNode(chat.startMessageId!);
-    }, [chat]);
+    }, [chat, users]);
 
     const handleGetRootNode = async (nodeId: string) => {
-        const node = await getChatMessageById(nodeId);
+        const node = await getChatMessageById(nodeId, users.map(item => item.id));
         setTreeData([chatMessageToNode(node)]);
     }
 

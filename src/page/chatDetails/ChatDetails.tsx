@@ -8,17 +8,21 @@ import ChatTree from "./components/ChatTree";
 import {Box, Button, CircularProgress, Container, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
+import PersonIcon from '@mui/icons-material/Person';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import EditChatModal from "../chatList/components/EditChatModal";
 import CreateMessageModal from "./components/CreateMessageModal";
+import SelectUserModal from "./components/SelectUserModal";
+import {User} from "../../type/user.type";
 
 const ChatMessageDetails: React.FC = () => {
     const [chat, setChat] = useState<Chat>();
+    const [users, setUsers] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isCreateFirstChatMessageModalOpen, setIsCreateFirstChatMessageModalOpen] = useState(false);
     const [isEditChatOpen, setIsEditChatOpen] = useState(false);
-
+    const [isOpenSelectUserModal, setIsOpenSelectUserModal] = useState(false);
     const {id: chatId} = useParams<{ id: string }>();
     const navigate = useNavigate();
 
@@ -70,11 +74,19 @@ const ChatMessageDetails: React.FC = () => {
                 />
 
                 <Typography variant="h4">{chat?.name}</Typography>
-                <Button
-                    variant="outlined"
-                    onClick={() => setIsEditChatOpen(true)}
-                    startIcon={<EditIcon/>}
-                >Edit</Button>
+                <Box>
+                    <Button
+                        variant="outlined"
+                        sx={{mr: 1}}
+                        onClick={() => setIsEditChatOpen(true)}
+                        startIcon={<EditIcon/>}
+                    >Edit</Button>
+                    <Button
+                        variant="outlined"
+                        onClick={() => setIsOpenSelectUserModal(true)}
+                        startIcon={<PersonIcon/>}
+                    >Users</Button>
+                </Box>
             </Box>
 
 
@@ -83,7 +95,7 @@ const ChatMessageDetails: React.FC = () => {
                     <CircularProgress/>
                 </Box>
             ) : chat?.startMessageId ? (
-                <ChatTree chat={chat}/>
+                <ChatTree chat={chat} users={users}/>
             ) : (
                 <Box sx={{textAlign: "center", mt: 4}}>
                     <Typography variant="h6" gutterBottom>
@@ -108,6 +120,15 @@ const ChatMessageDetails: React.FC = () => {
                     chat={chat!}
                     onSubmit={handleUpdateChat}
                 />}
+
+            {isOpenSelectUserModal &&
+                <SelectUserModal
+                    onClose={() => setIsOpenSelectUserModal(false)}
+                    setSelectedUsers={setUsers}
+                    selectedUsers={users}
+                    chat={chat!}
+                />
+            }
         </Container>
     );
 };

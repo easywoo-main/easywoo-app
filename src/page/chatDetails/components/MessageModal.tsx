@@ -4,14 +4,14 @@ import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createUpdateMessageSchema, CreateUpdateMessageType} from "../../../schema/createUpdateMessage.schema";
 import {
-    Box, Button, CircularProgress,
+    Box, Button, Chip, CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     FormControlLabel,
     Radio,
-    RadioGroup,
+    RadioGroup, Stack,
     Typography
 } from "@mui/material";
 import DefaultMessagePropsForm from "./DefaultMessagePropsForm";
@@ -19,15 +19,17 @@ import FilesForm from "./FilesForm";
 import ChallengeForm from "./ChallengeForm";
 import SliderForm from "./SliderForm";
 import InfoPopUpForm from "./InfoPopUpForm";
+import { User } from "../../../type/user.type";
 
 interface MessageModalProps {
     onClose: () => void;
     saveMessage: (message: CreateUpdateMessageType) => Promise<void>;
     message: CreateUpdateMessageType;
     onDelete?: () => void;
+    users?: User[];
 }
 
-const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, message, onDelete}) => {
+const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, message, onDelete, users}) => {
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
 
@@ -82,6 +84,17 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
                 {watch("type") === MessageType.CHALLENGE && <ChallengeForm errors={errors} setValue={setValue} />}
                 {watch("type") === MessageType.QUESTION_SLIDERS && <SliderForm control={control} errors={errors}/>}
                 <InfoPopUpForm control={control} errors={errors} />
+
+                <Stack direction="row" spacing={1} flexWrap="wrap">
+                    {users?.map((user) => (
+                        <Chip
+                            key={user.id}
+                            label={user.name}
+                            // onDelete={() => removeUser(user.id)}
+                            sx={{mb: 1}}
+                        />
+                    ))}
+                </Stack>
             </DialogContent>
 
             {error && <Typography color="error" align="center">{error}</Typography>}

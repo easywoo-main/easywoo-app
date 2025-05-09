@@ -58,19 +58,18 @@ const Node: React.FC<QuestionComponentProps> = ({
         QUESTION_SINGLE: "purple",
         QUESTION_TEXT_FIELD: "teal",
     };
-
     const borderColor = typeBorderColorMap[treeNode.attributes.type] || "gray";
+    const background = (treeNode.attributes?.stepChatMessages?.length > 0 || treeNode.attributes?.resultMessageChoice?.length> 0) ? '#ededed' : 'white';
     return (
         <svg width="400" height="350" x="-200" y="-300" xmlns="http://www.w3.org/2000/svg">
             <rect x="0" y="0" width="400" height="350" fill="white" stroke="#ccc" strokeWidth="2" rx="10"/>
-
             <foreignObject x="0" y="0" width="400" height="350">
                 <Box sx={{
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
-
+                    background
                 }}>
                     <Box
                         sx={{

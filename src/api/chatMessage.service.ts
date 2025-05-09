@@ -2,8 +2,10 @@ import apiClientV1 from "../config/axios.config";
 import {ChatMessage, ChatMessageWithRelations} from "../type/chatMessage";
 import {CreateUpdateChatMessageDto} from "../page/chatDetails/type";
 
-export const getChatMessageById = async (chatId: string): Promise<ChatMessageWithRelations> => {
-    const response = await apiClientV1.get(`/chat-message/${chatId}`);
+export const getChatMessageById = async (chatId: string, userIds?: string[]): Promise<ChatMessageWithRelations> => {
+    const response = await apiClientV1.get(`/chat-message/${chatId}`, {
+        params: {userIds: userIds}
+    });
     return response.data;
 }
 
