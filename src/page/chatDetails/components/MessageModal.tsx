@@ -56,7 +56,7 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
 
     return (
         <>
-            <DialogTitle>Update Message Step</DialogTitle>
+            <DialogTitle>Message Step</DialogTitle>
             <DialogContent>
                 <Box mb={2}>
                     <Typography variant="subtitle1">Message Type</Typography>

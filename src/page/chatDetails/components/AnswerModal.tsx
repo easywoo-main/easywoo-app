@@ -61,7 +61,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
 
     return (
         <Dialog open onClose={onClose} maxWidth="md" fullWidth>
-            <DialogTitle>{"Answer Step"}</DialogTitle>
+            <DialogTitle>{"Answer"}</DialogTitle>
             <DialogContent>
                 <Box>
                     <Box my={2}>

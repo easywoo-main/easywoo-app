@@ -46,7 +46,7 @@ const SelectUserModal: React.FC<Props> = ({onClose, selectedUsers, setSelectedUs
 
     return (
         <Dialog open onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>Add user</DialogTitle>
+            <DialogTitle>User tracker</DialogTitle>
 
             <DialogContent dividers>
                 <TextField
