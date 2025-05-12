@@ -4,6 +4,7 @@ import {MessageChoice} from "../../../type/messageChoice.type";
 import AnswerModal from "./AnswerModal";
 import {defaultCreateAnswer} from "../constants";
 import {CreateUpdateAnswerFrom} from "../type";
+import Dialog from "@mui/material/Dialog";
 
 interface CreateAnswerModalProps {
     onClose: () => void;
@@ -17,13 +18,13 @@ const CreateAnswerModal: React.FC<CreateAnswerModalProps> = ({onClose, onSubmit,
         onSubmit(newMessageChoice);
     };
 
-    return (
-        <AnswerModal
-            onClose={onClose}
-            saveMessage={handleSave}
-            answer={defaultCreateAnswer}
-        />
-
+    return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
+            <AnswerModal
+                onClose={onClose}
+                saveMessage={handleSave}
+                answer={defaultCreateAnswer}
+            />
+        </Dialog>
     );
 };
 

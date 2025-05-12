@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {createChatMessage} from "../../api/chatMessage.service";
 import {Chat} from "../../type/chat.type";
 import {getChatById} from "../../api/chat.service";
-// import CreateEditMessageModal from "./components/CreateEditMessageModal";
 import ChatTree from "./components/ChatTree";
 import {Box, Button, CircularProgress, Container, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";

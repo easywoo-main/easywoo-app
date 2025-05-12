@@ -1,48 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+    Avatar,
     Button,
-    TextField,
     CircularProgress,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
+    DialogActions,
+    List,
+    ListItem,
+    ListItemText,
     Paper,
-    IconButton,
-    DialogActions, List, ListItem, Avatar, ListItemText
+    TextField,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import {getPaginationStepChatMessage} from "../../../api/stepChatMessage.service";
 import {StepChatMessage} from "../../../type/stepChatMessage.type";
-import RemoveIcon from "@mui/icons-material/Remove";
-import {Add} from "@mui/icons-material";
 
-interface User {
-    id: number;
-    name: string;
-    dateCompleted: string;
-}
-
-interface MessageDetailsProps {
-    messageId: string;
+interface AnswerDetailsProps {
+    answerId: string;
     onClose: () => void;
 }
 
-const MessageDetails: React.FC<MessageDetailsProps> = ({ messageId, onClose }) => {
+const AnswerDetails: React.FC<AnswerDetailsProps> = ({ answerId, onClose }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [stepChatMessages, setStepChatMessages] = useState<StepChatMessage[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
     useEffect(() => {
         getStepChatMessage();
-    }, [messageId]);
+    }, [answerId]);
 
     const getStepChatMessage = async () => {
         setLoading(true)
         try{
-            const stepChatMessage = await getPaginationStepChatMessage(messageId, {search: searchTerm});
+            const stepChatMessage = await getPaginationStepChatMessage(answerId, {search: searchTerm});
             setStepChatMessages(stepChatMessage.content);
         } catch (e) {
             console.error(e);
@@ -97,30 +85,18 @@ const MessageDetails: React.FC<MessageDetailsProps> = ({ messageId, onClose }) =
                                             </>
                                         }
                                     />
+                                    {/*<ListItemText*/}
+                                    {/*    primary={*/}
+                                    {/*        <Typography sx={{ fontWeight: 'bold' }}>*/}
+                                    {/*            test*/}
+                                    {/*        </Typography>*/}
+                                    {/*    }*/}
+                                    {/*/>*/}
                                     {new Date(stepChatMessage.createdAt).toLocaleString()}
                                 </ListItem>
                             );
                         })}
                     </List>
-
-                    {/*<TableContainer component={Paper}>*/}
-                    {/*    <Table>*/}
-                    {/*        <TableHead>*/}
-                    {/*            <TableRow>*/}
-                    {/*                <TableCell>User Name</TableCell>*/}
-                    {/*                <TableCell>Completion Date</TableCell>*/}
-                    {/*            </TableRow>*/}
-                    {/*        </TableHead>*/}
-                    {/*        <TableBody>*/}
-                    {/*            {stepChatMessages?.map((stepChatMessage) => (*/}
-                    {/*                <TableRow key={stepChatMessage.id}>*/}
-                    {/*                    <TableCell>{stepChatMessage.user?.name}</TableCell>*/}
-                    {/*                    <TableCell>{stepChatMessage.createdAt.toString()}</TableCell>*/}
-                    {/*                </TableRow>*/}
-                    {/*            ))}*/}
-                    {/*        </TableBody>*/}
-                    {/*    </Table>*/}
-                    {/*</TableContainer>*/}
                 </>
             )}
             <DialogActions>
@@ -130,4 +106,4 @@ const MessageDetails: React.FC<MessageDetailsProps> = ({ messageId, onClose }) =
     );
 };
 
-export default MessageDetails;
+export default AnswerDetails;

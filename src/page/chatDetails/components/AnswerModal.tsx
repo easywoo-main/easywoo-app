@@ -1,14 +1,12 @@
 import React from "react";
 import {
-    Box, Button, CircularProgress, Dialog,
+    Box, Button, CircularProgress,
     DialogActions, DialogContent, DialogTitle,
     TextField, Stack, Typography
 } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-
 import { uploadFiles } from "../../../api/chatMessage.service";
 import {createUpdateAnswerSchema, CreateUpdateAnswerType} from "../../../schema/createUpdateAnswer.schema";
 import {CreateUpdateAnswerFrom} from "../type";
@@ -60,7 +58,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
     const watchedFile = watch("file");
 
     return (
-        <Dialog open onClose={onClose} maxWidth="md" fullWidth>
+        <>
             <DialogTitle>{"Answer"}</DialogTitle>
             <DialogContent>
                 <Box>
@@ -135,7 +133,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
                     {isSaveLoading ? <CircularProgress size={24} /> : "Save"}
                 </Button>
             </DialogActions>
-        </Dialog>
+        </>
     );
 };
 

@@ -4,7 +4,11 @@ import {deleteChatMessage, updateChatMessage} from "../../../api/chatMessage.ser
 import MessageModal from "./MessageModal";
 import DeleteModal from "../../../components/DeleteModal";
 import {Dialog, Tab, Tabs} from "@mui/material";
-import MessageDetails from "./MessageDetails";
+import ProgressTracker from "./ProgressTracker";
+import {StepChatMessage} from "../../../type/stepChatMessage.type";
+import {getPaginationStepChatMessage} from "../../../api/stepChatMessage.service";
+import {PageRequestArgs} from "../../../utils/pageable.utils";
+import ChatMessageItemProgressTracker from "./ChatMessageItemProgresTracker";
 
 interface EditMessageModalProps {
     onClose: () => void;
@@ -30,9 +34,12 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
 
 
     const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
-        console.log(newValue);
         setTab(newValue);
     };
+
+    const handleProgressTracker = async (option: PageRequestArgs) => {
+        return getPaginationStepChatMessage(message.id, option);
+    }
 
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
             <Tabs
@@ -77,9 +84,12 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
             </>)}
 
             {tab === "two" && (
-                <MessageDetails
-                    messageId={message.id}
+                <ProgressTracker<StepChatMessage>
                     onClose={onClose}
+                    getPaginationData={handleProgressTracker}
+                    children={(item) => {
+                        return <ChatMessageItemProgressTracker item={item}/>
+                    }}
                 />
             )}
         </Dialog>
