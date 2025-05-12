@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {TreeNode} from '../type';
 import {ChatMessage, MessageType} from "../../../type/chatMessage";
-import {Box, Typography, Stack} from "@mui/material";
+import {Box, Stack, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import EditAnswerModal from "./EditAnswerModal";
 import CreateAnswerModal from './CreateAnswerModal';
@@ -10,7 +10,7 @@ import {AddChildrenFunction} from "react-d3-tree/lib/types/types/common";
 import {getChatMessageById} from "../../../api/chatMessage.service";
 import {chatMessageToNode, messageChoiceToNode} from '../helper';
 import {MessageChoice} from "../../../type/messageChoice.type";
-import { getMessageChoiceById } from '../../../api/messageChoice.service';
+import {getMessageChoiceById} from '../../../api/messageChoice.service';
 import EditMessageModal from './EditMessageModal';
 
 interface QuestionComponentProps {
@@ -27,6 +27,8 @@ const Node: React.FC<QuestionComponentProps> = ({
 
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
     const [isOpenCreateChildrenModal, setIsOpenCreateChildrenModal] = useState(false);
+
+    const isAnswer = !treeNode.attributes.type;
 
 
     const handleEditMessage = () => {
@@ -103,7 +105,7 @@ const Node: React.FC<QuestionComponentProps> = ({
                             color="warning"
                             onClick={handleEditMessage}
                         >
-                            Edit Message
+                            {isAnswer ? " Answer Details" : "Message Details"}
                         </Button>
 
                         {(treeNode.children.length === 0 ||
@@ -120,7 +122,7 @@ const Node: React.FC<QuestionComponentProps> = ({
                     </Stack>
                 </Box>
 
-                {isOpenEditModal && (!treeNode.attributes.type ?
+                {isOpenEditModal && (isAnswer ?
                     <EditAnswerModal answer={treeNode.attributes} onClose={()=> setIsOpenEditModal(false)} onSubmit={handleUpdateAnswer}/>:
                     <EditMessageModal onClose={()=> setIsOpenEditModal(false)} message={treeNode.attributes} onSubmit={handleUpdateChatMessage}/>
                 )}

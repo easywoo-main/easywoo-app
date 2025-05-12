@@ -4,14 +4,17 @@ import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createUpdateMessageSchema, CreateUpdateMessageType} from "../../../schema/createUpdateMessage.schema";
 import {
-    Box, Button, Chip, CircularProgress,
-    Dialog,
+    Box,
+    Button,
+    Chip,
+    CircularProgress,
     DialogActions,
     DialogContent,
     DialogTitle,
     FormControlLabel,
     Radio,
-    RadioGroup, Stack,
+    RadioGroup,
+    Stack,
     Typography
 } from "@mui/material";
 import DefaultMessagePropsForm from "./DefaultMessagePropsForm";
@@ -19,7 +22,7 @@ import FilesForm from "./FilesForm";
 import ChallengeForm from "./ChallengeForm";
 import SliderForm from "./SliderForm";
 import InfoPopUpForm from "./InfoPopUpForm";
-import { User } from "../../../type/user.type";
+import {User} from "../../../type/user.type";
 
 interface MessageModalProps {
     onClose: () => void;
@@ -52,8 +55,8 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
     };
 
     return (
-        <Dialog open onClose={onClose} maxWidth="md" fullWidth>
-            <DialogTitle>Create Message Step</DialogTitle>
+        <>
+            <DialogTitle>Update Message Step</DialogTitle>
             <DialogContent>
                 <Box mb={2}>
                     <Typography variant="subtitle1">Message Type</Typography>
@@ -115,7 +118,7 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
                     {isSaveLoading ? <CircularProgress size={24} /> : 'Save'}
                 </Button>
             </DialogActions>
-        </Dialog>
+        </>
     );
 };
 

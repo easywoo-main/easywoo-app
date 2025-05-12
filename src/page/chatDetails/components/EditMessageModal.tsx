@@ -3,6 +3,8 @@ import {ChatMessage, ChatMessageWithRelations} from "../../../type/chatMessage";
 import {deleteChatMessage, updateChatMessage} from "../../../api/chatMessage.service";
 import MessageModal from "./MessageModal";
 import DeleteModal from "../../../components/DeleteModal";
+import {Dialog, Tab, Tabs} from "@mui/material";
+import MessageDetails from "./MessageDetails";
 
 interface EditMessageModalProps {
     onClose: () => void;
@@ -12,6 +14,7 @@ interface EditMessageModalProps {
 
 const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, message}) => {
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+    const [tab, setTab] = React.useState("one");
 
     const handleSave = async (data: any) => {
         const newChatMessage = await updateChatMessage(message.id, data);
@@ -25,8 +28,27 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
         onClose();
     }
 
-    return (
-        <>
+
+    const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
+        console.log(newValue);
+        setTab(newValue);
+    };
+
+    return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
+            <Tabs
+                value={tab}
+                onChange={handleChangeTab}
+                aria-label="wrapped label tabs example"
+            >
+                <Tab
+                    value="one"
+                    label="Edit message"
+                    wrapped
+                />
+                <Tab value="two" label="Message details"/>
+            </Tabs>
+
+            {tab === "one" && (<>
             <MessageModal
                 saveMessage={handleSave}
                 onClose={onClose}
@@ -52,7 +74,15 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                     content='Are you sure you want to delete the message "{message.name}?'
                 />
             }
-        </>
+            </>)}
+
+            {tab === "two" && (
+                <MessageDetails
+                    messageId={message.id}
+                    onClose={onClose}
+                />
+            )}
+        </Dialog>
     );
 };
 

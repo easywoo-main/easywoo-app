@@ -3,6 +3,7 @@ import {ChatMessage} from "../../../type/chatMessage";
 import {defaultCreateMessage} from "../constants";
 import {createChatMessage} from "../../../api/chatMessage.service";
 import MessageModal from "./MessageModal";
+import Dialog from "@mui/material/Dialog";
 
 interface Props {
     onClose: () => void;
@@ -21,8 +22,9 @@ const CreateMessageModal: React.FC<Props> = ({onClose, onSubmit, chatId, prevMes
         onSubmit(newChatMessage);
     };
 
-    return (
+    return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
         <MessageModal message={defaultCreateMessage} saveMessage={handleSave} onClose={onClose}/>
+        </Dialog>
     );
 };
 
