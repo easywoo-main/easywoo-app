@@ -56,7 +56,6 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                 />
                 <Tab value="two" label="Users"/>
                 <Tab value="tree" label="Previous Message"/>
-
             </Tabs>
 
             {tab === "one" && (<>
