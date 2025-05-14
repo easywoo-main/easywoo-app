@@ -9,6 +9,7 @@ import {StepChatMessage} from "../../../type/stepChatMessage.type";
 import {getPaginationStepChatMessage} from "../../../api/stepChatMessage.service";
 import {PageRequestArgs} from "../../../utils/pageable.utils";
 import ChatMessageItemProgressTracker from "./ChatMessageItemProgresTracker";
+import MessageChildren from "./MessageChildren";
 
 interface EditMessageModalProps {
     onClose: () => void;
@@ -17,6 +18,7 @@ interface EditMessageModalProps {
 }
 
 const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, message}) => {
+    console.log(message)
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
     const [tab, setTab] = React.useState("one");
 
@@ -50,9 +52,11 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                 <Tab
                     value="one"
                     label="Edit message"
-                    wrapped
+                    // wrapped
                 />
-                <Tab value="two" label="Message details"/>
+                <Tab value="two" label="Users"/>
+                <Tab value="tree" label="Previous Message"/>
+
             </Tabs>
 
             {tab === "one" && (<>
@@ -91,6 +95,10 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                         return <ChatMessageItemProgressTracker item={item}/>
                     }}
                 />
+            )}
+
+            {tab === "tree" && (
+                <MessageChildren message={message}  onClose ={onClose}/>
             )}
         </Dialog>
     );

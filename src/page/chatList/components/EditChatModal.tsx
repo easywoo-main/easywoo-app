@@ -7,7 +7,7 @@ import {
     DialogTitle,
     TextField,
     CircularProgress,
-    Typography
+    Typography, Checkbox
 } from '@mui/material';
 import { Chat } from '../../../type/chat.type';
 import { updateChat } from "../../../api/chat.service";
@@ -18,7 +18,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Chat name cannot be empty.'),
     freeSteps: Yup.number().min(0, 'Free steps must be a positive number or zero.').required('Free steps are required.'),
-    price: Yup.number().min(0, 'Price must be a positive number or zero.').required('Price is required.')
+    price: Yup.number().min(0, 'Price must be a positive number or zero.').required('Price is required.'),
+    landingUrl: Yup.string().url("Must be url").optional(),
+    hasIndividualConsultation: Yup.boolean().default(false),
+    isDisabled: Yup.boolean().default(false),
 });
 
 interface EditChatModalProps {
@@ -36,7 +39,9 @@ const EditChatModal: React.FC<EditChatModalProps> = ({ chat, onClose, onSubmit }
         defaultValues: {
             name: chat.name,
             freeSteps: chat.freeSteps,
-            price: chat.price
+            price: chat.price,
+            landingUrl: chat.landingUrl,
+
         }
     });
 
@@ -74,6 +79,22 @@ const EditChatModal: React.FC<EditChatModalProps> = ({ chat, onClose, onSubmit }
                             />
                         )}
                     />
+
+                    <Controller
+                        name="landingUrl"
+                        control={control}
+                        render={({ field }) => (
+                            <TextField
+                                fullWidth
+                                label="Ladning Url"
+                                {...field}
+                                error={!!errors.landingUrl}
+                                helperText={errors.landingUrl ? errors.landingUrl.message : ''}
+                                variant="outlined"
+                                sx={{ marginBottom: 2 }}
+                            />
+                        )}
+                    />
                     <Controller
                         name="freeSteps"
                         control={control}
@@ -104,6 +125,34 @@ const EditChatModal: React.FC<EditChatModalProps> = ({ chat, onClose, onSubmit }
                                 variant="outlined"
                                 sx={{ marginBottom: 2 }}
                             />
+                        )}
+                    />
+                    <Controller
+                        name="hasIndividualConsultation"
+                        control={control}
+                        render={({ field }) => (
+                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+                                <Checkbox
+                                    {...field}
+                                    checked={field.value}
+                                    color="primary"
+                                />
+                                <Typography>Has Individual Consultation</Typography>
+                            </div>
+                        )}
+                    />
+                    <Controller
+                        name="isDisabled"
+                        control={control}
+                        render={({ field }) => (
+                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+                                <Checkbox
+                                    {...field}
+                                    checked={field.value}
+                                    color="primary"
+                                />
+                                <Typography>Is Disabled</Typography>
+                            </div>
                         )}
                     />
                     {error && <Typography color="error">{error}</Typography>}

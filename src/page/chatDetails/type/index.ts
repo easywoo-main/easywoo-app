@@ -9,14 +9,14 @@ export interface TreeNode {
 }
 
 export interface CreateUpdateChatMessageDto {
-    parentId?: string;
     name: string;
     files: string[]
     timeout?: bigint
     sliderProps?: CreateUpdateSliderPropType[]
     infoPopUps?: CreateUpdateInfoPopUpType[]
-    prevMessageId?: string
-    prevChoiceId?: string
+    prevMessageIds?: string[]
+    prevChoiceIds?: string
+    nextMessageId?: string | null
     chatId?: string
     type: MessageType;
     isCheckpoint: boolean;

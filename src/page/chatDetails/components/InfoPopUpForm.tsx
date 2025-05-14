@@ -68,13 +68,13 @@ const InfoPopUpForm: React.FC<InfoPopUpFormProps> = ({control, errors}) => {
                         )}
                     />
                     <Button variant="outlined" color="error" onClick={() => handleDeleteSlider(index)}>
-                        Delete Slider
+                        Delete Pop-up
                     </Button>
                 </Box>
             ))}
 
             <Button variant="contained" style={{marginTop: 10}} onClick={handleAddSlider} >
-                Add New Slider
+                Add New Pop-up
             </Button>
 
         </AccordionDetails>

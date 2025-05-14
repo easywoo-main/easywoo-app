@@ -17,12 +17,12 @@ interface QuestionComponentProps {
     treeNode: TreeNode;
     handleUpdateNodeAndShowChildren: (nodeId: string) => void;
     addChildren: AddChildrenFunction;
+    chatId: string;
 }
 
 const Node: React.FC<QuestionComponentProps> = ({
                                                     treeNode,
-                                                    addChildren,
-                                                    handleUpdateNodeAndShowChildren
+                                                    addChildren, handleUpdateNodeAndShowChildren, chatId
                                                 }: QuestionComponentProps) => {
 
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
@@ -129,7 +129,11 @@ const Node: React.FC<QuestionComponentProps> = ({
 
                 {isOpenCreateChildrenModal && (treeNode.attributes.type === MessageType.QUESTION_SINGLE ?
                     <CreateAnswerModal onClose={() => setIsOpenCreateChildrenModal(false)} onSubmit={handleAddMessageChoiceChildren} prevMessageId={treeNode.attributes.id}/>:
-                    <CreateMessageModal onClose={() => setIsOpenCreateChildrenModal(false)} onSubmit={handleAddChatMessageChildren} prevMessageId={treeNode.attributes.type ? treeNode.attributes.id: undefined} prevChoiceId={!treeNode.attributes.type ? treeNode.attributes.id: undefined}/>)}
+                    <CreateMessageModal onClose={() => setIsOpenCreateChildrenModal(false)}
+                                        onSubmit={handleAddChatMessageChildren}
+                                        prevMessageId={treeNode.attributes.type ? treeNode.attributes.id : undefined}
+                                        prevChoiceId={!treeNode.attributes.type ? treeNode.attributes.id : undefined}
+                                        chatId={chatId}/>)}
             </foreignObject>
 
         </svg>

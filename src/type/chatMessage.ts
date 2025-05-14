@@ -9,6 +9,7 @@ export interface ChatMessage {
     timeout: bigint;
     nextMessageId: string;
     isCheckpoint: boolean;
+    chatId: string
     createdAt: Date;
     updatedAt: Date;
 }
@@ -30,4 +31,5 @@ export interface ChatMessageWithRelations extends ChatMessage {
     sliderProps?: SliderProp[]
     infoPopUps?: InfoPopUp[];
     stepChatMessages?: any
+    prevMessages?: any[]
 }

@@ -8,22 +8,31 @@ import Dialog from "@mui/material/Dialog";
 interface Props {
     onClose: () => void;
     onSubmit: (newMessage: ChatMessage) => void;
-    chatId?: string;
+    chatId: string;
     prevMessageId?: string;
     prevChoiceId?: string;
+    startingChatId?: string;
 }
 
-const CreateMessageModal: React.FC<Props> = ({onClose, onSubmit, chatId, prevMessageId, prevChoiceId}) => {
+const CreateMessageModal: React.FC<Props> = ({
+                                                 onClose,
+                                                 onSubmit,
+                                                 chatId,
+                                                 prevMessageId,
+                                                 prevChoiceId,
+                                                 startingChatId
+                                             }) => {
     const handleSave = async (data: any) => {
         data.chatId = chatId;
-        data.prevMessageId = prevMessageId;
-        data.prevChoiceId = prevChoiceId;
+        data.startingChatId = startingChatId
+        data.prevMessageIds = prevMessageId ? [prevMessageId] : [];
+        data.prevChoiceIds = prevChoiceId ? [prevChoiceId] : [];
         const newChatMessage = await createChatMessage(data);
         onSubmit(newChatMessage);
     };
 
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
-        <MessageModal message={defaultCreateMessage} saveMessage={handleSave} onClose={onClose}/>
+            <MessageModal message={defaultCreateMessage} saveMessage={handleSave} onClose={onClose}/>
         </Dialog>
     );
 };

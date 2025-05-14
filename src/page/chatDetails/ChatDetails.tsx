@@ -109,7 +109,8 @@ const ChatMessageDetails: React.FC = () => {
                 <CreateMessageModal
                     onClose={() => setIsCreateFirstChatMessageModalOpen(false)}
                     onSubmit={handleAddNewStep}
-                    chatId={chatId}
+                    chatId={chatId!}
+                    startingChatId={chatId}
                 />
             }
             {isEditChatOpen &&

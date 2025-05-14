@@ -1,6 +1,7 @@
 import apiClientV1 from "../config/axios.config";
 import {ChatMessage, ChatMessageWithRelations} from "../type/chatMessage";
 import {CreateUpdateChatMessageDto} from "../page/chatDetails/type";
+import {PageRequestArgs, PageResponse} from "../utils/pageable.utils";
 
 export const getChatMessageById = async (chatId: string, userIds?: string[]): Promise<ChatMessageWithRelations> => {
     const response = await apiClientV1.get(`/chat-message/${chatId}`, {
@@ -14,7 +15,7 @@ export const createChatMessage = async (data: CreateUpdateChatMessageDto): Promi
     return response.data;
 }
 
-export const updateChatMessage = async (chatMessageId: string, data: CreateUpdateChatMessageDto): Promise<ChatMessage> => {
+export const updateChatMessage = async (chatMessageId: string, data: Partial<CreateUpdateChatMessageDto>): Promise<ChatMessage> => {
     const response = await apiClientV1.patch(`/chat-message/${chatMessageId}`, data);
     return response.data;
 }
@@ -34,6 +35,13 @@ export const uploadFiles = async (files: File[]): Promise<string[]> => {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
+    });
+    return response.data;
+}
+
+export const getAllByChatMessageId = async (chatMessageId: string, chatId: string, option: PageRequestArgs): Promise<PageResponse<ChatMessage>> => {
+    const response = await apiClientV1.get('/chat-message', {
+        params: {chatMessageId, chatId, ...option}
     });
     return response.data;
 }

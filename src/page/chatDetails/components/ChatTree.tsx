@@ -84,7 +84,7 @@ const ChatTree: React.FC<TreeProps> = ({chat, users}) => {
                 orientation="vertical"
                 renderCustomNodeElement={({nodeDatum, addChildren}) => (
                     <Node treeNode={nodeDatum as TreeNode}
-                          addChildren={addChildren} handleUpdateNodeAndShowChildren={handleUpdateNodeAndShowChildren} />)}
+                          addChildren={addChildren} handleUpdateNodeAndShowChildren={handleUpdateNodeAndShowChildren} chatId={chat.id}/>)}
             />
         </div>
     );
