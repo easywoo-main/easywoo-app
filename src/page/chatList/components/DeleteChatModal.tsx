@@ -22,7 +22,7 @@ const DeleteChatModal: React.FC<DeleteChatModalProps> = ({chat, onClose, onSubmi
             onClose={onClose}
             onDelete={handleDeleteChat}
             title="Delete chat"
-            content="Are you sure you want to delete the chat {chat.name}?"
+            content={`Are you sure you want to delete the chat ${chat.name}?`}
         />
     );
 };

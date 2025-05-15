@@ -14,10 +14,11 @@ export const getMessageSliderById = async (id: string): Promise<SliderProp> => {
 };
 
 export const getAllMessageSlidersByMessageId = async (
-    chatMessageId: string,
+    chatId: string,
 ): Promise<SliderProp[]> => {
     const { data: response } = await apiClientV1.get<SliderProp[]>(
-        `/message-slider/message/${chatMessageId}`,
+        `/message-slider`,
+        {params: {chatId}}
     );
     return response;
 };

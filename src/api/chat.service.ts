@@ -1,6 +1,6 @@
 import apiClientV1 from "../config/axios.config";
 import {PageRequestArgs, PageResponse} from "../utils/pageable.utils";
-import {Chat} from "../type/chat.type";
+import {Chat, ChatWithRelation, CreateUpdateChatDto} from "../type/chat.type";
 
 export const getPaginationChat = async (option: PageRequestArgs): Promise<PageResponse<Chat>> => {
     console.log("option",option);
@@ -10,17 +10,17 @@ export const getPaginationChat = async (option: PageRequestArgs): Promise<PageRe
     return data;
 }
 
-export const getChatById = async (id: string): Promise<Chat> => {
+export const getChatById = async (id: string): Promise<ChatWithRelation> => {
     const { data } = await apiClientV1.get(`/chat/${id}`);
     return data;
 }
 
-export const createChat = async (payload: Chat): Promise<Chat> => {
-    const { data } = await apiClientV1.post("/chat", payload);
-    return data;
+export const createChat = async (data: CreateUpdateChatDto): Promise<Chat> => {
+    const response = await apiClientV1.post("/chat", data);
+    return response.data;
 }
 
-export const updateChat = async (id: string, payload: Chat): Promise<Chat> => {
+export const updateChat = async (id: string, payload: CreateUpdateChatDto): Promise<Chat> => {
     const { data } = await apiClientV1.patch(`/chat/${id}`, payload);
     return data;
 }

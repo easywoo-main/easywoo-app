@@ -42,6 +42,21 @@ const SliderForm: React.FC<SliderFormProps> = ({ control, errors }) => {
                         )}
                     />
                     <Controller
+                        name={`sliderProps[${index}].text`}
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                label="Slider Text"
+                                fullWidth
+                                margin="normal"
+                                error={!!errors?.sliderProps?.[index]?.text}
+                                helperText={errors?.sliderProps?.[index]?.text?.message}
+                            />
+                        )}
+                    />
+                    <Controller
                         name={`sliderProps[${index}].type`}
                         control={control}
                         defaultValue={SliderPropType.NEGATIVE}

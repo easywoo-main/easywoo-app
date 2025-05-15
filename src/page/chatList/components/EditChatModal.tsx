@@ -1,28 +1,10 @@
-import React, { useState } from 'react';
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    TextField,
-    CircularProgress,
-    Typography, Checkbox
-} from '@mui/material';
-import { Chat } from '../../../type/chat.type';
-import { updateChat } from "../../../api/chat.service";
-import { useForm, Controller } from 'react-hook-form';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-
-const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Chat name cannot be empty.'),
-    freeSteps: Yup.number().min(0, 'Free steps must be a positive number or zero.').required('Free steps are required.'),
-    price: Yup.number().min(0, 'Price must be a positive number or zero.').required('Price is required.'),
-    landingUrl: Yup.string().url("Must be url").optional(),
-    hasIndividualConsultation: Yup.boolean().default(false),
-    isDisabled: Yup.boolean().default(false),
-});
+import React, {useEffect, useState} from 'react';
+import {Chat, CreateUpdateChatDto} from '../../../type/chat.type';
+import {updateChat} from "../../../api/chat.service";
+import ChatModal from './ChatModal';
+import {Dialog} from "@mui/material";
+import {getAllMessageSlidersByMessageId} from "../../../api/messageSliderProps";
+import {SliderProp} from "../../../type/messageSlider.type";
 
 interface EditChatModalProps {
     chat: Chat;
@@ -30,144 +12,39 @@ interface EditChatModalProps {
     onSubmit: (chat: Chat) => void;
 }
 
-const EditChatModal: React.FC<EditChatModalProps> = ({ chat, onClose, onSubmit }) => {
-    const [saveLoading, setSaveLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>('');
+const EditChatModal: React.FC<EditChatModalProps> = ({chat, onClose, onSubmit}) => {
+    const [sliderProps, setSliderProps] = useState<SliderProp[]>([]);
 
-    const { control, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(validationSchema),
-        defaultValues: {
-            name: chat.name,
-            freeSteps: chat.freeSteps,
-            price: chat.price,
-            landingUrl: chat.landingUrl,
+    const handleGetSliderProps = async () => {
+        const sliderProps = await getAllMessageSlidersByMessageId(chat.id);
+        setSliderProps(sliderProps);
+    }
 
-        }
-    });
-
-    const handleSave = async (data: any) => {
-        setSaveLoading(true);
-        try {
-            const updatedChat = await updateChat(chat.id, { ...chat, ...data });
-            onSubmit(updatedChat)
-            onClose();
-        } catch (error) {
-            setError('An error occurred while updating the chat.');
-            console.error(error);
-        } finally {
-            setSaveLoading(false);
-        }
+    const handleSave = async (data: CreateUpdateChatDto) => {
+        const updatedChat = await updateChat(chat!.id, data);
+        onSubmit(updatedChat)
     };
 
+    useEffect(() => {
+        handleGetSliderProps()
+    }, [chat]);
     return (
         <Dialog open onClose={onClose}>
-            <DialogTitle>Edit Chat</DialogTitle>
-            <DialogContent>
-                <form onSubmit={handleSubmit(handleSave)}>
-                    <Controller
-                        name="name"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                fullWidth
-                                label="Chat Name"
-                                {...field}
-                                error={!!errors.name}
-                                helperText={errors.name ? errors.name.message : ''}
-                                variant="outlined"
-                                sx={{ marginBottom: 2 }}
-                            />
-                        )}
-                    />
-
-                    <Controller
-                        name="landingUrl"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                fullWidth
-                                label="Ladning Url"
-                                {...field}
-                                error={!!errors.landingUrl}
-                                helperText={errors.landingUrl ? errors.landingUrl.message : ''}
-                                variant="outlined"
-                                sx={{ marginBottom: 2 }}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="freeSteps"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                fullWidth
-                                label="Free Steps"
-                                type="number"
-                                {...field}
-                                error={!!errors.freeSteps}
-                                helperText={errors.freeSteps ? errors.freeSteps.message : ''}
-                                variant="outlined"
-                                sx={{ marginBottom: 2 }}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="price"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                fullWidth
-                                label="Price"
-                                type="number"
-                                {...field}
-                                error={!!errors.price}
-                                helperText={errors.price ? errors.price.message : ''}
-                                variant="outlined"
-                                sx={{ marginBottom: 2 }}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="hasIndividualConsultation"
-                        control={control}
-                        render={({ field }) => (
-                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
-                                <Checkbox
-                                    {...field}
-                                    checked={field.value}
-                                    color="primary"
-                                />
-                                <Typography>Has Individual Consultation</Typography>
-                            </div>
-                        )}
-                    />
-                    <Controller
-                        name="isDisabled"
-                        control={control}
-                        render={({ field }) => (
-                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
-                                <Checkbox
-                                    {...field}
-                                    checked={field.value}
-                                    color="primary"
-                                />
-                                <Typography>Is Disabled</Typography>
-                            </div>
-                        )}
-                    />
-                    {error && <Typography color="error">{error}</Typography>}
-                    <DialogActions>
-                        <Button onClick={onClose} color="secondary">Cancel</Button>
-                        <Button
-                            type="submit"
-                            color="primary"
-                            disabled={saveLoading}
-                        >
-                            {saveLoading ? <CircularProgress size={24} /> : 'Save'}
-                        </Button>
-                    </DialogActions>
-                </form>
-            </DialogContent>
+            {chat && sliderProps && (<ChatModal
+                onClose={onClose}
+                onSubmit={handleSave}
+                chat={{
+                    name: chat.name,
+                    price: chat.price,
+                    freeSteps: chat.freeSteps,
+                    landingUrl: chat.landingUrl,
+                    hasIndividualConsultation: chat.hasIndividualConsultation,
+                    isDisabled: chat.isDisabled,
+                    sliderProps: sliderProps?.map(slider => ({
+                        id: slider.id, name: slider.name, text: slider.text, type: slider.type,
+                    })),
+                }}
+            />)}
         </Dialog>
     );
 };
