@@ -11,3 +11,5 @@ export const TIME_IN_SECOND: { [key in TimeUnit]: number } = {
     [TimeUnit.HOURS]: 3600,
     [TimeUnit.DAYS]: 86400,
 };
+
+export const MATH_OPERATORS = ['+', '-', '*', '/', '^', '(', ')'];

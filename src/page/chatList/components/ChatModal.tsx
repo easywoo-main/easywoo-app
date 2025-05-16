@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
-    Button, Dialog, DialogActions, DialogContent, DialogTitle,
-    TextField, CircularProgress, Typography, Checkbox
+    Button,
+    Checkbox,
+    CircularProgress,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+    Typography
 } from '@mui/material';
-import { useForm, Controller } from 'react-hook-form';
+import {Controller, useForm} from 'react-hook-form';
 import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {CreateUpdateChatDto} from '../../../type/chat.type';
 import SliderForm from '../../chatDetails/components/SliderForm';
-import { createUpdateSliderPropSchema } from '../../../schema/createUpdateSliderProp.schema';
+import {createUpdateSliderPropSchema} from '../../../schema/createUpdateSliderProp.schema';
+import FormulaTextField from "./FormulaTextField";
+import {CreateUpdateSliderPropDto} from "../../../type/messageSlider.type";
+import {MATH_OPERATORS} from "../../../utils/constant.utils";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Chat name cannot be empty.'),
@@ -18,7 +28,60 @@ const validationSchema = Yup.object().shape({
     hasIndividualConsultation: Yup.boolean().default(false),
     isDisabled: Yup.boolean().default(false),
     sliderProps: Yup.array().of(createUpdateSliderPropSchema).optional(),
+    formula: Yup.string()
+        .test(
+            'is-contains-slider-name',
+            'Unknown variable or operator',
+            function (value) {
+                console.log("this", this);
+                if(!value) {
+                    return true;
+                }
+                const sliderProps: CreateUpdateSliderPropDto[] = this.parent?.sliderProps;
+                const sliderPropNames = sliderProps.map((prop) => prop.name);
+
+                const partsEquation = [...sliderPropNames, ...MATH_OPERATORS];
+                const escapedOperators = MATH_OPERATORS.map(op => '\\' + op).join('|');
+
+                const regex = new RegExp(`(${escapedOperators})`, 'g');
+
+                const parts = value.split(regex).filter(part => part.trim() !== '');
+                console.log({
+                    parts,
+                    partsEquation
+                });
+
+                let openBrackets = 0;
+                for (const part of parts) {
+                    const trimPart = part.trim();
+
+                    if (trimPart === '(') {
+                        openBrackets++;
+                    } else if (trimPart === ')') {
+                        openBrackets--;
+                        if (openBrackets < 0) {
+                            return false;
+                        }
+                    }
+
+                    if (!isNaN(Number(trimPart))) {
+                        continue;
+                    }
+
+                    if (!partsEquation.includes(trimPart)) {
+                        return false;
+                    }
+                }
+
+                if (openBrackets !== 0) {
+                    return false;
+                }
+
+                return true;
+            }
+        )
 });
+
 
 interface ChatModalProps {
     chat: CreateUpdateChatDto;
@@ -29,7 +92,6 @@ interface ChatModalProps {
 const ChatModal = ({ chat, onClose, onSubmit }: ChatModalProps) => {
     const [saveLoading, setSaveLoading] = useState(false);
     const [error, setError] = useState('');
-    console.log(yupResolver(validationSchema));
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationSchema) as any,
@@ -134,6 +196,7 @@ const ChatModal = ({ chat, onClose, onSubmit }: ChatModalProps) => {
                         )}
                     />
                     <SliderForm control={control} errors={errors} />
+                    <FormulaTextField control={control} errors={errors}/>
 
                     {error && <Typography color="error">{error}</Typography>}
                     <DialogActions>

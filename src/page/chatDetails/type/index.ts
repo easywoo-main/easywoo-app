@@ -12,7 +12,6 @@ export interface CreateUpdateChatMessageDto {
     name: string;
     files: string[]
     timeout?: bigint
-    sliderProps?: CreateUpdateSliderPropType[]
     infoPopUps?: CreateUpdateInfoPopUpType[]
     prevMessageIds?: string[]
     prevChoiceIds?: string
