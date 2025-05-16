@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Chat, CreateUpdateChatDto} from '../../../type/chat.type';
 import {updateChat} from "../../../api/chat.service";
 import ChatModal from './ChatModal';
-import {Dialog} from "@mui/material";
+import {CircularProgress, Dialog} from "@mui/material";
 import {getAllMessageSlidersByMessageId} from "../../../api/messageSliderProps";
 import {SliderProp} from "../../../type/messageSlider.type";
 
@@ -14,10 +14,18 @@ interface EditChatModalProps {
 
 const EditChatModal: React.FC<EditChatModalProps> = ({chat, onClose, onSubmit}) => {
     const [sliderProps, setSliderProps] = useState<SliderProp[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const handleGetSliderProps = async () => {
-        const sliderProps = await getAllMessageSlidersByMessageId(chat.id);
-        setSliderProps(sliderProps);
+        setLoading(true);
+        try {
+            const sliderProps = await getAllMessageSlidersByMessageId(chat.id);
+            setSliderProps(sliderProps);
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     const handleSave = async (data: CreateUpdateChatDto) => {
@@ -28,6 +36,10 @@ const EditChatModal: React.FC<EditChatModalProps> = ({chat, onClose, onSubmit}) 
     useEffect(() => {
         handleGetSliderProps()
     }, [chat]);
+
+    if (loading) {
+        return <CircularProgress size={24}/>
+    }
     return (
         <Dialog open onClose={onClose}>
             {chat && sliderProps && (<ChatModal
