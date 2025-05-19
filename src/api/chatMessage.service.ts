@@ -25,7 +25,7 @@ export const deleteChatMessage = async (chatMessageId: string): Promise<ChatMess
     return response.data;
 }
 
-export const uploadFiles = async (files: File[]): Promise<string[]> => {
+export const uploadFiles = async (files: File[], folder?: string): Promise<string[]> => {
     const formData = new FormData();
     files.forEach(file => {
         formData.append('files', file);
@@ -35,6 +35,9 @@ export const uploadFiles = async (files: File[]): Promise<string[]> => {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
+        params: {
+            folder,
+        }
     });
     return response.data;
 }

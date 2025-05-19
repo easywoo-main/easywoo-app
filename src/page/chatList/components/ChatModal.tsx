@@ -1,24 +1,16 @@
 import React, {useState} from 'react';
-import {
-    Button,
-    Checkbox,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    TextField,
-    Typography
-} from '@mui/material';
-import {Controller, useForm} from 'react-hook-form';
+import {Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Typography} from '@mui/material';
+import {useForm} from 'react-hook-form';
 import * as Yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {CreateUpdateChatDto} from '../../../type/chat.type';
 import SliderForm from '../../chatDetails/components/SliderForm';
 import {createUpdateSliderPropSchema} from '../../../schema/createUpdateSliderProp.schema';
-import FormulaTextField from "./FormulaTextField";
 import {CreateUpdateSliderPropDto} from "../../../type/messageSlider.type";
 import {MATH_OPERATORS} from "../../../utils/constant.utils";
+import ControlTextField from "../../../components/ControlTextField";
+import ControlCheckbox from "../../../components/ControlCheckbox";
+import TherapistForm from "./TherapistForm";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Chat name cannot be empty.'),
@@ -116,88 +108,16 @@ const ChatModal = ({ chat, onClose, onSubmit }: ChatModalProps) => {
             <DialogTitle>Chat Details</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit(handleSave)}>
-                    <Controller
-                        name="name"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                fullWidth
-                                label="Chat Name"
-                                {...field}
-                                error={!!errors.name}
-                                helperText={errors.name?.message}
-                                sx={{ marginBottom: 2 }}
-                            />
-                        )}
-                    />
-                    {/* Інші поля... */}
-                    <Controller
-                        name="landingUrl"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                fullWidth
-                                label="Landing Url"
-                                {...field}
-                                error={!!errors.landingUrl}
-                                helperText={errors.landingUrl?.message}
-                                sx={{ marginBottom: 2 }}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="freeSteps"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                fullWidth
-                                label="Free Steps"
-                                type="number"
-                                {...field}
-                                error={!!errors.freeSteps}
-                                helperText={errors.freeSteps?.message}
-                                sx={{ marginBottom: 2 }}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="price"
-                        control={control}
-                        render={({ field }) => (
-                            <TextField
-                                fullWidth
-                                label="Price"
-                                type="number"
-                                {...field}
-                                error={!!errors.price}
-                                helperText={errors.price?.message}
-                                sx={{ marginBottom: 2 }}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="hasIndividualConsultation"
-                        control={control}
-                        render={({ field }) => (
-                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
-                                <Checkbox {...field} checked={field.value} />
-                                <Typography>Has Individual Consultation</Typography>
-                            </div>
-                        )}
-                    />
-                    <Controller
-                        name="isDisabled"
-                        control={control}
-                        render={({ field }) => (
-                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
-                                <Checkbox {...field} checked={field.value} />
-                                <Typography>Is Disabled</Typography>
-                            </div>
-                        )}
-                    />
+                    <ControlTextField control={control} errors={errors} name="name" label="Chat Name"/>
+                    <ControlTextField control={control} errors={errors} name="landingUrl" label="Landing Url"/>
+                    <ControlTextField control={control} errors={errors} name="freeSteps" label="Free Steps"/>
+                    <ControlTextField control={control} errors={errors} name="price" label="Price"/>
+                    <ControlCheckbox control={control} name="hasIndividualConsultation"
+                                     label="Has Individual Consultation"/>
+                    <ControlCheckbox control={control} name="isDisabled" label="is Disabled"/>
                     <SliderForm control={control} errors={errors} />
-                    <FormulaTextField control={control} errors={errors}/>
 
+                    <TherapistForm control={control} errors={errors} />
                     {error && <Typography color="error">{error}</Typography>}
                     <DialogActions>
                         <Button onClick={onClose} color="secondary">Cancel</Button>
