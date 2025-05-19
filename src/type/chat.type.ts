@@ -53,10 +53,10 @@ export interface ChatWithRelation extends Chat {
 export enum GraphType {
     LINE = "LINE",
     BAR = "BAR",
-    PIE = "PIE",
-    DOUGHNUT = "DOUGHNUT",
-    RADAR = "RADAR",
-    POLAR_AREA = "POLAR_AREA",
-    BUBBLE = "BUBBLE",
-    SCATTER = "SCATTER",
+    // PIE = "PIE",
+    // DOUGHNUT = "DOUGHNUT",
+    // RADAR = "RADAR",
+    // POLAR_AREA = "POLAR_AREA",
+    // BUBBLE = "BUBBLE",
+    // SCATTER = "SCATTER",
 }
