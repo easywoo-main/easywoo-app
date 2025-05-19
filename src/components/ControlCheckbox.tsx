@@ -1,13 +1,13 @@
 import React from "react";
-import {Controller} from "react-hook-form";
+import {Control, Controller, FieldValues, Path} from "react-hook-form";
 import {Checkbox, FormControlLabel} from "@mui/material";
 
-interface ControllerControllerCheckboxProps {
-    control: any;
-    name: string;
+interface ControllerControllerCheckboxProps<TFieldValues extends FieldValues> {
+    control: Control<TFieldValues>;
+    name: Path<TFieldValues>;
     label: string;
 }
-const ControlCheckbox: React.FC<ControllerControllerCheckboxProps> = ({control, name, label}) => {
+function ControlCheckbox<TFieldValues extends FieldValues>({control, name, label}: ControllerControllerCheckboxProps<TFieldValues>) {
     return (
         <Controller
             name={name}

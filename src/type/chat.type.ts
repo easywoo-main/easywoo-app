@@ -11,6 +11,8 @@ export interface Chat {
     startMessageId: string;
     therapistAvatar: string;
     therapistName: string;
+    graphType: GraphType;
+    formula: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -26,10 +28,23 @@ export interface CreateUpdateChatDto {
     sliderProps: CreateUpdateSliderPropDto[];
     therapistAvatar: string;
     therapistName: string;
+    graphType: GraphType;
+    formula: string;
 }
 
 
 export interface ChatWithRelation extends Chat {
     sliderProps: CreateUpdateSliderPropDto[];
+}
 
+
+export enum GraphType {
+    LINE = "LINE",
+    BAR = "BAR",
+    PIE = "PIE",
+    DOUGHNUT = "DOUGHNUT",
+    RADAR = "RADAR",
+    POLAR_AREA = "POLAR_AREA",
+    BUBBLE = "BUBBLE",
+    SCATTER = "SCATTER",
 }

@@ -3,7 +3,7 @@ import {Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTi
 import {useForm} from 'react-hook-form';
 import * as Yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {CreateUpdateChatDto} from '../../../type/chat.type';
+import {CreateUpdateChatDto, GraphType} from '../../../type/chat.type';
 import SliderForm from '../../chatDetails/components/SliderForm';
 import {createUpdateSliderPropSchema} from '../../../schema/createUpdateSliderProp.schema';
 import {CreateUpdateSliderPropDto} from "../../../type/messageSlider.type";
@@ -11,6 +11,8 @@ import {MATH_OPERATORS} from "../../../utils/constant.utils";
 import ControlTextField from "../../../components/ControlTextField";
 import ControlCheckbox from "../../../components/ControlCheckbox";
 import TherapistForm from "./TherapistForm";
+import {AxiosError} from "axios";
+import {ValidationError} from "yup";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Chat name cannot be empty.'),
@@ -20,58 +22,62 @@ const validationSchema = Yup.object().shape({
     hasIndividualConsultation: Yup.boolean().default(false),
     isDisabled: Yup.boolean().default(false),
     sliderProps: Yup.array().of(createUpdateSliderPropSchema).optional(),
-    formula: Yup.string()
-        .test(
-            'is-contains-slider-name',
-            'Unknown variable or operator',
-            function (value) {
-                console.log("this", this);
-                if(!value) {
-                    return true;
-                }
-                const sliderProps: CreateUpdateSliderPropDto[] = this.parent?.sliderProps;
-                const sliderPropNames = sliderProps.map((prop) => prop.name);
-
-                const partsEquation = [...sliderPropNames, ...MATH_OPERATORS];
-                const escapedOperators = MATH_OPERATORS.map(op => '\\' + op).join('|');
-
-                const regex = new RegExp(`(${escapedOperators})`, 'g');
-
-                const parts = value.split(regex).filter(part => part.trim() !== '');
-                console.log({
-                    parts,
-                    partsEquation
-                });
-
-                let openBrackets = 0;
-                for (const part of parts) {
-                    const trimPart = part.trim();
-
-                    if (trimPart === '(') {
-                        openBrackets++;
-                    } else if (trimPart === ')') {
-                        openBrackets--;
-                        if (openBrackets < 0) {
-                            return false;
-                        }
-                    }
-
-                    if (!isNaN(Number(trimPart))) {
-                        continue;
-                    }
-
-                    if (!partsEquation.includes(trimPart)) {
-                        return false;
-                    }
-                }
-
-                if (openBrackets !== 0) {
-                    return false;
-                }
-
+    graphType: Yup.mixed<GraphType>().oneOf(Object.values(GraphType) as GraphType[]).optional(),
+    formula: Yup.string().required("Formula is required")
+        .test('is-contains-slider-name', function(value) {
+            if (!value) {
                 return true;
             }
-        )
+
+            const { path, createError, parent } = this;
+
+            const sliderProps: CreateUpdateSliderPropDto[] = parent?.sliderProps || [];
+            const sliderPropNames = sliderProps.map(prop => prop.name);
+
+            const partsEquation = [...sliderPropNames, ...MATH_OPERATORS];
+            const escapedOperators = MATH_OPERATORS.map(op => '\\' + op).join('|');
+            const regex = new RegExp(`(${escapedOperators})`, 'g');
+
+            const parts = value.split(regex).filter(part => part.trim() !== '');
+
+            let openBrackets = 0;
+            for (const part of parts) {
+                const trimPart = part.trim();
+
+                if (trimPart === '(') {
+                    openBrackets++;
+                } else if (trimPart === ')') {
+                    openBrackets--;
+                    if (openBrackets < 0) {
+                        return createError({
+                            path,
+                            message: "Closing bracket without matching opening bracket"
+                        });
+                    }
+                }
+
+                if (!isNaN(Number(trimPart))) {
+                    continue;
+                }
+
+                if (!partsEquation.includes(trimPart)) {
+                    return createError({
+                        path,
+                        message: `Unknown variable or operator: '${trimPart}'`
+                    });
+                }
+            }
+
+            if (openBrackets !== 0) {
+                return createError({
+                    path,
+                    message: "Opening bracket without matching closing bracket"
+                });
+            }
+
+            return true;
+        })
+
 });
 
 
@@ -95,9 +101,9 @@ const ChatModal = ({ chat, onClose, onSubmit }: ChatModalProps) => {
         try {
             await onSubmit(data);
             onClose();
-        } catch (err) {
-            console.error(err);
-            setError('An error occurred while saving.');
+        } catch (err: AxiosError | any) {
+            console.log(err?.response?.data?.message);
+            setError(err?.response?.data?.message || 'An error occurred while saving.');
         } finally {
             setSaveLoading(false);
         }
@@ -114,7 +120,7 @@ const ChatModal = ({ chat, onClose, onSubmit }: ChatModalProps) => {
                     <ControlTextField control={control} errors={errors} name="price" label="Price"/>
                     <ControlCheckbox control={control} name="hasIndividualConsultation"
                                      label="Has Individual Consultation"/>
-                    <ControlCheckbox control={control} name="isDisabled" label="is Disabled"/>
+                    <ControlCheckbox control={control} name="isDisabled" label="Is Disabled"/>
                     <SliderForm control={control} errors={errors} />
 
                     <TherapistForm control={control} errors={errors} />

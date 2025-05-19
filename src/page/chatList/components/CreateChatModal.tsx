@@ -2,7 +2,7 @@ import React from 'react';
 import {Dialog} from '@mui/material';
 import {createChat} from "../../../api/chat.service";
 import ChatModal from "./ChatModal";
-import {CreateUpdateChatDto} from "../../../type/chat.type";
+import {CreateUpdateChatDto, GraphType} from "../../../type/chat.type";
 
 
 interface CreateChatModalProps {
@@ -25,6 +25,8 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
         sliderProps: [],
         therapistAvatar: "",
         therapistName: "",
+        graphType: GraphType.LINE,
+        formula: "",
     };
 
     return (

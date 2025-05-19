@@ -1,8 +1,21 @@
 import React from "react";
-import {Box, Button, TextField, FormControlLabel, Checkbox, Divider, Typography} from "@mui/material";
-import {Control, Controller, useFieldArray} from "react-hook-form";
-import { SliderPropType } from "../../../type/messageSlider.type";
+import {
+    Box,
+    Button,
+    Checkbox,
+    Divider,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    InputLabel,
+    MenuItem,
+    Select,
+    Typography
+} from "@mui/material";
+import {Controller, useFieldArray} from "react-hook-form";
+import {SliderPropType} from "../../../type/messageSlider.type";
 import ControlTextField from "../../../components/ControlTextField";
+import {GraphType} from "../../../type/chat.type";
 
 interface SliderFormProps {
     control: any;
@@ -72,6 +85,36 @@ const SliderForm: React.FC<SliderFormProps> = ({ control, errors }) => {
                               name="formula"
                               label="Formula Input"
                               placeholder="e.g., sliderName^2 + 3 * 5"/>
+            <FormControl
+                fullWidth
+                error={!!errors.age}
+                // sx={{ mt: 3, mb: 2 }}
+                variant="outlined"
+                size="small"
+            >
+                <InputLabel id="graphType-label">Master graph</InputLabel>
+                <Controller
+                    name="graphType"
+                    control={control}
+                    render={({field}) => (
+                        <Select
+                            {...field}
+                            labelId="graphType-label"
+                            label="Graph Type"
+                            fullWidth
+                        >
+                            {Object.values(GraphType).map((type) => (
+                                <MenuItem key={type} value={type}>
+                                    {type.toString().charAt(0).toUpperCase() + type.toString().slice(1).toLowerCase()}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    )}
+                />
+                {errors.graphType && (
+                    <FormHelperText>errors.graphType.message</FormHelperText>
+                )}
+            </FormControl>
         </Box>
     );
 };

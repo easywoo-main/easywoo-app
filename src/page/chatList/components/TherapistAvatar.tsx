@@ -22,9 +22,9 @@ const TherapistAvatar: React.FC<TherapistFormProps> = ({
                 <label htmlFor="avatar-upload" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <Avatar
                         src={field.value}
-                        alt="Therapist Avatar"
-                        sx={{width: 140, height: 140}}
-                    />
+                        sx={{ width: 140, height: 140 }}
+                    >
+                    </Avatar>
                     <input
                         id="avatar-upload"
                         type="file"
