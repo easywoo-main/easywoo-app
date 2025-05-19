@@ -21,7 +21,7 @@ function ControlTextField<TFieldValues extends FieldValues>({
     const errorValue = name
         .split(/[\[\]\.]+/)
         .filter(Boolean)
-        .reduce((acc: Record<string, any>, part: string) => acc?.[part], errors);
+        .reduce((acc: FieldValues, part: string) => acc?.[part], errors);
 
     return (
         <Controller

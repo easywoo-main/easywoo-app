@@ -1,16 +1,18 @@
 import React from "react";
 import {Avatar} from "@mui/material";
 import ControlFileForm from "../../../components/ControlFileForm";
+import {Control, FieldValues, Path} from "react-hook-form";
+import {FieldErrors} from "react-hook-form/dist/types/errors";
 
-interface TherapistFormProps {
-    control: any;
-    errors: any;
-    name: string;
+interface TherapistFormProps<TFieldValues extends FieldValues > {
+    control: Control<TFieldValues>;
+    errors: FieldErrors<TFieldValues>;
+    name: Path<TFieldValues>;
 }
 
-const TherapistAvatar: React.FC<TherapistFormProps> = ({
+function TherapistAvatar <TFieldValues extends FieldValues>({
                                                            control, errors, name,
-                                                       }) => {
+                                                       }:TherapistFormProps<TFieldValues> ){
 
     return (
         <ControlFileForm

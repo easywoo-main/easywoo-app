@@ -18,7 +18,12 @@ export interface Chat {
 }
 
 
-export interface CreateUpdateChatDto {
+export interface TherapistFormValues {
+    therapistAvatar: string;
+    therapistName: string;
+}
+
+export interface CreateUpdateChatDto extends SliderCreateUpdateProps, TherapistFormValues {
     name: string;
     price: number;
     freeSteps: number;
@@ -30,6 +35,13 @@ export interface CreateUpdateChatDto {
     therapistName: string;
     graphType: GraphType;
     formula: string;
+}
+
+
+export interface SliderCreateUpdateProps {
+    sliderProps: CreateUpdateSliderPropDto[];
+    formula: string;
+    graphType: GraphType;
 }
 
 

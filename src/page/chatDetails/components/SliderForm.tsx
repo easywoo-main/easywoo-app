@@ -15,14 +15,14 @@ import {
 import {Controller, useFieldArray} from "react-hook-form";
 import {SliderPropType} from "../../../type/messageSlider.type";
 import ControlTextField from "../../../components/ControlTextField";
-import {GraphType} from "../../../type/chat.type";
+import {GraphType, SliderCreateUpdateProps} from "../../../type/chat.type";
 
-interface SliderFormProps {
+interface SliderFormProps<TFieldValues extends SliderCreateUpdateProps> {
     control: any;
     errors: any;
 }
 
-const SliderForm: React.FC<SliderFormProps> = ({ control, errors }) => {
+function SliderForm<TFieldValues extends SliderCreateUpdateProps>({ control, errors }: SliderFormProps<TFieldValues>) {
     const { fields, append, remove } = useFieldArray({
         control,
         name: "sliderProps",

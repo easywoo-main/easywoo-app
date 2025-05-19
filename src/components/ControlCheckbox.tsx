@@ -1,6 +1,7 @@
 import React from "react";
 import {Control, Controller, FieldValues, Path} from "react-hook-form";
 import {Checkbox, FormControlLabel} from "@mui/material";
+import {CreateUpdateChatDto} from "../type/chat.type";
 
 interface ControllerControllerCheckboxProps<TFieldValues extends FieldValues> {
     control: Control<TFieldValues>;

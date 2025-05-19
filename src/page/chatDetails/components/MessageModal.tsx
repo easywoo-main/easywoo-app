@@ -22,6 +22,7 @@ import FilesForm from "./FilesForm";
 import ChallengeForm from "./ChallengeForm";
 import InfoPopUpForm from "./InfoPopUpForm";
 import {User} from "../../../type/user.type";
+import {AxiosError} from "axios";
 
 interface MessageModalProps {
     onClose: () => void;
@@ -35,7 +36,7 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
 
-    const {control, formState: {errors}, setValue, watch} = useForm<CreateUpdateMessageType>({
+    const {control,handleSubmit, formState: {errors}, setValue, watch} = useForm<CreateUpdateMessageType>({
         resolver: yupResolver(createUpdateMessageSchema) as any,
         defaultValues: message
     });
@@ -45,9 +46,9 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
         try {
             await saveMessage(data);
             onClose();
-        } catch (error) {
-            setError('An error occurred while creating the message.');
-            console.error(error);
+        } catch (err: AxiosError | any) {
+            console.log(err?.response?.data?.message);
+            setError(err?.response?.data?.message || 'An error occurred while saving.');
         } finally {
             setIsSaveLoading(false);
         }
@@ -57,6 +58,7 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
         <>
             <DialogTitle>Message Step</DialogTitle>
             <DialogContent>
+                <form onSubmit={handleSubmit(handleSave)}>
                 <Box mb={2}>
                     <Typography variant="subtitle1">Message Type</Typography>
                     <Controller
@@ -97,26 +99,22 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
                         />
                     ))}
                 </Stack>
-            </DialogContent>
+                {error && <Typography color="error" align="center">{error}</Typography>}
 
-            {error && <Typography color="error" align="center">{error}</Typography>}
 
-            <DialogActions>
-                {onDelete && (
-                    <Button onClick={onDelete} color="error">
-                        Delete
+                <DialogActions>
+                    {onDelete && (
+                        <Button onClick={onDelete} color="error">
+                            Delete
+                        </Button>
+                    )}
+                    <Button onClick={onClose} color="secondary">Cancel</Button>
+                    <Button  type="submit" variant="contained" disabled={isSaveLoading}>
+                        {isSaveLoading ? <CircularProgress size={24} /> : 'Save'}
                     </Button>
-                )}
-                <Button onClick={onClose} color="secondary">Cancel</Button>
-                <Button onClick={()=>{
-                    console.log(watch())
-                    console.log(errors);
-                    // handleSubmit(handleSave) //todo
-                    handleSave(watch())
-                }} variant="contained" disabled={isSaveLoading}>
-                    {isSaveLoading ? <CircularProgress size={24} /> : 'Save'}
-                </Button>
-            </DialogActions>
+                </DialogActions>
+                </form>
+            </DialogContent>
         </>
     );
 };
