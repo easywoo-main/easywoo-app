@@ -15,9 +15,8 @@ const FilesForm: React.FC<Props> = ({control, errors}) => {
     const [isLoading, setIsLoading] = useState(false);
 
 
-    const handleDeleteFile = (files: ControllerRenderProps, file: string) => {
-        // files.value
-        // setFiles((prev) => prev.filter((file:ControllerRenderProps) => file !== fileToDelete));
+    const handleDeleteFile = (files: ControllerRenderProps, fileToDelete: string) => {
+        files.onChange(files.value.filter((file: string) => file !== fileToDelete))
     };
 
     return (
@@ -38,7 +37,14 @@ const FilesForm: React.FC<Props> = ({control, errors}) => {
                                      type="file"
                                      hidden
                                      multiple
-                                     onChange={handleUpload}
+                                     onChange={async (e: React.ChangeEvent<HTMLInputElement>)=>{
+                                         setIsLoading(true);
+                                         try {
+                                             await handleUpload(e)
+                                         } finally {
+                                             setIsLoading(false);
+                                         }
+                                     }}
                                  />
                              </Button>
 

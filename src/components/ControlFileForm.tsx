@@ -9,7 +9,7 @@ interface TherapistFormProps<T> {
     errors: any;
     name: string;
     render: (
-        uploadFile: (e: React.ChangeEvent<HTMLInputElement>) => void,
+        uploadFile: (e: React.ChangeEvent<HTMLInputElement>) => void | Promise<void>,
         field: ControllerRenderProps<FieldValues, string>
     ) => JSX.Element;
     method: "single" | "array";
@@ -31,7 +31,7 @@ const ControlFileForm = <T,>({
         if (files.length > 0) {
             try {
                 const newFiles = await uploadFiles(files, folder);
-                field.onChange(method === "single" ? newFiles[0] : newFiles);
+                field.onChange(method === "single" ? newFiles[0] : [...field.value,  ...newFiles]);
             } catch (error) {
                 console.error("Upload failed", error);
             }
