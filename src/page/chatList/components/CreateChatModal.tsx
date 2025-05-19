@@ -23,6 +23,8 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
         hasIndividualConsultation: false,
         isDisabled: false,
         sliderProps: [],
+        therapistAvatar: "",
+        therapistName: "",
     };
 
     return (

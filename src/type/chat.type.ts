@@ -9,6 +9,8 @@ export interface Chat {
     hasIndividualConsultation: boolean;
     isDisabled: boolean;
     startMessageId: string;
+    therapistAvatar: string;
+    therapistName: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -22,6 +24,8 @@ export interface CreateUpdateChatDto {
     hasIndividualConsultation: boolean;
     isDisabled: boolean;
     sliderProps: CreateUpdateSliderPropDto[];
+    therapistAvatar: string;
+    therapistName: string;
 }
 
 

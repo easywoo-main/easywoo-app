@@ -53,8 +53,13 @@ const EditChatModal: React.FC<EditChatModalProps> = ({chat, onClose, onSubmit}) 
                     hasIndividualConsultation: chat.hasIndividualConsultation,
                     isDisabled: chat.isDisabled,
                     sliderProps: sliderProps?.map(slider => ({
-                        id: slider.id, name: slider.name, text: slider.text, type: slider.type,
-                    })),
+                        id: slider.id,
+                        name: slider.name,
+                        text: slider.text,
+                        type: slider.type,
+                        negativeMessage: slider.negativeMessage,
+                        positiveMessage: slider.positiveMessage
+                    })), therapistAvatar: chat.therapistAvatar, therapistName: chat.therapistName
                 }}
             />)}
         </Dialog>
