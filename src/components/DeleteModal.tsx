@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import {Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "@mui/material";
+import {AxiosError} from "axios";
 
 interface DeleteModalProps {
     onClose: () => void;
-    onDelete: () => void;
+    onDelete: () => Promise<void>;
     title: string;
     content: string;
 }
@@ -15,10 +16,10 @@ const DeleteModal: React.FC<DeleteModalProps> = ({onClose, onDelete, title, cont
         setIsDeleteLoading(false)
         try{
             await onDelete()
-            onDelete()
-        }catch (error) {
-            console.error(error);
-            setError("Error");
+            onClose()
+        } catch (err: AxiosError | any) {
+            console.log(err?.response?.data?.message);
+            setError(err?.response?.data?.message || 'An error occurred while saving.');
         } finally {
             setIsDeleteLoading(false)
         }
