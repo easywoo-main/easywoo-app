@@ -1,4 +1,4 @@
-import { MessageChoiceWithRelationDto} from "./messageChoice.type";
+import {MessageChoiceWithRelationDto} from "./messageChoice.type";
 import {InfoPopUp, SliderProp} from "./messageSlider.type";
 
 export interface ChatMessage {
@@ -10,6 +10,8 @@ export interface ChatMessage {
     nextMessageId: string;
     isCheckpoint: boolean;
     chatId: string
+    isAllowManualTime: boolean
+    isOfferRestart: boolean
     createdAt: Date;
     updatedAt: Date;
 }
@@ -20,9 +22,8 @@ export enum MessageType {
     CHALLENGE = 'CHALLENGE',
     QUESTION_SINGLE = 'QUESTION_SINGLE',
     QUESTION_TEXT_FIELD = 'QUESTION_TEXT_FIELD',
-    QUESTION_SLIDERS = 'QUESTION_SLIDERS'
-
-
+    QUESTION_SLIDERS = 'QUESTION_SLIDERS',
+    GRAPH = 'GRAPH'
 }
 
 export interface ChatMessageWithRelations extends ChatMessage {

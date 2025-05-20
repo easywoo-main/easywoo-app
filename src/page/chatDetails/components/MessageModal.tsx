@@ -85,7 +85,7 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
                 <DefaultMessagePropsForm control={control} errors={errors} />
 
                 {watch("type") === MessageType.FILE && <FilesForm control={control} errors={errors}  />}
-                {watch("type") === MessageType.CHALLENGE && <ChallengeForm errors={errors} setValue={setValue} />}
+                {watch("type") === MessageType.CHALLENGE && <ChallengeForm errors={errors} control={control}/>}
                 {/*{watch("type") === MessageType.QUESTION_SLIDERS && <SliderForm control={control} errors={errors}/>}*/}
                 <InfoPopUpForm control={control} errors={errors} />
 

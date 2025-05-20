@@ -1,14 +1,17 @@
 import {MessageType} from "../../type/chatMessage";
-import {CreateUpdateAnswerDto, CreateUpdateChatMessageDto} from "./type";
+import {CreateUpdateAnswerDto} from "./type";
+import {CreateUpdateMessageType} from "../../schema/createUpdateMessage.schema";
 
 
-export const defaultCreateMessage: CreateUpdateChatMessageDto = {
+export const defaultCreateMessage: CreateUpdateMessageType = {
     type: MessageType.TEXT,
     name: "",
     files: [],
     timeout: undefined,
     infoPopUps: [],
-    isCheckpoint: false
+    isCheckpoint: false,
+    isAllowManualTime: false,
+    isOfferRestart: false,
 }
 
 export const defaultCreateAnswer: CreateUpdateAnswerDto = {

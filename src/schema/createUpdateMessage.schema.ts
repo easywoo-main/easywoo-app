@@ -12,6 +12,8 @@ export const createUpdateMessageSchema = Yup.object().shape({
         // .test("is-bigint", "Timeout must be a bigint", (value) => typeof value === "bigint")
         .optional(),
     infoPopUps: Yup.array().of(createUpdateInfoPopupSchema).optional(),
+    isAllowManualTime: Yup.boolean().default(false),
+    isOfferRestart: Yup.boolean().default(false),
 });
 
 

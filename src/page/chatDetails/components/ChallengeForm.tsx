@@ -1,50 +1,35 @@
-import React, {useEffect, useState} from "react";
-import {Box, TextField, MenuItem, Select, InputLabel} from "@mui/material";
-import { TIME_IN_SECOND, TimeUnit} from "../../../utils/constant.utils";
+import React from "react";
+import {Box} from "@mui/material";
+import ControlCheckbox from "../../../components/ControlCheckbox";
+import {Control, Controller, FieldErrors} from "react-hook-form";
+import TimeoutInput from "./TimeoutInput";
 
-interface Props {
-    errors: any;
-    setValue: any;
+interface ChallengeFormProps {
+    control: Control<any>;
+    errors: FieldErrors<any>;
 }
 
-
-const ChallengeForm: React.FC<Props> = ({ errors, setValue}) => {
-    const [unit, setUnit] = useState<TimeUnit>(TimeUnit.SECONDS);
-    const [timeout, setTimeoutState] = useState<number>(0);
-
-    const handleTimeoutChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value)
-        console.log(Number(e.target.value))
-        setTimeoutState(Number(e.target.value));
-    };
-
-    const handleUnitChange = (e: any) => {
-        setUnit(e.target.value as TimeUnit);
-    };
-
-    useEffect(() => {
-        setValue("timeout", timeout * TIME_IN_SECOND[unit])
-    }, [unit, timeout]);
-
+const ChallengeForm: React.FC<ChallengeFormProps> = ({control, errors}) => {
     return (
         <Box>
-            <TextField
-                label="Timeout Value"
-                type="number"
-                fullWidth
-                margin="normal"
-                value={timeout}
-                onChange={handleTimeoutChange}
-                error={!!errors.timeout}
-                helperText={errors.timeout ? errors.timeout.message : ''}
+            <Controller
+                name="timeout"
+                control={control}
+                rules={{required: "Timeout is required", min: {value: 1, message: "Must be positive"}}}
+                render={({field}) => (
+                    <TimeoutInput
+                        {...field}
+                        error={!!errors.timeout}
+                        helperText={errors.timeout?.message as string}
+                    />
+                )}
             />
-            <InputLabel>Unit</InputLabel>
-            <Select value={unit} onChange={handleUnitChange} label="Unit">
-                <MenuItem value={TimeUnit.SECONDS}>Seconds</MenuItem>
-                <MenuItem value={TimeUnit.MINUTES}>Minutes</MenuItem>
-                <MenuItem value={TimeUnit.HOURS}>Hours</MenuItem>
-                <MenuItem value={TimeUnit.DAYS}>Days</MenuItem>
-            </Select>
+
+            <ControlCheckbox
+                control={control}
+                name="isAllowManualTime"
+                label="Allow manual time"
+            />
         </Box>
     );
 };

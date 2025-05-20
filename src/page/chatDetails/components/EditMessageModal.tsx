@@ -69,6 +69,8 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                     isCheckpoint: message.isCheckpoint,
                     files: message.files,
                     timeout: message.timeout,
+                    isAllowManualTime: message.isAllowManualTime,
+                    isOfferRestart: message.isOfferRestart,
                     infoPopUps: message.infoPopUps?.map((item)=>{
                         return {id: item.id, title: item.title, description: item.description};
                     }) || []
