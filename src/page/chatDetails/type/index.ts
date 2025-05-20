@@ -34,6 +34,7 @@ export enum SliderPropType {
 
 export interface CreateUpdateAnswerDto extends CreateUpdateAnswerFrom {
     prevMessageId?: string;
+    nextMessageId?: string | null;
 }
 
 export interface CreateUpdateAnswerFrom {

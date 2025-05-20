@@ -10,6 +10,7 @@ import {getPaginationStepChatMessage} from "../../../api/stepChatMessage.service
 import {PageRequestArgs} from "../../../utils/pageable.utils";
 import ChatMessageItemProgressTracker from "./ChatMessageItemProgresTracker";
 import MessageChildren from "./MessageChildren";
+import AnswerChildren from "./AnswerChildren";
 
 interface EditMessageModalProps {
     onClose: () => void;
@@ -56,6 +57,8 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                 />
                 <Tab value="two" label="Users"/>
                 <Tab value="tree" label="Previous Message"/>
+                <Tab value="four" label="Previous Answer"/>
+
             </Tabs>
 
             {tab === "one" && (<>
@@ -86,7 +89,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
             </>)}
 
             {tab === "two" && (
-                <ProgressTracker<StepChatMessage>
+                <ProgressTracker
                     onClose={onClose}
                     getPaginationData={handleProgressTracker}
                     children={(item) => {
@@ -97,6 +100,10 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
 
             {tab === "tree" && (
                 <MessageChildren message={message}  onClose ={onClose}/>
+            )}
+
+            {tab === "four" && (
+                <AnswerChildren message={message}  onClose ={onClose}/>
             )}
         </Dialog>
     );
