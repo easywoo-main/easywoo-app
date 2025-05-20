@@ -60,3 +60,9 @@ export enum GraphType {
     // BUBBLE = "BUBBLE",
     // SCATTER = "SCATTER",
 }
+
+
+export interface PaintPoint {
+    id: string;
+    name: string;
+}

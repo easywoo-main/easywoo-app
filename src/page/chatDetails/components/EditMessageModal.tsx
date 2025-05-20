@@ -5,7 +5,6 @@ import MessageModal from "./MessageModal";
 import DeleteModal from "../../../components/DeleteModal";
 import {Dialog, Tab, Tabs} from "@mui/material";
 import ProgressTracker from "./ProgressTracker";
-import {StepChatMessage} from "../../../type/stepChatMessage.type";
 import {getPaginationStepChatMessage} from "../../../api/stepChatMessage.service";
 import {PageRequestArgs} from "../../../utils/pageable.utils";
 import ChatMessageItemProgressTracker from "./ChatMessageItemProgresTracker";

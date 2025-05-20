@@ -55,14 +55,17 @@ const ChatTree: React.FC<TreeProps> = ({chat, users}) => {
 
 
     const handleRefreshNode = async (node: TreeNode[], nodeId: string): Promise<TreeNode[]> => {
+        console.log("refresh")
         return Promise.all(
             node.map(async (item) => {
                 if (item.attributes.id === nodeId && item.attributes.type) {
                     const updatedNode = await getChatMessageById(nodeId);
-                    return chatMessageToNode(updatedNode);
+                    const nodeChatMessage = chatMessageToNode(updatedNode)
+                    return {...nodeChatMessage, children: await handleRefreshNode(item.children, nodeId)};
                 } else if (item.attributes.id === nodeId && !item.attributes.type) {
                     const updatedNode = await getMessageChoiceById(nodeId);
-                    return messageChoiceToNode(updatedNode);
+                    const nodeMessageChoice = messageChoiceToNode(updatedNode)
+                    return {...nodeMessageChoice, children: await handleRefreshNode(item.children, nodeId)};
                 }
                 return {
                     ...item,

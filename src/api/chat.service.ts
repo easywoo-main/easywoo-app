@@ -1,6 +1,6 @@
 import apiClientV1 from "../config/axios.config";
 import {PageRequestArgs, PageResponse} from "../utils/pageable.utils";
-import {Chat, ChatWithRelation, CreateUpdateChatDto} from "../type/chat.type";
+import {Chat, ChatWithRelation, CreateUpdateChatDto, PaintPoint} from "../type/chat.type";
 
 export const getPaginationChat = async (option: PageRequestArgs): Promise<PageResponse<Chat>> => {
     console.log("option",option);
@@ -27,5 +27,13 @@ export const updateChat = async (id: string, payload: CreateUpdateChatDto): Prom
 
 export const deleteChat = async (id: string): Promise<Chat> => {
     const { data } = await apiClientV1.delete(`/chat/${id}`);
+    return data;
+}
+
+export const getAllPaintPoints = async (option: PageRequestArgs): Promise<PageResponse<PaintPoint>> => {
+    const {data} = await apiClientV1.get(`/pain-point`, {
+        params: option,
+    });
+
     return data;
 }

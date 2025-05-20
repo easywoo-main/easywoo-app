@@ -9,6 +9,7 @@ import ControlCheckbox from "../../../components/ControlCheckbox";
 import TherapistForm from "./TherapistForm";
 import {AxiosError} from "axios";
 import { validationSchema } from '../../../schema/createUpdateChat.schema';
+import PaintPointSelect from "./PaintPointSelect";
 
 
 interface ChatModalProps {
@@ -52,7 +53,11 @@ const ChatModal = ({ chat, onClose, onSubmit }: ChatModalProps) => {
                                      label="Has Individual Consultation"/>
                     <ControlCheckbox control={control} name="isDisabled" label="Is Disabled"/>
                     <SliderForm control={control} errors={errors} />
-
+                    <PaintPointSelect
+                        control={control}
+                        errors={errors}
+                        // paintPointsOptions={paintPointsData}
+                    />
                     <TherapistForm control={control} errors={errors} />
                     {error && <Typography color="error">{error}</Typography>}
                     <DialogActions>

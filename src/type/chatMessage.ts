@@ -28,7 +28,7 @@ export enum MessageType {
 
 export interface ChatMessageWithRelations extends ChatMessage {
     nextChoices?: MessageChoiceWithRelationDto[],
-    nextMessage?: ChatMessage,
+    nextMessage?: ChatMessageWithRelations,
     sliderProps?: SliderProp[]
     infoPopUps?: InfoPopUp[];
     stepChatMessages?: any
