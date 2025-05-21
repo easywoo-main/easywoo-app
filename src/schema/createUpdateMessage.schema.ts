@@ -14,6 +14,11 @@ export const createUpdateMessageSchema = Yup.object().shape({
     infoPopUps: Yup.array().of(createUpdateInfoPopupSchema).optional(),
     isAllowManualTime: Yup.boolean().default(false),
     isOfferRestart: Yup.boolean().default(false),
+    stepName: Yup.string().required("Step name is required."),
+    step: Yup.string().required("Step is required."),
+    text: Yup.string().optional(),
+    introText: Yup.string().optional(),
+    isComment: Yup.string().optional(),
 });
 
 

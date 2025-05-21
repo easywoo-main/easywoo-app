@@ -4,14 +4,16 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ControlFileForm from "../../../components/ControlFileForm";
 import {ControllerRenderProps} from "react-hook-form/dist/types/controller";
-import {Control, FieldValues} from "react-hook-form";
+import {FieldValues} from "react-hook-form";
 
 interface Props {
     control: any;
     errors: any;
+    title?: string;
+    name: string;
 }
 
-const FilesForm: React.FC<Props> = ({control, errors}) => {
+const FilesForm: React.FC<Props> = ({control, errors, name, title = "Upload Files"}) => {
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -20,7 +22,7 @@ const FilesForm: React.FC<Props> = ({control, errors}) => {
     };
 
     return (
-        <ControlFileForm control={control} errors={errors} name="files"
+        <ControlFileForm control={control} errors={errors} name={name}
                          method="array"
                          render={(handleUpload, files: ControllerRenderProps<FieldValues, string>) => (<>
                              <Button
@@ -31,7 +33,7 @@ const FilesForm: React.FC<Props> = ({control, errors}) => {
                                  {isLoading ? (
                                      <CircularProgress size={24} />
                                  ) : (
-                                     "Upload Files"
+                                     title
                                  )}
                                  <input
                                      type="file"

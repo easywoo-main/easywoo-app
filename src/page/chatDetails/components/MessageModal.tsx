@@ -1,19 +1,14 @@
-import {MessageType} from "../../../type/chatMessage";
 import React, {useState} from "react";
-import {Controller, useForm} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createUpdateMessageSchema, CreateUpdateMessageType} from "../../../schema/createUpdateMessage.schema";
 import {
-    Box,
     Button,
     Chip,
     CircularProgress,
     DialogActions,
     DialogContent,
     DialogTitle,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
     Stack,
     Typography
 } from "@mui/material";
@@ -23,6 +18,8 @@ import ChallengeForm from "./ChallengeForm";
 import InfoPopUpForm from "./InfoPopUpForm";
 import {User} from "../../../type/user.type";
 import {AxiosError} from "axios";
+import ControlTextField from "../../../components/ControlTextField";
+import ControlCheckbox from "../../../components/ControlCheckbox";
 
 interface MessageModalProps {
     onClose: () => void;
@@ -36,7 +33,7 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
 
-    const {control,handleSubmit, formState: {errors}, setValue, watch} = useForm<CreateUpdateMessageType>({
+    const {control,handleSubmit, formState: {errors}} = useForm<CreateUpdateMessageType>({
         resolver: yupResolver(createUpdateMessageSchema) as any,
         defaultValues: message
     });
@@ -59,35 +56,44 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
             <DialogTitle>Message Step</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit(handleSave)}>
-                <Box mb={2}>
-                    <Typography variant="subtitle1">Message Type</Typography>
-                    <Controller
-                        name="type"
-                        control={control}
-                        render={({ field }) => (
-                            <RadioGroup
-                                row
-                                {...field}
-                            >
-                                {Object.values(MessageType).map((messageType) => (
-                                    <FormControlLabel
-                                        key={messageType}
-                                        value={messageType}
-                                        control={<Radio />}
-                                        label={messageType}
-                                    />
-                                ))}
-                            </RadioGroup>
-                        )}
-                    />
-                </Box>
+                    {/*<Box mb={2}>*/}
+                    {/*<Typography variant="subtitle1">Message Type</Typography>*/}
+                    {/*<Controller*/}
+                    {/*    name="type"*/}
+                    {/*    control={control}*/}
+                    {/*    render={({ field }) => (*/}
+                    {/*        <RadioGroup*/}
+                    {/*            row*/}
+                    {/*            {...field}*/}
+                    {/*        >*/}
+                    {/*            {Object.values(MessageType).map((messageType) => (*/}
+                    {/*                <FormControlLabel*/}
+                    {/*                    key={messageType}*/}
+                    {/*                    value={messageType}*/}
+                    {/*                    control={<Radio />}*/}
+                    {/*                    label={messageType}*/}
+                    {/*                />*/}
+                    {/*            ))}*/}
+                    {/*        </RadioGroup>*/}
+                    {/*    )}*/}
+                    {/*/>*/}
+                    {/*</Box>*/}
+                    <ControlTextField control={control} errors={errors} name="stepName" label="Step Name"/>
+                    <ControlTextField control={control} errors={errors} name="step" label="Step"/>
+                    <ControlTextField control={control} errors={errors} name="introText" label="Intro Text"/>
+                    <FilesForm control={control} errors={errors} title="IntroFile" name="introFile"/>
 
-                <DefaultMessagePropsForm control={control} errors={errors} />
-
-                {watch("type") === MessageType.FILE && <FilesForm control={control} errors={errors}  />}
-                {watch("type") === MessageType.CHALLENGE && <ChallengeForm errors={errors} control={control}/>}
-                {/*{watch("type") === MessageType.QUESTION_SLIDERS && <SliderForm control={control} errors={errors}/>}*/}
-                <InfoPopUpForm control={control} errors={errors} />
+                    <ControlTextField control={control} errors={errors} name="text" label="Message Text"/>
+                    {/*<ControlCheckbox control={control} name="isCheckpoint"*/}
+                    {/*                 label="Is Checkpoint" />*/}
+                    <ControlCheckbox control={control} name="isOfferRestart"
+                                     label="Is Offer restart"/>
+                    <ControlCheckbox control={control} name="isComment"
+                                     label="Is Comment"/>
+                    <FilesForm control={control} errors={errors} name="files"/>
+                    <ChallengeForm errors={errors} control={control}/>
+                    {/*{watch("type") === MessageType.QUESTION_SLIDERS && <SliderForm control={control} errors={errors}/>}*/}
+                    <InfoPopUpForm control={control} errors={errors}/>
 
                 <Stack direction="row" spacing={1} flexWrap="wrap">
                     {users?.map((user) => (

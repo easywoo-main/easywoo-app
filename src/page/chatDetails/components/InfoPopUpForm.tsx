@@ -33,7 +33,7 @@ const InfoPopUpForm: React.FC<InfoPopUpFormProps> = ({control, errors}) => {
         <AccordionSummary
             expandIcon={<ArrowDownwardIcon/>}
         >
-            <Typography component="span">Info Pop-up</Typography>
+            <Typography component="span">To-do</Typography>
         </AccordionSummary>
         <AccordionDetails>
             {fields.map((field, index) => (

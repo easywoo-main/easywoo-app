@@ -75,7 +75,9 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                     isOfferRestart: message.isOfferRestart,
                     infoPopUps: message.infoPopUps?.map((item)=>{
                         return {id: item.id, title: item.title, description: item.description};
-                    }) || []
+                    }) || [],
+                    step: "",
+                    stepName: ""
                 }}/>
             {isOpenDeleteModal &&
                 <DeleteModal
