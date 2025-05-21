@@ -13,6 +13,7 @@ export const validationSchema = Yup.object().shape({
     isDisabled: Yup.boolean().default(false),
     sliderProps: Yup.array().of(createUpdateSliderPropSchema).optional(),
     graphType: Yup.mixed<GraphType>().oneOf(Object.values(GraphType) as GraphType[]).optional(),
+    paintPoints: Yup.array().of(Yup.string()).optional(),
     formula: Yup.string().required("Formula is required")
         .test('is-contains-slider-name', function(value) {
             if (!value) {

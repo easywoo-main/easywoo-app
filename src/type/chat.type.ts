@@ -13,6 +13,7 @@ export interface Chat {
     therapistName: string;
     graphType: GraphType;
     formula: string;
+    paintPoints: string[]
     createdAt: Date;
     updatedAt: Date;
 }
@@ -35,6 +36,7 @@ export interface CreateUpdateChatDto extends SliderCreateUpdateProps, TherapistF
     therapistName: string;
     graphType: GraphType;
     formula: string;
+    paintPoints: string[]
 }
 
 

@@ -27,6 +27,7 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
         therapistName: "",
         graphType: GraphType.LINE,
         formula: "",
+        paintPoints: []
     };
 
     return (
