@@ -119,7 +119,7 @@ function SliderForm<TFieldValues extends SliderCreateUpdateProps>({
             })}
 
             <Button variant="contained" onClick={handleAddSlider}>
-                Add New Slider
+                Add New Variable
             </Button>
 
             <ControlTextField
