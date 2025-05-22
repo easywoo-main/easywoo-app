@@ -41,13 +41,13 @@ const InfoPopUpForm: React.FC<InfoPopUpFormProps> = ({control, errors}) => {
                     <ControlTextField control={control} errors={errors} name={`infoPopUps[${index}].title`} label="Pop-up Title"/>
                     <ControlTextField control={control} errors={errors} name={`infoPopUps[${index}].description`} label="Pop-up description"/>
                     <Button variant="outlined" color="error" onClick={() => handleDeleteSlider(index)}>
-                        Delete Pop-up
+                        Delete To-do
                     </Button>
                 </Box>
             ))}
 
             <Button variant="contained" style={{marginTop: 10}} onClick={handleAddSlider} >
-                Add New Pop-up
+                Add New To-do
             </Button>
 
         </AccordionDetails>

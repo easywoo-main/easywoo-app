@@ -65,6 +65,8 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                 saveMessage={handleSave}
                 onClose={onClose}
                 onDelete={() => setIsOpenDeleteModal(true)}
+                chatMessageId={message.id}
+                chatId={message.chatId}
                 message={{
                     name: message.name,
                     type: message.type,
@@ -77,7 +79,11 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                         return {id: item.id, title: item.title, description: item.description};
                     }) || [],
                     step: "",
-                    stepName: ""
+                    stepName: "",
+                    isComment: false,
+                    isCourseEnd: false,
+                    isBarometer: false,
+
                 }}/>
             {isOpenDeleteModal &&
                 <DeleteModal

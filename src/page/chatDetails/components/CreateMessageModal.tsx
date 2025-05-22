@@ -32,7 +32,7 @@ const CreateMessageModal: React.FC<Props> = ({
     };
 
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
-            <MessageModal message={defaultCreateMessage} saveMessage={handleSave} onClose={onClose}/>
+            <MessageModal message={defaultCreateMessage} saveMessage={handleSave} onClose={onClose} chatId={chatId} />
         </Dialog>
     );
 };

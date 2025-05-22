@@ -12,8 +12,12 @@ export const defaultCreateMessage: CreateUpdateMessageType = {
     isCheckpoint: false,
     isAllowManualTime: false,
     isOfferRestart: false,
+    isCourseEnd: false,
     step: "",
-    stepName: ""
+    stepName: "",
+    isComment: false,
+    isBarometer: false,
+
 }
 
 export const defaultCreateAnswer: CreateUpdateAnswerDto = {

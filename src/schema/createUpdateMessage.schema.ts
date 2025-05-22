@@ -16,9 +16,12 @@ export const createUpdateMessageSchema = Yup.object().shape({
     isOfferRestart: Yup.boolean().default(false),
     stepName: Yup.string().required("Step name is required."),
     step: Yup.string().required("Step is required."),
-    text: Yup.string().optional(),
+    question: Yup.string().optional(),
     introText: Yup.string().optional(),
-    isComment: Yup.string().optional(),
+    isComment: Yup.boolean().default(false),
+    isCourseEnd: Yup.boolean().default(false),
+    isBarometer: Yup.boolean().default(false),
+    variableIds: Yup.array().of(Yup.string().uuid()).optional(),
 });
 
 

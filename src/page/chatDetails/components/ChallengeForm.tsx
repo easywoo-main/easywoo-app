@@ -1,5 +1,5 @@
 import React from "react";
-import {Box} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import ControlCheckbox from "../../../components/ControlCheckbox";
 import {Control, Controller, FieldErrors} from "react-hook-form";
 import TimeoutInput from "./TimeoutInput";
@@ -12,6 +12,7 @@ interface ChallengeFormProps {
 const ChallengeForm: React.FC<ChallengeFormProps> = ({control, errors}) => {
     return (
         <Box>
+            <Typography variant="h6">Suggested time interval :</Typography>
             <Controller
                 name="timeout"
                 control={control}

@@ -1,9 +1,8 @@
 export interface SliderProp {
+    type: SliderPropType;
     name: string;
     id: string;
-    type: SliderPropType;
-    text: string;
-    positiveMessage: string;
+    text: string;    positiveMessage: string;
     negativeMessage: string;
     createdAt: Date;
     updatedAt: Date;
@@ -36,3 +35,4 @@ export interface CreateUpdateSliderPropDto {
 export interface  CreateUpdateSliderPropWithRelationDto extends CreateUpdateSliderPropDto{
     chatMessageId: string;
 }
+

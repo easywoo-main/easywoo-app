@@ -9,7 +9,6 @@ import ControlCheckbox from "../../../components/ControlCheckbox";
 import TherapistForm from "./TherapistForm";
 import {AxiosError} from "axios";
 import { validationSchema } from '../../../schema/createUpdateChat.schema';
-import PaintPointSelect from "./PainPointsForm";
 import PainPointsForm from "./PainPointsForm";
 
 

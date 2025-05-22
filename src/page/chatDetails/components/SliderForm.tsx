@@ -1,20 +1,10 @@
-import {
-    Box,
-    Button,
-    Checkbox,
-    Divider,
-    FormControl,
-    FormControlLabel,
-    InputLabel,
-    MenuItem,
-    Select,
-    Typography
-} from "@mui/material";
+import {Box, Button, Checkbox, Divider, FormControlLabel, Typography} from "@mui/material";
 import {ArrayPath, Control, Controller, FieldErrors, Path, useFieldArray, useWatch,} from "react-hook-form";
 import ControlTextField from "../../../components/ControlTextField";
 import {GraphType, SliderCreateUpdateProps} from "../../../type/chat.type";
 import {SliderPropType} from "../type";
 import {CreateUpdateSliderPropDto} from "../../../type/messageSlider.type";
+import ControlSelect from "../../../components/ControlSelect";
 
 interface SliderFormProps<TFieldValues extends SliderCreateUpdateProps> {
     control: Control<TFieldValues>;
@@ -129,23 +119,26 @@ function SliderForm<TFieldValues extends SliderCreateUpdateProps>({
                 label="Formula Input"
                 placeholder="e.g., sliderName^2 + 3 * 5"
             />
-            <FormControl fullWidth error={!!errors.graphType} variant="outlined" size="small">
-                <InputLabel id="graphType-label">Master graph</InputLabel>
-                <Controller
-                    name={"graphType" as Path<TFieldValues>}
-                    control={control}
-                    render={({field}) => (
-                        <Select {...field} labelId="graphType-label" label="Graph Type" fullWidth
-                                error={!!errors.graphType}>
-                            {Object.values(GraphType).map((type) => (
-                                <MenuItem key={type} value={type}>
-                                    {type.toString().charAt(0).toUpperCase() + type.toString().slice(1).toLowerCase()}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    )}
-                />
-            </FormControl>
+            {/*<FormControl fullWidth error={!!errors.graphType} variant="outlined" size="small">*/}
+            {/*    <InputLabel id="graphType-label">Master graph</InputLabel>*/}
+            {/*    <Controller*/}
+            {/*        name={"graphType" as Path<TFieldValues>}*/}
+            {/*        control={control}*/}
+            {/*        render={({field}) => (*/}
+            {/*            <Select {...field} labelId="graphType-label" label="Graph Type" fullWidth*/}
+            {/*                    error={!!errors.graphType}>*/}
+            {/*                {Object.values(GraphType).map((type) => (*/}
+            {/*                    <MenuItem key={type} value={type}>*/}
+            {/*                        {type.toString().charAt(0).toUpperCase() + type.toString().slice(1).toLowerCase()}*/}
+            {/*                    </MenuItem>*/}
+            {/*                ))}*/}
+            {/*            </Select>*/}
+            {/*        )}*/}
+            {/*    />*/}
+            {/*</FormControl>*/}
+
+            <ControlSelect control={control} errors={errors} name={"graphType" as Path<TFieldValues>} label="Graph Type"
+                           options={Object.values(GraphType)}/>
         </Box>
     );
 }

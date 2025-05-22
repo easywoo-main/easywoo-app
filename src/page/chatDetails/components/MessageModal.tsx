@@ -12,7 +12,6 @@ import {
     Stack,
     Typography
 } from "@mui/material";
-import DefaultMessagePropsForm from "./DefaultMessagePropsForm";
 import FilesForm from "./FilesForm";
 import ChallengeForm from "./ChallengeForm";
 import InfoPopUpForm from "./InfoPopUpForm";
@@ -20,6 +19,10 @@ import {User} from "../../../type/user.type";
 import {AxiosError} from "axios";
 import ControlTextField from "../../../components/ControlTextField";
 import ControlCheckbox from "../../../components/ControlCheckbox";
+import {MessageChoice} from "../../../type/messageChoice.type";
+import {ChatMessage, MessageType} from "../../../type/chatMessage";
+import ControlSelect from "../../../components/ControlSelect";
+import VariableForm from "./VariableForm";
 
 interface MessageModalProps {
     onClose: () => void;
@@ -27,9 +30,24 @@ interface MessageModalProps {
     message: CreateUpdateMessageType;
     onDelete?: () => void;
     users?: User[];
+    messageChoices?: MessageChoice[];
+    nextMessage?: ChatMessage;
+
+    chatMessageId?: string;
+    chatId: string;
 }
 
-const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, message, onDelete, users}) => {
+const MessageModal: React.FC<MessageModalProps> = ({
+                                                       onClose,
+                                                       saveMessage,
+                                                       message,
+                                                       onDelete,
+                                                       users,
+                                                       chatMessageId,
+                                                       messageChoices,
+                                                       nextMessage,
+                                                       chatId
+                                                   }) => {
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
 
@@ -56,45 +74,24 @@ const MessageModal: React.FC<MessageModalProps> = ({onClose, saveMessage, messag
             <DialogTitle>Message Step</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit(handleSave)}>
-                    {/*<Box mb={2}>*/}
-                    {/*<Typography variant="subtitle1">Message Type</Typography>*/}
-                    {/*<Controller*/}
-                    {/*    name="type"*/}
-                    {/*    control={control}*/}
-                    {/*    render={({ field }) => (*/}
-                    {/*        <RadioGroup*/}
-                    {/*            row*/}
-                    {/*            {...field}*/}
-                    {/*        >*/}
-                    {/*            {Object.values(MessageType).map((messageType) => (*/}
-                    {/*                <FormControlLabel*/}
-                    {/*                    key={messageType}*/}
-                    {/*                    value={messageType}*/}
-                    {/*                    control={<Radio />}*/}
-                    {/*                    label={messageType}*/}
-                    {/*                />*/}
-                    {/*            ))}*/}
-                    {/*        </RadioGroup>*/}
-                    {/*    )}*/}
-                    {/*/>*/}
-                    {/*</Box>*/}
+                    {chatMessageId && <Typography>Message Step with id: {chatMessageId}</Typography>}
                     <ControlTextField control={control} errors={errors} name="stepName" label="Step Name"/>
-                    <ControlTextField control={control} errors={errors} name="step" label="Step"/>
+                    {/*<ControlTextField control={control} errors={errors} name="step" label="Step"/>*/}
                     <ControlTextField control={control} errors={errors} name="introText" label="Intro Text"/>
-                    <FilesForm control={control} errors={errors} title="IntroFile" name="introFile"/>
+                    <FilesForm control={control} errors={errors} title="Intro File" name="intr  oFile"/>
 
-                    <ControlTextField control={control} errors={errors} name="text" label="Message Text"/>
+                    <ControlTextField control={control} errors={errors} name="question" label="Question"/>
                     {/*<ControlCheckbox control={control} name="isCheckpoint"*/}
                     {/*                 label="Is Checkpoint" />*/}
-                    <ControlCheckbox control={control} name="isOfferRestart"
-                                     label="Is Offer restart"/>
-                    <ControlCheckbox control={control} name="isComment"
-                                     label="Is Comment"/>
+                    <ControlCheckbox control={control} name="isCourseEnd" label="Is Course End"/>
+                    <ControlCheckbox control={control} name="isOfferRestart" label="Is Offer restart"/>
+                    <ControlCheckbox control={control} name="isComment" label="Is Comment"/>
+                    <ControlSelect control={control} errors={errors} name="type" options={Object.values(MessageType)}
+                                   label="Message type"/>
+                    <VariableForm control={control} chatId={chatId}  />
                     <FilesForm control={control} errors={errors} name="files"/>
                     <ChallengeForm errors={errors} control={control}/>
-                    {/*{watch("type") === MessageType.QUESTION_SLIDERS && <SliderForm control={control} errors={errors}/>}*/}
                     <InfoPopUpForm control={control} errors={errors}/>
-
                 <Stack direction="row" spacing={1} flexWrap="wrap">
                     {users?.map((user) => (
                         <Chip
