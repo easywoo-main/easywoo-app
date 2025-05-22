@@ -11,7 +11,7 @@ interface MessageChildrenProps {
 
 export const MessageChildren: React.FC<MessageChildrenProps> = ({ message, onClose }) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [data, setData] = useState<ChatMessage[]>([]);
+    const [data, setData] = useState<ChatMessageWithRelations[]>([]);
     const [loading, setLoading] = useState(false);
 
     const handleGetData = async () => {
@@ -29,7 +29,7 @@ export const MessageChildren: React.FC<MessageChildrenProps> = ({ message, onClo
     const handleUpdate = async (chatMessageId: string, isSelected: boolean) => {
         setLoading(true);
         try {
-            await updateChatMessage(chatMessageId, { nextMessageId: isSelected ? message.id : null });
+            await updateChatMessage(message.id, { nextMessageId: isSelected ? chatMessageId : null });
             await handleGetData();
         } catch (e) {
             console.log(e);
