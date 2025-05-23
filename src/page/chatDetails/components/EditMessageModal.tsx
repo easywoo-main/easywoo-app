@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {ChatMessage, ChatMessageWithRelations} from "../../../type/chatMessage";
+import {ChatMessage, ChatMessageDto, ChatMessageWithRelations} from "../../../type/chatMessage";
 import {deleteChatMessage, updateChatMessage} from "../../../api/chatMessage.service";
 import MessageModal from "./MessageModal";
 import DeleteModal from "../../../components/DeleteModal";
@@ -10,6 +10,7 @@ import {PageRequestArgs} from "../../../utils/pageable.utils";
 import ChatMessageItemProgressTracker from "./ChatMessageItemProgresTracker";
 import MessageChildren from "./MessageChildren";
 import AnswerChildren from "./AnswerChildren";
+import {BaseEntity} from "../../../type/chat.type";
 
 interface EditMessageModalProps {
     onClose: () => void;
@@ -43,6 +44,8 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
         return getPaginationStepChatMessage(message.id, option);
     }
 
+    const {...chatMessageDto}: ChatMessageDto = message;
+    console.log(chatMessageDto)
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
             <Tabs
                 value={tab}
@@ -54,9 +57,9 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                     label="Edit message"
                     // wrapped
                 />
-                <Tab value="two" label="Users"/>
-                <Tab value="tree" label="Previous Message"/>
-                <Tab value="four" label="Previous Answer"/>
+                {/*<Tab value="two" label="Users"/>*/}
+                <Tab value="tree" label="Next Message"/>
+                <Tab value="four" label="Next Answers"/>
 
             </Tabs>
 
@@ -78,12 +81,14 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                     infoPopUps: message.infoPopUps?.map((item)=>{
                         return {id: item.id, title: item.title, description: item.description};
                     }) || [],
-                    step: "",
-                    stepName: "",
-                    isComment: false,
-                    isCourseEnd: false,
-                    isBarometer: false,
-
+                    step: message.step,
+                    stepName: message.stepName,
+                    isComment: message.isComment,
+                    isCourseEnd: message.isCourseEnd,
+                    isBarometer: message.isBarometer,
+                    question: message.question || "",
+                    introText: message.introText || "",
+                    chatId: message.chatId,
                 }}/>
             {isOpenDeleteModal &&
                 <DeleteModal

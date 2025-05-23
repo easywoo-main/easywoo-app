@@ -1,6 +1,5 @@
 import * as Yup from "yup";
 import {MessageType} from "../type/chatMessage";
-import {InferType} from "yup";
 import {createUpdateInfoPopupSchema} from "./createUpdateInfoPopUp.schema";
 
 export const createUpdateMessageSchema = Yup.object().shape({
@@ -25,4 +24,3 @@ export const createUpdateMessageSchema = Yup.object().shape({
 });
 
 
-export type CreateUpdateMessageType = InferType<typeof createUpdateMessageSchema>;

@@ -1,55 +1,46 @@
 import {CreateUpdateSliderPropDto} from "./messageSlider.type";
 
-export interface Chat {
-    id: string;
-    name: string;
-    freeSteps: number;
-    price: number;
-    landingUrl: string;
-    hasIndividualConsultation: boolean;
-    isDisabled: boolean;
-    startMessageId: string;
-    therapistAvatar: string;
-    therapistName: string;
-    graphType: GraphType;
-    formula: string;
-    paintPoints: string[]
-    createdAt: Date;
-    updatedAt: Date;
+export type Chat = BaseEntity & ChatDto
+
+export type BaseEntity = {
+    readonly id: string;
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
 }
 
 
-export interface TherapistFormValues {
+export type TherapistFormValues = {
     therapistAvatar: string;
     therapistName: string;
 }
 
-export interface CreateUpdateChatDto extends SliderCreateUpdateProps, TherapistFormValues {
+export type ChatDto = {
     name: string;
-    price: number;
     freeSteps: number;
+    price: number;
     landingUrl?: string;
     hasIndividualConsultation: boolean;
     isDisabled: boolean;
-    sliderProps: CreateUpdateSliderPropDto[];
-    therapistAvatar: string;
-    therapistName: string;
-    graphType: GraphType;
-    formula: string;
     paintPoints: string[]
-}
+    formula: string;
+    graphType: GraphType;
+
+    startMessageId: string;
+} & TherapistFormValues
 
 
-export interface SliderCreateUpdateProps {
-    sliderProps: CreateUpdateSliderPropDto[];
+export type ChatSliderProps = {
     formula: string;
     graphType: GraphType;
 }
 
-
-export interface ChatWithRelation extends Chat {
+export type SliderCreateUpdateProps = ChatSliderProps & {
     sliderProps: CreateUpdateSliderPropDto[];
 }
+
+
+export type CreateChatDto = Omit<ChatDto, "startMessageId"> & SliderCreateUpdateProps
+export type UpdateChatDto = Partial<ChatDto>
 
 
 export enum GraphType {
@@ -61,10 +52,4 @@ export enum GraphType {
     // POLAR_AREA = "POLAR_AREA",
     // BUBBLE = "BUBBLE",
     // SCATTER = "SCATTER",
-}
-
-
-export interface PaintPoint {
-    id: string;
-    name: string;
 }

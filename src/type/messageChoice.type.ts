@@ -1,21 +1,18 @@
 import {ChatMessageWithRelations} from "./chatMessage";
+import {BaseEntity} from "./chat.type";
 
-export interface MessageChoice   {
-    id: string;
+type MessageChoiceDto = {
     name: string;
-    type: ChoiceType;
+    text: string;
     file?: string;
     prevMessageId: string;
-    nextMessageId: string;
-    createdAt: Date;
-    updatedAt: Date;
+    nextMessageId?: string;
 }
 
-export enum ChoiceType {
-    SINGLE = 'SINGLE',
-    MULTIPLE_SLIDER = 'MULTIPLE_SLIDER',
-}
+export type MessageChoice = BaseEntity & MessageChoiceDto
 
-export interface MessageChoiceWithRelationDto extends MessageChoice {
-    nextMessage: ChatMessageWithRelations | null;
+export type CreateMessageChoiceDto =  MessageChoiceDto
+export type UpdateMessageChoiceDto =  Partial<CreateMessageChoiceDto>
+export type MessageChoiceWithRelationDto = MessageChoice & {
+    nextMessage?: ChatMessageWithRelations ;
 }

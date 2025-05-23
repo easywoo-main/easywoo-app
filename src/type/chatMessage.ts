@@ -1,20 +1,40 @@
+import { BaseEntity } from "./chat.type";
 import {MessageChoiceWithRelationDto} from "./messageChoice.type";
-import {InfoPopUp, SliderProp} from "./messageSlider.type";
+import {SliderProp} from "./messageSlider.type";
+import {InfoPopUp} from "./infoPopUp.type";
+import {CreateUpdateInfoPopUpType} from "../schema/createUpdateInfoPopUp.schema";
 
-export interface ChatMessage {
+
+
+
+export type ChatMessageDto = {
     name: string;
-    id: string;
     type: MessageType;
     files: string[];
-    timeout: bigint;
-    nextMessageId: string;
+    timeout?: bigint;
     isCheckpoint: boolean;
-    chatId: string
     isAllowManualTime: boolean
     isOfferRestart: boolean
-    createdAt: Date;
-    updatedAt: Date;
+
+    isCourseEnd: boolean
+    isComment: boolean,
+    isBarometer: boolean,
+
+    step: string;
+    stepName: string;
+    question: string;
+    introText: string;
+
+    nextMessageId?: string | null;
+    chatId: string
 }
+export type ChatMessage = BaseEntity & ChatMessageDto
+
+
+export type CreateChatMessageDto = ChatMessageDto & {infoPopUps: CreateUpdateInfoPopUpType[]}
+export type UpdateChatMessageDto = Partial<CreateChatMessageDto>
+
+
 
 export enum MessageType {
     TEXT = 'TEXT',

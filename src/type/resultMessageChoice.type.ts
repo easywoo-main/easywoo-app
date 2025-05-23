@@ -8,3 +8,4 @@ export interface ResultMessageChoice {
     updatedAt: Date;
     user: User;
 }
+

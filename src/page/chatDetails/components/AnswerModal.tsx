@@ -8,14 +8,15 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { uploadFiles } from "../../../api/chatMessage.service";
-import {createUpdateAnswerSchema, CreateUpdateAnswerType} from "../../../schema/createUpdateAnswer.schema";
-import {CreateUpdateAnswerFrom} from "../type";
+import {createUpdateAnswerSchema} from "../../../schema/createUpdateAnswer.schema";
+import {CreateMessageChoiceDto} from "../../../type/messageChoice.type";
+import ControlTextField from "../../../components/ControlTextField";
 
 
 interface AnswerModalProps {
-    answer?: CreateUpdateAnswerType;
+    answer?: CreateMessageChoiceDto;
     onClose: () => void;
-    saveMessage: (messageChoice: CreateUpdateAnswerFrom) => void;
+    saveMessage: (messageChoice: CreateMessageChoiceDto) => Promise<void>;
     onDelete?: () => void;
 }
 
@@ -24,7 +25,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
     const [isSaveLoading, setIsSaveLoading] = React.useState(false);
     const [error, setError] = React.useState<string>();
 
-    const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm<CreateUpdateAnswerFrom>({
+    const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm<CreateMessageChoiceDto>({
         resolver: yupResolver(createUpdateAnswerSchema) as any,
         defaultValues: answer
     });
@@ -42,7 +43,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
         }
     };
 
-    const handleSave = async (data: CreateUpdateAnswerFrom) => {
+    const handleSave = async (data: CreateMessageChoiceDto) => {
         setIsSaveLoading(true);
         try {
             await saveMessage(data);
@@ -61,24 +62,9 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
         <>
             <DialogTitle>{"Answer"}</DialogTitle>
             <DialogContent>
-                <Box>
-                    <Box my={2}>
-                        <Controller
-                            name="name"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    fullWidth
-                                    multiline
-                                    minRows={3}
-                                    label="Message Text"
-                                    {...field}
-                                    error={!!errors.name}
-                                    helperText={errors.name?.message}
-                                />
-                            )}
-                        />
-                    </Box>
+                <form onSubmit={handleSubmit(handleSave)}>
+                        <ControlTextField control={control} errors={errors} name="name" label="Message name" />
+                        <ControlTextField control={control} errors={errors} name="text" label="Message text" />
                     <Button
                         variant="outlined"
                         component="label"
@@ -112,27 +98,19 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
                             )
                         )}
                     </Stack>
-                </Box>
-            </DialogContent>
+                    {error && <Typography color="error" align="center">{error}</Typography>}
 
-            {error && <Typography color="error" align="center">{error}</Typography>}
-
-            <DialogActions>
-                {onDelete && (
-                    <Button onClick={onDelete} color="error">
-                        Delete
+                    {onDelete && (
+                        <Button onClick={onDelete} color="error">
+                            Delete
+                        </Button>
+                    )}
+                    <Button onClick={onClose} color="secondary">Cancel</Button>
+                    <Button type="submit" variant="contained" disabled={isSaveLoading}>
+                        {isSaveLoading ? <CircularProgress size={24} /> : "Save"}
                     </Button>
-                )}
-                <Button onClick={onClose} color="secondary">Cancel</Button>
-                <Button onClick={()=> {
-                    // console.log(watch())
-                    // console.log(errors)
-                    // handleSubmit(handleSave)
-                    handleSave(watch())
-                }} variant="contained" disabled={isSaveLoading}>
-                    {isSaveLoading ? <CircularProgress size={24} /> : "Save"}
-                </Button>
-            </DialogActions>
+                </form>
+            </DialogContent>
         </>
     );
 };

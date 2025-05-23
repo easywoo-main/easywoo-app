@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Chat, CreateUpdateChatDto} from '../../../type/chat.type';
+import {Chat, UpdateChatDto} from '../../../type/chat.type';
 import {updateChat} from "../../../api/chat.service";
 import ChatModal from './ChatModal';
 import {CircularProgress, Dialog} from "@mui/material";
@@ -28,7 +28,7 @@ const EditChatModal: React.FC<EditChatModalProps> = ({chat, onClose, onSubmit}) 
         }
     }
 
-    const handleSave = async (data: CreateUpdateChatDto) => {
+    const handleSave = async (data: UpdateChatDto) => {
         const updatedChat = await updateChat(chat!.id, data);
         onSubmit(updatedChat)
     };

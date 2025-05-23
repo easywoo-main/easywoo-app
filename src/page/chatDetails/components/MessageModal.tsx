@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {createUpdateMessageSchema, CreateUpdateMessageType} from "../../../schema/createUpdateMessage.schema";
+import {createUpdateMessageSchema} from "../../../schema/createUpdateMessage.schema";
 import {
     Button,
     Chip,
@@ -20,14 +20,14 @@ import {AxiosError} from "axios";
 import ControlTextField from "../../../components/ControlTextField";
 import ControlCheckbox from "../../../components/ControlCheckbox";
 import {MessageChoice} from "../../../type/messageChoice.type";
-import {ChatMessage, MessageType} from "../../../type/chatMessage";
+import {ChatMessage, CreateChatMessageDto, MessageType} from "../../../type/chatMessage";
 import ControlSelect from "../../../components/ControlSelect";
 import VariableForm from "./VariableForm";
 
 interface MessageModalProps {
     onClose: () => void;
-    saveMessage: (message: CreateUpdateMessageType) => Promise<void>;
-    message: CreateUpdateMessageType;
+    saveMessage: (message: CreateChatMessageDto) => Promise<void>;
+    message: CreateChatMessageDto;
     onDelete?: () => void;
     users?: User[];
     messageChoices?: MessageChoice[];
@@ -51,12 +51,12 @@ const MessageModal: React.FC<MessageModalProps> = ({
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
 
-    const {control,handleSubmit, formState: {errors}} = useForm<CreateUpdateMessageType>({
+    const {control,handleSubmit, formState: {errors}} = useForm<CreateChatMessageDto>({
         resolver: yupResolver(createUpdateMessageSchema) as any,
         defaultValues: message
     });
 
-    const handleSave = async (data: CreateUpdateMessageType) => {
+    const handleSave = async (data: CreateChatMessageDto) => {
         setIsSaveLoading(true);
         try {
             await saveMessage(data);

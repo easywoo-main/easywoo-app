@@ -1,38 +1,20 @@
-export interface SliderProp {
-    type: SliderPropType;
-    name: string;
-    id: string;
-    text: string;    positiveMessage: string;
-    negativeMessage: string;
-    createdAt: Date;
-    updatedAt: Date;
-    chatId: string;
-}
+import {SliderPropType} from "../page/chatDetails/type";
+import {BaseEntity} from "./chat.type";
 
-export interface InfoPopUp {
-    title: string;
-    id: string;
-    description?: string;
-    chatMessageId: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export enum SliderPropType{
-    NEGATIVE = 'NEGATIVE',
-    POSITIVE = 'POSITIVE'
-}
-
-export interface CreateUpdateSliderPropDto {
-    id?: string
+type SliderPropDto = {
     name: string;
     text: string;
     type: SliderPropType;
-    negativeMessage: string;
     positiveMessage: string;
+    negativeMessage: string;
+    chatId: string;
 }
+export type SliderProp = BaseEntity & SliderPropDto
 
-export interface  CreateUpdateSliderPropWithRelationDto extends CreateUpdateSliderPropDto{
-    chatMessageId: string;
-}
+export type CreateUpdateSliderPropDto = {
+    id?: string
+} & Omit<SliderPropDto, "chatId">
+
+export type CreateSliderPropWithRelationDto = SliderPropDto
+export type UpdateSliderPropWithRelationDto  = Partial<CreateSliderPropWithRelationDto>
 

@@ -1,10 +1,9 @@
 import {Box, Button, Checkbox, Divider, FormControlLabel, Typography} from "@mui/material";
 import {ArrayPath, Control, Controller, FieldErrors, Path, useFieldArray, useWatch,} from "react-hook-form";
 import ControlTextField from "../../../components/ControlTextField";
-import {GraphType, SliderCreateUpdateProps} from "../../../type/chat.type";
+import { SliderCreateUpdateProps} from "../../../type/chat.type";
 import {SliderPropType} from "../type";
 import {CreateUpdateSliderPropDto} from "../../../type/messageSlider.type";
-import ControlSelect from "../../../components/ControlSelect";
 
 interface SliderFormProps<TFieldValues extends SliderCreateUpdateProps> {
     control: Control<TFieldValues>;
@@ -137,8 +136,8 @@ function SliderForm<TFieldValues extends SliderCreateUpdateProps>({
             {/*    />*/}
             {/*</FormControl>*/}
 
-            <ControlSelect control={control} errors={errors} name={"graphType" as Path<TFieldValues>} label="Graph Type"
-                           options={Object.values(GraphType)}/>
+            {/*<ControlSelect control={control} errors={errors} name={"graphType" as Path<TFieldValues>} label="Graph Type"*/}
+            {/*               options={Object.values(GraphType)}/>*/}
         </Box>
     );
 }

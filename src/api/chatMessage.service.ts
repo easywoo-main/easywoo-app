@@ -1,6 +1,5 @@
 import apiClientV1 from "../config/axios.config";
-import {ChatMessage, ChatMessageWithRelations} from "../type/chatMessage";
-import {CreateUpdateChatMessageDto} from "../page/chatDetails/type";
+import {ChatMessage, ChatMessageWithRelations, CreateChatMessageDto, UpdateChatMessageDto} from "../type/chatMessage";
 import {PageRequestArgs, PageResponse} from "../utils/pageable.utils";
 
 export const getChatMessageById = async (chatId: string, userIds?: string[]): Promise<ChatMessageWithRelations> => {
@@ -10,12 +9,12 @@ export const getChatMessageById = async (chatId: string, userIds?: string[]): Pr
     return response.data;
 }
 
-export const createChatMessage = async (data: CreateUpdateChatMessageDto): Promise<ChatMessage> => {
+export const createChatMessage = async (data: CreateChatMessageDto): Promise<ChatMessage> => {
     const response = await apiClientV1.post(`/chat-message`, data);
     return response.data;
 }
 
-export const updateChatMessage = async (chatMessageId: string, data: Partial<CreateUpdateChatMessageDto>): Promise<ChatMessage> => {
+export const updateChatMessage = async (chatMessageId: string, data: UpdateChatMessageDto): Promise<ChatMessage> => {
     const response = await apiClientV1.patch(`/chat-message/${chatMessageId}`, data);
     return response.data;
 }

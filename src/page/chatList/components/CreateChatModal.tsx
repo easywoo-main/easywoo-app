@@ -2,7 +2,7 @@ import React from 'react';
 import {Dialog} from '@mui/material';
 import {createChat} from "../../../api/chat.service";
 import ChatModal from "./ChatModal";
-import {CreateUpdateChatDto, GraphType} from "../../../type/chat.type";
+import {CreateChatDto, GraphType} from "../../../type/chat.type";
 
 
 interface CreateChatModalProps {
@@ -10,12 +10,12 @@ interface CreateChatModalProps {
 }
 
 const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
-    const handleSave = async (data: CreateUpdateChatDto) => {
+    const handleSave = async (data: CreateChatDto) => {
         await createChat(data);
         onClose();
     };
 
-    const defaultChat: CreateUpdateChatDto = {
+    const defaultChat: CreateChatDto = {
         name: '',
         price: 0,
         freeSteps: 0,

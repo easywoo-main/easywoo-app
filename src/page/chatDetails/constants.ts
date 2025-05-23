@@ -1,9 +1,11 @@
-import {MessageType} from "../../type/chatMessage";
-import {CreateUpdateAnswerDto} from "./type";
-import {CreateUpdateMessageType} from "../../schema/createUpdateMessage.schema";
+import {CreateChatMessageDto, MessageType} from "../../type/chatMessage";
+import {CreateMessageChoiceDto} from "../../type/messageChoice.type";
 
 
-export const defaultCreateMessage: CreateUpdateMessageType = {
+export const defaultCreateMessage: CreateChatMessageDto = {
+    introText: "",
+    question: "",
+    chatId: "",
     type: MessageType.TEXT,
     name: "",
     files: [],
@@ -16,14 +18,14 @@ export const defaultCreateMessage: CreateUpdateMessageType = {
     step: "",
     stepName: "",
     isComment: false,
-    isBarometer: false,
+    isBarometer: false
 
 }
 
-export const defaultCreateAnswer: CreateUpdateAnswerDto = {
+export const defaultCreateAnswer: CreateMessageChoiceDto = {
     name: "",
-    file: undefined,
-    prevMessageId: undefined,
+    text: "",
+    prevMessageId: "",
 }
 
 export const nextChoiceMessageTypes: MessageType[] = [MessageType.QUESTION_SINGLE, MessageType.CHALLENGE]

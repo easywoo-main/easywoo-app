@@ -1,8 +1,8 @@
 import apiClientV1 from '../config/axios.config';
-import {CreateUpdateSliderPropWithRelationDto, SliderProp} from "../type/messageSlider.type";
+import {CreateSliderPropWithRelationDto, SliderProp} from "../type/messageSlider.type";
 
 export const createMessageSlider = async (
-    data: CreateUpdateSliderPropWithRelationDto,
+    data: CreateSliderPropWithRelationDto,
 ): Promise<SliderProp> => {
     const { data: response } = await apiClientV1.post<SliderProp>('/message-slider', data);
     return response;
@@ -25,7 +25,7 @@ export const getAllMessageSlidersByMessageId = async (
 
 export const updateMessageSlider = async (
     id: string,
-    data: Partial<CreateUpdateSliderPropWithRelationDto>,
+    data: Partial<CreateSliderPropWithRelationDto>,
 ): Promise<SliderProp> => {
     const { data: response } = await apiClientV1.patch<SliderProp>(`/message-slider/${id}`, data);
     return response;

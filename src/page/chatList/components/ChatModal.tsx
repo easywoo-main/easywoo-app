@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Typography} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {CreateUpdateChatDto} from '../../../type/chat.type';
+import {CreateChatDto} from '../../../type/chat.type';
 import SliderForm from '../../chatDetails/components/SliderForm';
 import ControlTextField from "../../../components/ControlTextField";
 import ControlCheckbox from "../../../components/ControlCheckbox";
@@ -13,21 +13,21 @@ import PainPointsForm from "./PainPointsForm";
 
 
 interface ChatModalProps {
-    chat: CreateUpdateChatDto;
+    chat: CreateChatDto;
     onClose: () => void;
-    onSubmit: (chat: CreateUpdateChatDto) => Promise<void>;
+    onSubmit: (chat: CreateChatDto) => Promise<void>;
 }
 
 const ChatModal = ({ chat, onClose, onSubmit }: ChatModalProps) => {
     const [saveLoading, setSaveLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const { control, handleSubmit, formState: { errors } } = useForm<CreateUpdateChatDto>({
+    const { control, handleSubmit, formState: { errors } } = useForm<CreateChatDto>({
         resolver: yupResolver(validationSchema) as any,
         defaultValues: chat,
     });
 
-    const handleSave = async (data: CreateUpdateChatDto) => {
+    const handleSave = async (data: CreateChatDto) => {
         setSaveLoading(true);
         try {
             await onSubmit(data);

@@ -1,7 +1,6 @@
 import * as Yup from "yup";
-import {SliderPropType} from "../type/messageSlider.type";
-import {InferType} from "yup";
 import {MATH_OPERATORS} from "../utils/constant.utils";
+import {SliderPropType} from "../page/chatDetails/type";
 
 export const createUpdateSliderPropSchema = Yup.object().shape({
     id: Yup.string().uuid().optional(),
@@ -16,4 +15,3 @@ export const createUpdateSliderPropSchema = Yup.object().shape({
 
 })
 
-export type CreateUpdateSliderPropType = InferType<typeof createUpdateSliderPropSchema>;

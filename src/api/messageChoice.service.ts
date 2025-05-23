@@ -1,17 +1,14 @@
 import apiClientV1 from "../config/axios.config";
-import {MessageChoice, MessageChoiceWithRelationDto} from "../type/messageChoice.type";
-import {CreateUpdateAnswerDto} from "../page/chatDetails/type";
-import {CreateUpdateAnswerType} from "../schema/createUpdateAnswer.schema";
+import {CreateMessageChoiceDto, MessageChoice, MessageChoiceWithRelationDto} from "../type/messageChoice.type";
 import {PageRequestArgs, PageResponse} from "../utils/pageable.utils";
-import {ChatMessage} from "../type/chatMessage";
 
 
-export const createMessageChoice = async (data: CreateUpdateAnswerType): Promise<MessageChoice> => {
+export const createMessageChoice = async (data: CreateMessageChoiceDto): Promise<MessageChoice> => {
     const {data: response} = await apiClientV1.post<MessageChoice>(`/message-choice`, data);
     return response;
 }
 
-export const updateMessageChoice = async (id: string, data: Partial<CreateUpdateAnswerDto>): Promise<MessageChoice> => {
+export const updateMessageChoice = async (id: string, data: CreateMessageChoiceDto): Promise<MessageChoice> => {
     const {data: response} = await apiClientV1.patch<MessageChoice>(`/message-choice/${id}`, data);
     return response;
 }
