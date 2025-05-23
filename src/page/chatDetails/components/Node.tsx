@@ -8,7 +8,7 @@ import CreateAnswerModal from './CreateAnswerModal';
 import CreateMessageModal from "./CreateMessageModal";
 import {AddChildrenFunction} from "react-d3-tree/lib/types/types/common";
 import {getChatMessageById} from "../../../api/chatMessage.service";
-import {chatMessageToNode, messageChoiceToNode} from '../helper';
+import {chatMessageToNode} from '../helper';
 import {MessageChoice} from "../../../type/messageChoice.type";
 import {getMessageChoiceById} from '../../../api/messageChoice.service';
 import EditMessageModal from './EditMessageModal';
@@ -40,27 +40,9 @@ const Node: React.FC<QuestionComponentProps> = ({
         addChildren([ chatMessageToNode(newMessage)]);
     }
 
-    const handleAddMessageChoiceChildren = async (messageChoice: MessageChoice) => {
-        const newMessage = await getMessageChoiceById(messageChoice.id);
-        addChildren([ messageChoiceToNode(newMessage)]);
-    }
-
     const handleUpdateChatMessage = async (message: ChatMessage) => {
         handleUpdateNodeAndShowChildren(message.id)
     }
-
-    const handleUpdateAnswer = async (answer: MessageChoice) => {
-        handleUpdateNodeAndShowChildren(answer.id)
-    }
-
-    // const typeBorderColorMap: Record<string, string> = {
-    //     TEXT: "blue",
-    //     FILE: "green",
-    //     CHALLENGE: "orange",
-    //     QUESTION_SINGLE: "purple",
-    //     QUESTION_TEXT_FIELD: "teal",
-    // };
-    // const borderColor = typeBorderColorMap[treeNode.attributes.type] || "gray";
     const background = (treeNode.attributes?.stepChatMessages?.length > 0 || treeNode.attributes?.resultMessageChoice?.length> 0) ? '#ededed' : 'white';
     return (
         <svg width="400" height="350" x="-200" y="-300" xmlns="http://www.w3.org/2000/svg">
@@ -108,32 +90,30 @@ const Node: React.FC<QuestionComponentProps> = ({
                             {isAnswer ? " Answer Details" : "Message Details"}
                         </Button>
 
-                        {(treeNode.children.length === 0 ||
-                            [MessageType.QUESTION_SINGLE].includes(treeNode.attributes.type)) && (
-                            <Button
-                                variant="contained"
-                                color="success"
-                                fullWidth
-                                onClick={()=>setIsOpenCreateChildrenModal(true)}
-                            >
-                                Add Children
-                            </Button>
-                        )}
+                        {/*{(treeNode.children.length === 0 ||*/}
+                        {/*    [MessageType.QUESTION_SINGLE].includes(treeNode.attributes.type)) && (*/}
+                        {/*    <Button*/}
+                        {/*        variant="contained"*/}
+                        {/*        color="success"*/}
+                        {/*        fullWidth*/}
+                        {/*        onClick={()=>setIsOpenCreateChildrenModal(true)}*/}
+                        {/*    >*/}
+                        {/*        Add Children*/}
+                        {/*    </Button>*/}
+                        {/*)}*/}
                     </Stack>
                 </Box>
 
-                {isOpenEditModal && (isAnswer ?
-                    <EditAnswerModal answer={treeNode.attributes} onClose={()=> setIsOpenEditModal(false)} onSubmit={handleUpdateAnswer} chatId={chatId}/>:
+                {isOpenEditModal &&
                     <EditMessageModal onClose={()=> setIsOpenEditModal(false)} message={treeNode.attributes} onSubmit={handleUpdateChatMessage}/>
-                )}
+                }
 
-                {isOpenCreateChildrenModal && (treeNode.attributes.type === MessageType.QUESTION_SINGLE ?
-                    <CreateAnswerModal onClose={() => setIsOpenCreateChildrenModal(false)} onSubmit={handleAddMessageChoiceChildren} prevMessageId={treeNode.attributes.id}/>:
+                {isOpenCreateChildrenModal &&
                     <CreateMessageModal onClose={() => setIsOpenCreateChildrenModal(false)}
                                         onSubmit={handleAddChatMessageChildren}
                                         prevMessageId={treeNode.attributes.type ? treeNode.attributes.id : undefined}
                                         prevChoiceId={!treeNode.attributes.type ? treeNode.attributes.id : undefined}
-                                        chatId={chatId}/>)}
+                                        chatId={chatId}/>}
             </foreignObject>
 
         </svg>

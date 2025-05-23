@@ -43,7 +43,7 @@ const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSub
     }
 
     const selectionCondition = (chatMessage: ChatMessageWithPrevMessage) => {
-        return chatMessage.prevMessages?.some(prevMessage => prevMessage.id === chatMessage.id) || false;
+        return chatMessage.prevChoices?.some(prevMessage => prevMessage.id === answer.id) || false;
     }
 
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>

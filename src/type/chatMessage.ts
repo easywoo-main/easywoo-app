@@ -24,6 +24,7 @@ export type ChatMessageDto = {
     stepName: string;
     question: string;
     introText: string;
+    todoList: string[]
 
     nextMessageId?: string | null;
     chatId: string
@@ -38,12 +39,9 @@ export type UpdateChatMessageDto = Partial<CreateChatMessageDto>
 
 export enum MessageType {
     TEXT = 'TEXT',
-    FILE = 'FILE',
-    CHALLENGE = 'CHALLENGE',
-    QUESTION_SINGLE = 'QUESTION_SINGLE',
-    QUESTION_TEXT_FIELD = 'QUESTION_TEXT_FIELD',
-    QUESTION_SLIDERS = 'QUESTION_SLIDERS',
-    GRAPH = 'GRAPH'
+    IMAGE = 'IMAGE',
+    VIDEO = 'VIDEO',
+    BAR = 'BAR',
 }
 
 export interface ChatMessageWithRelations extends ChatMessage {

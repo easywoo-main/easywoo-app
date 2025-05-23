@@ -21,6 +21,7 @@ export const createUpdateMessageSchema = Yup.object().shape({
     isCourseEnd: Yup.boolean().default(false),
     isBarometer: Yup.boolean().default(false),
     variableIds: Yup.array().of(Yup.string().uuid()).optional(),
+    todoList:  Yup.array().of(Yup.string().required("Todo Item must be required"))
 });
 
 

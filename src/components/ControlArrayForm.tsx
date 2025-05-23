@@ -3,19 +3,19 @@ import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import {Controller, Control, FieldErrors, useFieldArray, Path, FieldValues, ArrayPath} from "react-hook-form";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-interface PainPointsFormProps<TFieldValues extends FieldValues> {
+interface ControlArrayFormProps<TFieldValues extends FieldValues> {
     control: Control<TFieldValues>;
     errors: FieldErrors<TFieldValues>;
     name: Path<TFieldValues>;
-    label?: string;
+    label: string;
 }
 
-function PainPointsForm<TFieldValues extends FieldValues>({
-                                          control,
-                                          errors,
-                                          name,
-                                          label,
-                                      }: PainPointsFormProps<TFieldValues>) {
+function ControlArrayForm<TFieldValues extends FieldValues>({
+                                                              control,
+                                                              errors,
+                                                              name,
+                                                                label,
+                                                          }: ControlArrayFormProps<TFieldValues>) {
     const { fields, append, remove } = useFieldArray<TFieldValues>({
         control,
         name: name as ArrayPath<TFieldValues>,
@@ -34,7 +34,7 @@ function PainPointsForm<TFieldValues extends FieldValues>({
                         render={({ field }) => (
                             <TextField
                                 {...field}
-                                label={`Pain Point #${index + 1}`}
+                                label={`${label} #${index + 1}`}
                                 variant="outlined"
                                 fullWidth
                                 // error={!!errors?.[name]?.[index]}
@@ -54,10 +54,10 @@ function PainPointsForm<TFieldValues extends FieldValues>({
             ))}
 
             <Button variant="contained" onClick={() => append("" as any)}>
-                Add Pain Point
+                Add {label}
             </Button>
         </Box>
     );
 }
 
-export default PainPointsForm;
+export default ControlArrayForm;

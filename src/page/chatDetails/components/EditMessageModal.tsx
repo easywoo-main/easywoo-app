@@ -106,6 +106,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                     question: message.question || "",
                     introText: message.introText || "",
                     chatId: message.chatId,
+                    todoList: message.todoList
                 }}/>
             {isOpenDeleteModal &&
                 <DeleteModal

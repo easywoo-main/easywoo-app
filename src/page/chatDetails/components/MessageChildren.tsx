@@ -19,7 +19,6 @@ export const MessageChildren: React.FC<MessageChildrenProps> = ({ messageId, onC
     const handleGetData = async () => {
         setLoading(true);
         try {
-
             const data = await getData(searchTerm)
             setData(data.content);
         } catch (e) {

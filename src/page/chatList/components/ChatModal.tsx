@@ -57,6 +57,7 @@ const ChatModal = ({ chat, onClose, onSubmit }: ChatModalProps) => {
                         control={control}
                         errors={errors}
                         name="paintPoints"
+                        label="Pain Points"
                         // paintPointsOptions={paintPointsData}
                     />
                     <TherapistForm control={control} errors={errors} />

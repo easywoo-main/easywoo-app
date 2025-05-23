@@ -1,17 +1,12 @@
 import React from "react";
-import {
-    Box, Button, CircularProgress,
-    DialogActions, DialogContent, DialogTitle,
-    TextField, Stack, Typography
-} from "@mui/material";
+import {Button, CircularProgress, DialogContent, DialogTitle, Stack, Typography} from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { uploadFiles } from "../../../api/chatMessage.service";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {uploadFiles} from "../../../api/chatMessage.service";
 import {createUpdateAnswerSchema} from "../../../schema/createUpdateAnswer.schema";
 import {CreateMessageChoiceDto} from "../../../type/messageChoice.type";
 import ControlTextField from "../../../components/ControlTextField";
-
 
 interface AnswerModalProps {
     answer?: CreateMessageChoiceDto;
@@ -63,8 +58,10 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
             <DialogTitle>{"Answer"}</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit(handleSave)}>
-                        <ControlTextField control={control} errors={errors} name="name" label="Message name" />
-                        <ControlTextField control={control} errors={errors} name="text" label="Message text" />
+                    <ControlTextField control={control} errors={errors} name="name" label="Message name" />
+                    <ControlTextField control={control} errors={errors} name="text" label="Message text" />
+                    <ControlTextField control={control} errors={errors} name="info" label="Message info"/>
+
                     <Button
                         variant="outlined"
                         component="label"

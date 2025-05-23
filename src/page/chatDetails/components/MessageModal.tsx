@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import FilesForm from "./FilesForm";
 import ChallengeForm from "./ChallengeForm";
-import InfoPopUpForm from "./InfoPopUpForm";
 import {User} from "../../../type/user.type";
 import {AxiosError} from "axios";
 import ControlTextField from "../../../components/ControlTextField";
@@ -23,6 +22,7 @@ import {MessageChoice} from "../../../type/messageChoice.type";
 import {ChatMessage, CreateChatMessageDto, MessageType} from "../../../type/chatMessage";
 import ControlSelect from "../../../components/ControlSelect";
 import VariableForm from "./VariableForm";
+import ControlArrayForm from "../../../components/ControlArrayForm";
 
 interface MessageModalProps {
     onClose: () => void;
@@ -77,8 +77,8 @@ const MessageModal: React.FC<MessageModalProps> = ({
                     {chatMessageId && <Typography>Message Step with id: {chatMessageId}</Typography>}
                     <ControlTextField control={control} errors={errors} name="stepName" label="Step Name"/>
                     <ControlTextField control={control} errors={errors} name="introText" label="Intro Text"/>
-                    <FilesForm control={control} errors={errors} title="Intro File" name="intr  oFile"/>
-
+                    <FilesForm control={control} errors={errors} title="Intro Images" name="introImages"/>
+                    <FilesForm control={control} errors={errors} title={"Intro Media "} name="introMedias"/>
                     <ControlTextField control={control} errors={errors} name="question" label="Question"/>
                     <ControlCheckbox control={control} name="isCourseEnd" label="Is Course End"/>
                     <ControlCheckbox control={control} name="isOfferRestart" label="Is Offer restart"/>
@@ -86,10 +86,15 @@ const MessageModal: React.FC<MessageModalProps> = ({
                     <ControlSelect control={control} errors={errors} name="type" options={Object.values(MessageType)}
                                    label="Message type"/>
                     <VariableForm control={control} chatId={chatId}  />
-                    <FilesForm control={control} errors={errors} name="files"/>
+                    <Typography>Files</Typography>
+                    <FilesForm control={control} errors={errors} name="Image" title="Upload Image"/>
+                    <FilesForm control={control} errors={errors} name="media" title="Upload Media"/>
                     <ChallengeForm errors={errors} control={control}/>
-                    <InfoPopUpForm control={control} errors={errors}/>
-                <Stack direction="row" spacing={1} flexWrap="wrap">
+                    {/*<InfoPopUpForm control={control} errors={errors} />*/}
+                    {/*<Typography component="span">To-do</Typography>*/}
+                    <ControlArrayForm control={control} errors={errors} name="todoList" label="Todo List"/>
+
+                    <Stack direction="row" spacing={1} flexWrap="wrap">
                     {users?.map((user) => (
                         <Chip
                             key={user.id}

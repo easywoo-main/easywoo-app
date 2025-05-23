@@ -18,7 +18,8 @@ export const defaultCreateMessage: CreateChatMessageDto = {
     step: "",
     stepName: "",
     isComment: false,
-    isBarometer: false
+    isBarometer: false,
+    todoList:[]
 
 }
 
@@ -28,4 +29,3 @@ export const defaultCreateAnswer: CreateMessageChoiceDto = {
     prevMessageId: "",
 }
 
-export const nextChoiceMessageTypes: MessageType[] = [MessageType.QUESTION_SINGLE, MessageType.CHALLENGE]
