@@ -14,10 +14,3 @@ export enum SliderPropType {
     POSITIVE = "POSITIVE",
 }
 
-
-export interface CreateUpdateInfoPopUpDto {
-    id: string;
-    name: string;
-    file?: string;
-    chatMessageId: string;
-}

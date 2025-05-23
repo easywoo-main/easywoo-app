@@ -1,5 +1,11 @@
 import apiClientV1 from "../config/axios.config";
-import {ChatMessage, ChatMessageWithRelations, CreateChatMessageDto, UpdateChatMessageDto} from "../type/chatMessage";
+import {
+    ChatMessage, ChatMessageWithPrevMessage,
+    ChatMessageWithRelations,
+    CreateChatMessageDto,
+    FilterChatMessage,
+    UpdateChatMessageDto
+} from "../type/chatMessage";
 import {PageRequestArgs, PageResponse} from "../utils/pageable.utils";
 
 export const getChatMessageById = async (chatId: string, userIds?: string[]): Promise<ChatMessageWithRelations> => {
@@ -41,9 +47,9 @@ export const uploadFiles = async (files: File[], folder?: string): Promise<strin
     return response.data;
 }
 
-export const getAllByChatMessageId = async (chatMessageId: string, chatId: string, option: PageRequestArgs): Promise<PageResponse<ChatMessage>> => {
+export const getAllByChatMessageId = async (option: FilterChatMessage): Promise<PageResponse<ChatMessageWithPrevMessage>> => {
     const response = await apiClientV1.get('/chat-message', {
-        params: {chatMessageId, chatId, ...option}
+        params: option
     });
     return response.data;
 }

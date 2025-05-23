@@ -6,7 +6,7 @@ type MessageChoiceDto = {
     text: string;
     file?: string;
     prevMessageId: string;
-    nextMessageId?: string;
+    nextMessageId?: string | null;
 }
 
 export type MessageChoice = BaseEntity & MessageChoiceDto

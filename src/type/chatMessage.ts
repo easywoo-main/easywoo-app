@@ -1,10 +1,10 @@
-import { BaseEntity } from "./chat.type";
-import {MessageChoiceWithRelationDto} from "./messageChoice.type";
+import {BaseEntity} from "./chat.type";
+import {MessageChoice, MessageChoiceWithRelationDto} from "./messageChoice.type";
 import {SliderProp} from "./messageSlider.type";
 import {InfoPopUp} from "./infoPopUp.type";
 import {CreateUpdateInfoPopUpType} from "../schema/createUpdateInfoPopUp.schema";
-
-
+import {PageRequestArgs} from "../utils/pageable.utils";
+import {StepChatMessage} from "./stepChatMessage.type";
 
 
 export type ChatMessageDto = {
@@ -51,6 +51,19 @@ export interface ChatMessageWithRelations extends ChatMessage {
     nextMessage?: ChatMessageWithRelations,
     sliderProps?: SliderProp[]
     infoPopUps?: InfoPopUp[];
-    stepChatMessages?: any
-    prevMessages?: any[]
+    stepChatMessages?: StepChatMessage[];
+    prevMessages?: ChatMessage[]
+    prevChoices?: MessageChoice[]
+}
+
+
+export type ChatMessageWithPrevMessage = ChatMessage & {
+    prevMessages?: ChatMessage[]
+    prevChoices?: MessageChoice[]
+};
+
+export interface FilterChatMessage extends PageRequestArgs {
+    chatMessageId?: string;
+    chatId?: string;
+    messageChoiceId?: string;
 }

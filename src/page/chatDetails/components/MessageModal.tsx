@@ -76,13 +76,10 @@ const MessageModal: React.FC<MessageModalProps> = ({
                 <form onSubmit={handleSubmit(handleSave)}>
                     {chatMessageId && <Typography>Message Step with id: {chatMessageId}</Typography>}
                     <ControlTextField control={control} errors={errors} name="stepName" label="Step Name"/>
-                    {/*<ControlTextField control={control} errors={errors} name="step" label="Step"/>*/}
                     <ControlTextField control={control} errors={errors} name="introText" label="Intro Text"/>
                     <FilesForm control={control} errors={errors} title="Intro File" name="intr  oFile"/>
 
                     <ControlTextField control={control} errors={errors} name="question" label="Question"/>
-                    {/*<ControlCheckbox control={control} name="isCheckpoint"*/}
-                    {/*                 label="Is Checkpoint" />*/}
                     <ControlCheckbox control={control} name="isCourseEnd" label="Is Course End"/>
                     <ControlCheckbox control={control} name="isOfferRestart" label="Is Offer restart"/>
                     <ControlCheckbox control={control} name="isComment" label="Is Comment"/>

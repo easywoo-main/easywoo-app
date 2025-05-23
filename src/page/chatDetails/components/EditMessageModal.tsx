@@ -1,6 +1,11 @@
 import React, {useState} from "react";
-import {ChatMessage, ChatMessageDto, ChatMessageWithRelations} from "../../../type/chatMessage";
-import {deleteChatMessage, updateChatMessage} from "../../../api/chatMessage.service";
+import {
+    ChatMessage,
+    ChatMessageDto,
+    ChatMessageWithPrevMessage,
+    ChatMessageWithRelations
+} from "../../../type/chatMessage";
+import {deleteChatMessage, getAllByChatMessageId, updateChatMessage} from "../../../api/chatMessage.service";
 import MessageModal from "./MessageModal";
 import DeleteModal from "../../../components/DeleteModal";
 import {Dialog, Tab, Tabs} from "@mui/material";
@@ -10,7 +15,6 @@ import {PageRequestArgs} from "../../../utils/pageable.utils";
 import ChatMessageItemProgressTracker from "./ChatMessageItemProgresTracker";
 import MessageChildren from "./MessageChildren";
 import AnswerChildren from "./AnswerChildren";
-import {BaseEntity} from "../../../type/chat.type";
 
 interface EditMessageModalProps {
     onClose: () => void;
@@ -46,6 +50,19 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
 
     const {...chatMessageDto}: ChatMessageDto = message;
     console.log(chatMessageDto)
+
+    const getChildrenData = async  (search: string)=> {
+        return getAllByChatMessageId({search, chatId: message.chatId, chatMessageId: message.id});
+    }
+
+    const updateChildrenRelation = async (nextMessageId: string | null)=>{
+        await updateChatMessage(message.id, { nextMessageId });
+    }
+
+    const selectionCondition = (chatMessage: ChatMessageWithPrevMessage)=>{
+        return chatMessage.prevMessages?.some(prev => prev.id === message.id)  || false
+    }
+
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
             <Tabs
                 value={tab}
@@ -111,7 +128,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
             )}
 
             {tab === "tree" && (
-                <MessageChildren message={message}  onClose ={onClose}/>
+                <MessageChildren messageId={message.id}  onClose ={onClose} getData={getChildrenData} updateData={updateChildrenRelation} selectionCondition={selectionCondition}/>
             )}
 
             {tab === "four" && (

@@ -53,14 +53,14 @@ const Node: React.FC<QuestionComponentProps> = ({
         handleUpdateNodeAndShowChildren(answer.id)
     }
 
-    const typeBorderColorMap: Record<string, string> = {
-        TEXT: "blue",
-        FILE: "green",
-        CHALLENGE: "orange",
-        QUESTION_SINGLE: "purple",
-        QUESTION_TEXT_FIELD: "teal",
-    };
-    const borderColor = typeBorderColorMap[treeNode.attributes.type] || "gray";
+    // const typeBorderColorMap: Record<string, string> = {
+    //     TEXT: "blue",
+    //     FILE: "green",
+    //     CHALLENGE: "orange",
+    //     QUESTION_SINGLE: "purple",
+    //     QUESTION_TEXT_FIELD: "teal",
+    // };
+    // const borderColor = typeBorderColorMap[treeNode.attributes.type] || "gray";
     const background = (treeNode.attributes?.stepChatMessages?.length > 0 || treeNode.attributes?.resultMessageChoice?.length> 0) ? '#ededed' : 'white';
     return (
         <svg width="400" height="350" x="-200" y="-300" xmlns="http://www.w3.org/2000/svg">
@@ -80,7 +80,7 @@ const Node: React.FC<QuestionComponentProps> = ({
                             whiteSpace: 'pre-wrap',
                             p: 1,
                             m: 2,
-                            borderTop: `4px solid ${borderColor}`,
+                            borderTop: `4px solid gray`,
                         }}
                     >
                         <Typography>
@@ -123,7 +123,7 @@ const Node: React.FC<QuestionComponentProps> = ({
                 </Box>
 
                 {isOpenEditModal && (isAnswer ?
-                    <EditAnswerModal answer={treeNode.attributes} onClose={()=> setIsOpenEditModal(false)} onSubmit={handleUpdateAnswer}/>:
+                    <EditAnswerModal answer={treeNode.attributes} onClose={()=> setIsOpenEditModal(false)} onSubmit={handleUpdateAnswer} chatId={chatId}/>:
                     <EditMessageModal onClose={()=> setIsOpenEditModal(false)} message={treeNode.attributes} onSubmit={handleUpdateChatMessage}/>
                 )}
 

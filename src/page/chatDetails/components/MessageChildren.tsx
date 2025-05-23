@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Box, Stack, TextField, CircularProgress, DialogActions, Button } from "@mui/material";
-import { getAllByChatMessageId, updateChatMessage } from "../../../api/chatMessage.service";
-import { ChatMessage, ChatMessageWithRelations } from "../../../type/chatMessage";
+import {ChatMessage, ChatMessageWithPrevMessage, ChatMessageWithRelations} from "../../../type/chatMessage";
 import MessageTable from "./MessageTable";
+import {PageResponse} from "../../../utils/pageable.utils";
 
 interface MessageChildrenProps {
-    message: ChatMessageWithRelations;
+    messageId: string;
     onClose: () => void;
+    getData: (searchTerm: string) => Promise<PageResponse<ChatMessageWithPrevMessage>>;
+    updateData: ( nextMessageId:  string | null) => Promise<void>;
+    selectionCondition: (chatMessage: ChatMessageWithPrevMessage) => boolean;
 }
-
-export const MessageChildren: React.FC<MessageChildrenProps> = ({ message, onClose }) => {
+export const MessageChildren: React.FC<MessageChildrenProps> = ({ messageId, onClose,getData, updateData, selectionCondition }) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [data, setData] = useState<ChatMessageWithRelations[]>([]);
+    const [data, setData] = useState<ChatMessageWithPrevMessage[]>([]);
     const [loading, setLoading] = useState(false);
 
     const handleGetData = async () => {
         setLoading(true);
         try {
-            const data = await getAllByChatMessageId(message.id, message.chatId, { search: searchTerm });
+
+            const data = await getData(searchTerm)
             setData(data.content);
         } catch (e) {
             console.error("Error fetching data", e);
@@ -29,7 +32,7 @@ export const MessageChildren: React.FC<MessageChildrenProps> = ({ message, onClo
     const handleUpdate = async (chatMessageId: string, isSelected: boolean) => {
         setLoading(true);
         try {
-            await updateChatMessage(message.id, { nextMessageId: isSelected ? chatMessageId : null });
+            await updateData(isSelected ? chatMessageId : null);
             await handleGetData();
         } catch (e) {
             console.log(e);
@@ -40,7 +43,7 @@ export const MessageChildren: React.FC<MessageChildrenProps> = ({ message, onClo
 
     useEffect(() => {
         handleGetData();
-    }, [message]);
+    }, [messageId]);
 
     return (
         <Box sx={{ m: 5 }}>
@@ -57,7 +60,7 @@ export const MessageChildren: React.FC<MessageChildrenProps> = ({ message, onClo
             {loading ? (
                 <CircularProgress />
             ) : (
-                <MessageTable data={data} messageId={message.id} handleUpdate={handleUpdate} />
+                <MessageTable data={data} messageId={messageId} handleUpdate={handleUpdate} selectionCondition={selectionCondition}/>
             )}
 
             <DialogActions>

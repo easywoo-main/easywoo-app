@@ -1,6 +1,5 @@
 import React from "react";
-import { TextField, Box, FormControlLabel, Checkbox } from "@mui/material";
-import { Controller } from "react-hook-form";
+import {Box} from "@mui/material";
 import ControlTextField from "../../../components/ControlTextField";
 import ControlCheckbox from "../../../components/ControlCheckbox";
 
@@ -13,10 +12,7 @@ const DefaultMessagePropsForm: React.FC<Props> = ({ control, errors }) => {
     return (
         <Box my={2}>
             <ControlTextField control={control} errors={errors} name="introText" label="Intro Text"/>
-
             <ControlTextField control={control} errors={errors} name="text" label="Message Text"/>
-
-
             <ControlCheckbox control={control} name="isCheckpoint"
                              label="Is Checkpoint"/>
             <ControlCheckbox control={control} name="isOfferRestart"

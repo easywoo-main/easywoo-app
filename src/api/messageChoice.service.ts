@@ -1,5 +1,10 @@
 import apiClientV1 from "../config/axios.config";
-import {CreateMessageChoiceDto, MessageChoice, MessageChoiceWithRelationDto} from "../type/messageChoice.type";
+import {
+    CreateMessageChoiceDto,
+    MessageChoice,
+    MessageChoiceWithRelationDto,
+    UpdateMessageChoiceDto
+} from "../type/messageChoice.type";
 import {PageRequestArgs, PageResponse} from "../utils/pageable.utils";
 
 
@@ -8,7 +13,7 @@ export const createMessageChoice = async (data: CreateMessageChoiceDto): Promise
     return response;
 }
 
-export const updateMessageChoice = async (id: string, data: CreateMessageChoiceDto): Promise<MessageChoice> => {
+export const updateMessageChoice = async (id: string, data: Partial<UpdateMessageChoiceDto>): Promise<MessageChoice> => {
     const {data: response} = await apiClientV1.patch<MessageChoice>(`/message-choice/${id}`, data);
     return response;
 }

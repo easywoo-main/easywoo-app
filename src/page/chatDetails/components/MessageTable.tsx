@@ -11,22 +11,23 @@ import {
     Typography,
 } from "@mui/material";
 import EditMessageModal from "./EditMessageModal"; // імпорт модального вікна
-import { ChatMessageWithRelations } from "../../../type/chatMessage";
+import {ChatMessageWithPrevMessage, ChatMessageWithRelations} from "../../../type/chatMessage";
 
 interface MessageTableProps {
-    data: ChatMessageWithRelations[];
+    data: ChatMessageWithPrevMessage[];
     messageId: string;
     handleUpdate: (messageId: string, isSelected: boolean) => void;
+    selectionCondition: (message: ChatMessageWithPrevMessage) => boolean;
 }
 
-const MessageTable: React.FC<MessageTableProps> = ({ data, messageId, handleUpdate }) => {
+const MessageTable: React.FC<MessageTableProps> = ({ data, messageId, handleUpdate,selectionCondition }) => {
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [messageToEdit, setMessageToEdit] = useState<ChatMessageWithRelations | null>(null);
 
-    const isNextStep = data.some(item => item.prevMessages?.some(prev => prev.id === messageId));
+    const isNextStep = data.some(selectionCondition);
     const sortedData = [...data].sort((a, b) => {
-        const aIsNextStep = a.prevMessages?.some(prev => prev.id === messageId) ? 1 : 0;
-        const bIsNextStep = b.prevMessages?.some(prev => prev.id === messageId) ? 1 : 0;
+        const aIsNextStep = selectionCondition(a) ? 1 : 0//a.prevMessages?.some(prev => prev.id === messageId) ? 1 : 0;
+        const bIsNextStep =selectionCondition(a) ? 1 : 0 // b.prevMessages?.some(prev => prev.id === messageId) ? 1 : 0;
         return bIsNextStep - aIsNextStep;
     });
 
@@ -62,7 +63,7 @@ const MessageTable: React.FC<MessageTableProps> = ({ data, messageId, handleUpda
                     <TableBody>
                         {sortedData.length > 0 ? (
                             sortedData.map((item) => {
-                                const isSelected = item.prevMessages?.some(prev => prev.id === messageId);
+                                const isSelected = selectionCondition(item);
                                 return (
                                     <TableRow
                                         key={item.id}

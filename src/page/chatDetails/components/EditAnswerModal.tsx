@@ -4,19 +4,18 @@ import {deleteMessageChoice, updateMessageChoice} from "../../../api/messageChoi
 import AnswerModal from "./AnswerModal";
 import {Dialog, Tab, Tabs} from "@mui/material";
 import DeleteModal from "../../../components/DeleteModal";
-import ProgressTracker from "./ProgressTracker";
-import ChatMessageItemProgressTracker from "./ChatMessageItemProgresTracker";
-import {PageRequestArgs} from "../../../utils/pageable.utils";
-import {getPaginationResultMessageChoice} from "../../../api/resultMessageChoice.service";
-import {ResultMessageChoice} from "../../../type/resultMessageChoice.type";
+import MessageChildren from "./MessageChildren";
+import {getAllByChatMessageId, updateChatMessage} from "../../../api/chatMessage.service";
+import {ChatMessage, ChatMessageWithPrevMessage, ChatMessageWithRelations} from "../../../type/chatMessage";
 
 interface EditAnswerModalProps {
     answer: MessageChoice;
     onClose: () => void;
     onSubmit: (messageChoice: MessageChoice) => void
+    chatId: string;
 }
 
-const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSubmit}) => {
+const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSubmit, chatId}) => {
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
     const [tab, setTab] = React.useState("one");
 
@@ -35,10 +34,17 @@ const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSub
         onSubmit(updatedMessageChoice)
     };
 
-    const handleProgressTracker = async (option: PageRequestArgs) => {
-        return getPaginationResultMessageChoice(answer.id, option);
+    const getChildrenData = async  (search: string)=> {
+        return getAllByChatMessageId({search, chatId, messageChoiceId: answer.id});
     }
 
+    const updateChildrenRelation = async (nextMessageId: string | null)=>{
+        await updateMessageChoice(answer.id, { nextMessageId });
+    }
+
+    const selectionCondition = (chatMessage: ChatMessageWithPrevMessage) => {
+        return chatMessage.prevMessages?.some(prevMessage => prevMessage.id === chatMessage.id) || false;
+    }
 
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
             <Tabs
@@ -70,14 +76,9 @@ const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSub
                     />}
             </>}
 
+
             {tab === "two" && (
-                <ProgressTracker<ResultMessageChoice>
-                    onClose={onClose}
-                    getPaginationData={handleProgressTracker}
-                    children={(item) => {
-                        return <ChatMessageItemProgressTracker item={item}/>
-                    }}
-                />
+                <MessageChildren messageId={answer.id}  onClose ={onClose} getData={getChildrenData} updateData={updateChildrenRelation} selectionCondition={selectionCondition}/>
             )}
 
         </Dialog>

@@ -128,6 +128,7 @@ export const AnswerChildren: React.FC<MessageChildrenProps> = ({ message, onClos
                     answer={editingAnswer}
                     onClose={handleModalClose}
                     onSubmit={handleModalSubmit}
+                    chatId={message.chatId}
                 />
             )}
 
