@@ -8,7 +8,6 @@ import {getChatMessageById} from "../../../api/chatMessage.service";
 import {ChatMessageWithRelations} from "../../../type/chatMessage";
 import {MessageChoiceWithRelationDto} from "../../../type/messageChoice.type";
 import {getMessageChoiceById} from "../../../api/messageChoice.service";
-import {nextChoiceMessageTypes} from "../constants";
 import {User} from "../../../type/user.type";
 
 interface TreeProps {
@@ -34,19 +33,33 @@ const ChatTree: React.FC<TreeProps> = ({chat, users}) => {
     }
 
     const chatMessageToNode = (entity: ChatMessageWithRelations): TreeNode => {
-        if (nextChoiceMessageTypes.includes(entity.type)) {
-            return {
-                name: entity.name,
-                attributes: entity,
-                children: entity.nextChoices ? entity.nextChoices.map(messageChoiceToNode) : []
-            };
+        // if (nextChoiceMessageTypes.includes(entity.type)) {
+        //     return {
+        //         name: entity.name,
+        //         attributes: entity,
+        //         children: entity.nextChoices ? entity.nextChoices.map(messageChoiceToNode) : []
+        //     };
+        // }
+        //
+        // return {
+        //     name: entity.name,
+        //     attributes: entity,
+        //     children: entity.nextMessage ? [chatMessageToNode(entity.nextMessage)] : []
+        // };
+        let children: ChatMessageWithRelations[] = [];
+
+        if (entity?.nextChoices && entity?.nextChoices?.length > 0) {
+            children = entity.nextChoices
+                .map(messageChoice => messageChoice.nextMessage)
+                .filter((nextMessage): nextMessage is ChatMessageWithRelations => !!nextMessage);
+        } else if (entity?.nextMessage) {
+            children = [entity.nextMessage];
         }
 
+
         return {
-            name: entity.name,
-            attributes: entity,
-            children: entity.nextMessage ? [chatMessageToNode(entity.nextMessage)] : []
-        };
+            name: entity.stepName, attributes: entity, children: children.map(chatMessageToNode)
+        }
     }
 
     const messageChoiceToNode = (entity: MessageChoiceWithRelationDto): TreeNode => {
@@ -55,7 +68,6 @@ const ChatTree: React.FC<TreeProps> = ({chat, users}) => {
 
 
     const handleRefreshNode = async (node: TreeNode[], nodeId: string): Promise<TreeNode[]> => {
-        console.log("refresh")
         return Promise.all(
             node.map(async (item) => {
                 if (item.attributes.id === nodeId && item.attributes.type) {
