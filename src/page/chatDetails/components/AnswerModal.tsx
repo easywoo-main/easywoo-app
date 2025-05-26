@@ -52,7 +52,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
     };
 
     const watchedFile = watch("file");
-    console.log(errors)
+    // console.log(errors)
 
     return (
         <>
@@ -80,14 +80,14 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
                         />
                     </Button>
                     <Stack direction="row" spacing={2} mt={2} flexWrap="wrap">
-                        {watchedFile && (
-                            watchedFile.match(/\.(jpeg|jpg|gif|png)$/) ? (
+                        {watchedFile &&  (
+                            watchedFile.match(/\.(jpeg|jpg|gif|png)$/i) ? (
                                 <img src={watchedFile} alt="preview" style={{ maxWidth: 100 }} />
-                            ) : watchedFile.match(/\.(mp4|webm|ogg)$/) ? (
+                            ) : watchedFile.match(/\.(mp4|webm|ogg)$/i) ? (
                                 <video controls width={200}>
                                     <source src={watchedFile} />
                                 </video>
-                            ) : watchedFile.match(/\.(mp3|wav|ogg)$/) ? (
+                            ) : watchedFile.match(/\.(mp3|wav|ogg)$/i) ? (
                                 <audio controls>
                                     <source src={watchedFile} />
                                 </audio>

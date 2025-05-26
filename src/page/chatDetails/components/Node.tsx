@@ -37,6 +37,7 @@ const Node: React.FC<QuestionComponentProps> = ({
 
     const handleAddChatMessageChildren = async (message: ChatMessage) => {
         const newMessage =  await getChatMessageById(message.id);
+        console.log(1)
         addChildren([ chatMessageToNode(newMessage)]);
     }
 
