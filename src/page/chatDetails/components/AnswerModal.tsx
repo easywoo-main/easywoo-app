@@ -59,7 +59,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
             <DialogTitle>{"Answer"}</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit(handleSave)}>
-                    <ControlTextField control={control} errors={errors} name="name" label="Message name" />
+                    {/*<ControlTextField control={control} errors={errors} name="name" label="Message name" />*/}
                     <ControlTextField control={control} errors={errors} name="text" label="Message text" />
                     <ControlTextField control={control} errors={errors} name="infoText" label="Message info"/>
 

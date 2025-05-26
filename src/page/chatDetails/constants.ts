@@ -17,7 +17,7 @@ export const defaultCreateMessage: CreateChatMessageDto = {
 }
 
 export const defaultCreateAnswer: CreateMessageChoiceDto = {
-    name: "",
+    // name: "",
     text: "",
     prevMessageId: "",
 }

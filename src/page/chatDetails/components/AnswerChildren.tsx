@@ -97,7 +97,7 @@ export const AnswerChildren: React.FC<MessageChildrenProps> = ({ message, onClos
                             {data.map((answer) => (
                                 <TableRow key={answer.id}>
                                     <TableCell>{answer.id}</TableCell>
-                                    <TableCell>{answer.name}</TableCell>
+                                    <TableCell>{answer.text}</TableCell>
                                     <TableCell align="right">
                                         <Button variant="outlined" onClick={() => handleEditClick(answer)}>
                                             Edit

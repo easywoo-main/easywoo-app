@@ -80,7 +80,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                     label="Edit message"
                 />
                 {/*<Tab value="two" label="Users"/>*/}
-                <Tab value="tree" label="Next Message"/>
+                <Tab value="tree" label="Go to next step"/>
                 <Tab value="four" label="Next Answers"/>
                 <Tab value="five" label="Restart Message"/>
             </Tabs>

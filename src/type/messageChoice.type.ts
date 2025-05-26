@@ -2,7 +2,7 @@ import {ChatMessageWithRelations} from "./chatMessage";
 import {BaseEntity} from "./chat.type";
 
 type MessageChoiceDto = {
-    name: string;
+    // name: string;
     text: string;
     file?: string;
     infoText?: string;
