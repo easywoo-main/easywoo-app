@@ -68,7 +68,6 @@ const MessageModal: React.FC<MessageModalProps> = ({
             setIsSaveLoading(false);
         }
     };
-
     return (
         <>
             <DialogTitle>Message Step</DialogTitle>
@@ -87,8 +86,8 @@ const MessageModal: React.FC<MessageModalProps> = ({
                                    label="Message type"/>
                     <VariableForm control={control} chatId={chatId}  />
                     <Typography>Files</Typography>
-                    <FilesForm control={control} errors={errors} name="Image" title="Upload Image"/>
-                    <FilesForm control={control} errors={errors} name="media" title="Upload Media"/>
+                    <FilesForm control={control} errors={errors} name="images" title="Upload Image"/>
+                    <FilesForm control={control} errors={errors} name="medias" title="Upload Media"/>
                     <ChallengeForm errors={errors} control={control}/>
                     {/*<InfoPopUpForm control={control} errors={errors} />*/}
                     {/*<Typography component="span">To-do</Typography>*/}

@@ -7,8 +7,8 @@ import Dialog from "@mui/material/Dialog";
 
 interface Props {
     onClose: () => void;
-    onSubmit: (newMessage: ChatMessage) => void;
     chatId: string;
+    onSubmit?: (newMessage: ChatMessage) => void | Promise<void>;
     prevMessageId?: string;
     prevChoiceId?: string;
     startingChatId?: string;
@@ -28,7 +28,10 @@ const CreateMessageModal: React.FC<Props> = ({
         data.prevMessageIds = prevMessageId ? [prevMessageId] : [];
         data.prevChoiceIds = prevChoiceId ? [prevChoiceId] : [];
         const newChatMessage = await createChatMessage(data);
-        onSubmit(newChatMessage);
+        if (onSubmit) {
+            await onSubmit(newChatMessage);
+        }
+        onClose()
     };
 
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>

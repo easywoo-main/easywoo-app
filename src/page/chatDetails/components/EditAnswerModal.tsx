@@ -78,7 +78,7 @@ const EditAnswerModal: React.FC<EditAnswerModalProps> = ({answer, onClose, onSub
 
 
             {tab === "two" && (
-                <MessageChildren messageId={answer.id}  onClose ={onClose} getData={getChildrenData} updateData={updateChildrenRelation} selectionCondition={selectionCondition}/>
+                <MessageChildren chatId={chatId} messageId={answer.id}  onClose ={onClose} getData={getChildrenData} updateData={updateChildrenRelation} selectionCondition={selectionCondition}/>
             )}
 
         </Dialog>

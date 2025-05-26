@@ -1,26 +1,18 @@
-import {CreateChatMessageDto, MessageType} from "../../type/chatMessage";
+import {CreateChatMessageDto} from "../../type/chatMessage";
 import {CreateMessageChoiceDto} from "../../type/messageChoice.type";
 
 
 export const defaultCreateMessage: CreateChatMessageDto = {
-    introText: "",
-    question: "",
     chatId: "",
-    type: MessageType.TEXT,
-    name: "",
-    files: [],
-    timeout: undefined,
-    infoPopUps: [],
-    isCheckpoint: false,
-    isAllowManualTime: false,
-    isOfferRestart: false,
-    isCourseEnd: false,
-    step: "",
+    images: [],
+    introImages: [],
+    introMedias: [],
+    introText: "",
+    medias: [],
+    question: "",
+    sliderPropIds: [],
     stepName: "",
-    isComment: false,
-    isBarometer: false,
-    todoList:[]
-
+    todoList: []
 }
 
 export const defaultCreateAnswer: CreateMessageChoiceDto = {

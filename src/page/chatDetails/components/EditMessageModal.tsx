@@ -81,33 +81,35 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
             </Tabs>
 
             {tab === "one" && (<>
-            <MessageModal
-                saveMessage={handleSave}
-                onClose={onClose}
-                onDelete={() => setIsOpenDeleteModal(true)}
-                chatMessageId={message.id}
-                chatId={message.chatId}
-                message={{
-                    name: message.name,
-                    type: message.type,
-                    isCheckpoint: message.isCheckpoint,
-                    files: message.files,
-                    timeout: message.timeout,
-                    isAllowManualTime: message.isAllowManualTime,
-                    isOfferRestart: message.isOfferRestart,
-                    infoPopUps: message.infoPopUps?.map((item)=>{
-                        return {id: item.id, title: item.title, description: item.description};
-                    }) || [],
-                    step: message.step,
-                    stepName: message.stepName,
-                    isComment: message.isComment,
-                    isCourseEnd: message.isCourseEnd,
-                    isBarometer: message.isBarometer,
-                    question: message.question || "",
-                    introText: message.introText || "",
-                    chatId: message.chatId,
-                    todoList: message.todoList
-                }}/>
+                <MessageModal
+                    saveMessage={handleSave}
+                    onClose={onClose}
+                    onDelete={() => setIsOpenDeleteModal(true)}
+                    chatMessageId={message.id}
+                    chatId={message.chatId}
+                    message={{
+                        stepName: message.stepName,
+                        introText: message.introText || '',
+                        introImages: message.introImages || [],
+                        introMedias: message.introMedias || [],
+                        question: message.question || '',
+                        todoList: message.todoList || [],
+                        images: message.images || [],
+                        medias: message.medias || [],
+                        timeout: message.timeout,
+                        type: message.type,
+                        isCourseEnd: message.isCourseEnd,
+                        isOfferRestart: message.isOfferRestart,
+                        isAllowManualTime: message.isAllowManualTime,
+                        isComment: message.isComment,
+                        isBarometer: message.isBarometer,
+
+                        nextMessageId: message.nextMessageId,
+                        chatId: message.chatId,
+                        sliderPropIds: message.sliderProps?.map(item => (item.id)) || [],
+                    }}
+                />
+
             {isOpenDeleteModal &&
                 <DeleteModal
                     onDelete={handleDeleteMessage}
@@ -129,7 +131,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
             )}
 
             {tab === "tree" && (
-                <MessageChildren messageId={message.id}  onClose ={onClose} getData={getChildrenData} updateData={updateChildrenRelation} selectionCondition={selectionCondition}/>
+                <MessageChildren chatId={message.chatId} messageId={message.id}  onClose ={onClose} getData={getChildrenData} updateData={updateChildrenRelation} selectionCondition={selectionCondition}/>
             )}
 
             {tab === "four" && (

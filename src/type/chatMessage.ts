@@ -2,37 +2,37 @@ import {BaseEntity} from "./chat.type";
 import {MessageChoice, MessageChoiceWithRelationDto} from "./messageChoice.type";
 import {SliderProp} from "./messageSlider.type";
 import {InfoPopUp} from "./infoPopUp.type";
-import {CreateUpdateInfoPopUpType} from "../schema/createUpdateInfoPopUp.schema";
 import {PageRequestArgs} from "../utils/pageable.utils";
 import {StepChatMessage} from "./stepChatMessage.type";
 
 
 export type ChatMessageDto = {
-    name: string;
-    type: MessageType;
-    files: string[];
-    timeout?: bigint;
-    isCheckpoint: boolean;
-    isAllowManualTime: boolean
-    isOfferRestart: boolean
-
-    isCourseEnd: boolean
-    isComment: boolean,
-    isBarometer: boolean,
-
-    step: string;
     stepName: string;
-    question: string;
     introText: string;
-    todoList: string[]
+    introImages: string[];
+    introMedias: string[];
+    question: string;
+    todoList: string[];
+    images: string[];
+    medias: string[];
+    timeout?: number;
+    type?: MessageType;
+
+
+    isCourseEnd?: boolean;
+    isOfferRestart?: boolean;
+    isAllowManualTime?: boolean;
+    isComment?: boolean;
+    isBarometer?: boolean;
 
     nextMessageId?: string | null;
+    restartMessageId?: string | null;
     chatId: string
 }
 export type ChatMessage = BaseEntity & ChatMessageDto
 
 
-export type CreateChatMessageDto = ChatMessageDto & {infoPopUps: CreateUpdateInfoPopUpType[]}
+export type CreateChatMessageDto = ChatMessageDto & { sliderPropIds: string[] }
 export type UpdateChatMessageDto = Partial<CreateChatMessageDto>
 
 
@@ -40,8 +40,10 @@ export type UpdateChatMessageDto = Partial<CreateChatMessageDto>
 export enum MessageType {
     TEXT = 'TEXT',
     IMAGE = 'IMAGE',
-    VIDEO = 'VIDEO',
-    BAR = 'BAR',
+    MEDIA = 'MEDIA',
+    GRAPH = 'GRAPH',
+    CHALLENGE = "CHALLENGE",
+    QUESTION = 'QUESTION',
 }
 
 export interface ChatMessageWithRelations extends ChatMessage {

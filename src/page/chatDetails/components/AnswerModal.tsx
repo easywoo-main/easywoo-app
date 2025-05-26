@@ -52,6 +52,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
     };
 
     const watchedFile = watch("file");
+    console.log(errors)
 
     return (
         <>
@@ -60,7 +61,7 @@ const AnswerModal: React.FC<AnswerModalProps> = ({answer, onClose, saveMessage, 
                 <form onSubmit={handleSubmit(handleSave)}>
                     <ControlTextField control={control} errors={errors} name="name" label="Message name" />
                     <ControlTextField control={control} errors={errors} name="text" label="Message text" />
-                    <ControlTextField control={control} errors={errors} name="info" label="Message info"/>
+                    <ControlTextField control={control} errors={errors} name="infoText" label="Message info"/>
 
                     <Button
                         variant="outlined"

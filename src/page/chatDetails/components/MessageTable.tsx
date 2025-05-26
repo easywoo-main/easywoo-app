@@ -26,7 +26,7 @@ const MessageTable: React.FC<MessageTableProps> = ({ data, messageId, handleUpda
 
     const isNextStep = data.some(selectionCondition);
     const sortedData = [...data].sort((a, b) => {
-        const aIsNextStep = selectionCondition(a) ? 1 : 0//a.prevMessages?.some(prev => prev.id === messageId) ? 1 : 0;
+        const aIsNextStep = selectionCondition(a) ? 1 : 0// a.prevMessages?.some(prev => prev.id === messageId) ? 1 : 0;
         const bIsNextStep =selectionCondition(a) ? 1 : 0 // b.prevMessages?.some(prev => prev.id === messageId) ? 1 : 0;
         return bIsNextStep - aIsNextStep;
     });
@@ -72,7 +72,7 @@ const MessageTable: React.FC<MessageTableProps> = ({ data, messageId, handleUpda
                                         }}
                                     >
                                         <TableCell>{item.id}</TableCell>
-                                        <TableCell>{item.name}</TableCell>
+                                        <TableCell>{item.stepName}</TableCell>
                                         <TableCell>
                                             {(!isNextStep) && (
                                                 <Button onClick={() => handleUpdate(item.id, !isSelected)}>

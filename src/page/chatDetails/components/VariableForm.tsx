@@ -56,7 +56,7 @@ const VariableForm: React.FC<CustomFormProps> = ({ control, chatId }) => {
             <Typography>Variable: </Typography>
             <ControlCheckbox control={control} name="isBarometer" label="Barometer" />
             <Controller
-                name="variableIds"
+                name="sliderPropIds"
                 control={control}
                 render={({ field }) => (
                     <>
