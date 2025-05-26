@@ -23,7 +23,6 @@ interface EditMessageModalProps {
 }
 
 const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, message}) => {
-    console.log(message)
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
     const [tab, setTab] = React.useState("one");
 
@@ -40,7 +39,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
     }
 
 
-    const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChangeTab = (_event: React.SyntheticEvent, newValue: string) => {
         setTab(newValue);
     };
 
@@ -58,9 +57,16 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
     const updateChildrenRelation = async (nextMessageId: string | null)=>{
         await updateChatMessage(message.id, { nextMessageId });
     }
+    const updateRestartMessage =async (restartMessageId: string | null)=>{
+        await updateChatMessage(message.id, { restartMessageId });
+    }
 
     const selectionCondition = (chatMessage: ChatMessageWithPrevMessage)=>{
         return chatMessage.prevMessages?.some(prev => prev.id === message.id)  || false
+    }
+
+    const restartSelectionCondition = (chatMessage: ChatMessageWithPrevMessage)=>{
+        return chatMessage.id  === message.restartMessageId;
     }
 
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
@@ -72,12 +78,11 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                 <Tab
                     value="one"
                     label="Edit message"
-                    // wrapped
                 />
                 {/*<Tab value="two" label="Users"/>*/}
                 <Tab value="tree" label="Next Message"/>
                 <Tab value="four" label="Next Answers"/>
-
+                <Tab value="five" label="Restart Message"/>
             </Tabs>
 
             {tab === "one" && (<>
@@ -96,7 +101,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                         todoList: message.todoList || [],
                         images: message.images || [],
                         medias: message.medias || [],
-                        timeout: message.timeout,
+                        timeouts: message.timeouts,
                         type: message.type,
                         isCourseEnd: message.isCourseEnd,
                         isOfferRestart: message.isOfferRestart,
@@ -136,6 +141,9 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
 
             {tab === "four" && (
                 <AnswerChildren message={message}  onClose ={onClose}/>
+            )}
+            {tab === "five" && (
+                <MessageChildren chatId={message.chatId} messageId={message.id}  onClose ={onClose} getData={getChildrenData} updateData={updateRestartMessage} selectionCondition={restartSelectionCondition}/>
             )}
         </Dialog>
     );

@@ -12,7 +12,8 @@ export const defaultCreateMessage: CreateChatMessageDto = {
     question: "",
     sliderPropIds: [],
     stepName: "",
-    todoList: []
+    todoList: [],
+    timeouts: []
 }
 
 export const defaultCreateAnswer: CreateMessageChoiceDto = {

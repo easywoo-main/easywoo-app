@@ -23,6 +23,7 @@ import {ChatMessage, CreateChatMessageDto, MessageType} from "../../../type/chat
 import ControlSelect from "../../../components/ControlSelect";
 import VariableForm from "./VariableForm";
 import ControlArrayForm from "../../../components/ControlArrayForm";
+import ControlArrayTextField from "../../../components/ControlArrayTextField";
 
 interface MessageModalProps {
     onClose: () => void;
@@ -91,7 +92,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
                     <ChallengeForm errors={errors} control={control}/>
                     {/*<InfoPopUpForm control={control} errors={errors} />*/}
                     {/*<Typography component="span">To-do</Typography>*/}
-                    <ControlArrayForm control={control} errors={errors} name="todoList" label="Todo List"/>
+                    <ControlArrayTextField control={control} errors={errors} name="todoList" label="Todo List"/>
 
                     <Stack direction="row" spacing={1} flexWrap="wrap">
                     {users?.map((user) => (
@@ -112,7 +113,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
                             Delete
                         </Button>
                     )}
-                    <Button onClick={onClose} color="secondary">Cancel</Button>
+                    <Button onClick={()=>console.log(errors)} color="secondary">Cancel</Button>
                     <Button  type="submit" variant="contained" disabled={isSaveLoading}>
                         {isSaveLoading ? <CircularProgress size={24} /> : 'Save'}
                     </Button>

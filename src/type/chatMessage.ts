@@ -15,7 +15,7 @@ export type ChatMessageDto = {
     todoList: string[];
     images: string[];
     medias: string[];
-    timeout?: number;
+    timeouts: number[];
     type?: MessageType;
 
 

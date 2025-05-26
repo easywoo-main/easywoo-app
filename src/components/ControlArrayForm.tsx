@@ -1,13 +1,15 @@
 import React from "react";
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import {Controller, Control, FieldErrors, useFieldArray, Path, FieldValues, ArrayPath} from "react-hook-form";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {ControllerRenderProps} from "react-hook-form/dist/types/controller";
 
 interface ControlArrayFormProps<TFieldValues extends FieldValues> {
     control: Control<TFieldValues>;
     errors: FieldErrors<TFieldValues>;
     name: Path<TFieldValues>;
     label: string;
+    render: (field: ControllerRenderProps<TFieldValues>, label: string) => React.ReactElement;
 }
 
 function ControlArrayForm<TFieldValues extends FieldValues>({
@@ -15,6 +17,7 @@ function ControlArrayForm<TFieldValues extends FieldValues>({
                                                               errors,
                                                               name,
                                                                 label,
+                                                                render,
                                                           }: ControlArrayFormProps<TFieldValues>) {
     const { fields, append, remove } = useFieldArray<TFieldValues>({
         control,
@@ -32,14 +35,7 @@ function ControlArrayForm<TFieldValues extends FieldValues>({
                         control={control}
                         defaultValue={field as any}
                         render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label={`${label} #${index + 1}`}
-                                variant="outlined"
-                                fullWidth
-                                // error={!!errors?.[name]?.[index]}
-                                // helperText={errors?.[name]?.[index] ? (errors[name][index] as any)?.message : ""}
-                            />
+                            render(field, `${label} #${index + 1}`)
                         )}
                     />
                     <IconButton

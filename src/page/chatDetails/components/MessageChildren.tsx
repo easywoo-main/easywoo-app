@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Box, Stack, TextField, CircularProgress, DialogActions, Button } from "@mui/material";
-import {ChatMessage, ChatMessageWithPrevMessage, ChatMessageWithRelations} from "../../../type/chatMessage";
+import {ChatMessageWithPrevMessage} from "../../../type/chatMessage";
 import MessageTable from "./MessageTable";
 import {PageResponse} from "../../../utils/pageable.utils";
-import CreateAnswerModal from "./CreateAnswerModal";
 import CreateMessageModal from "./CreateMessageModal";
 
 interface MessageChildrenProps {
