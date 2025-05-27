@@ -14,7 +14,7 @@ function ControlCheckbox<TFieldValues extends FieldValues>({control, name, label
             control={control}
             render={({field}) => (
                 <FormControlLabel
-                    control={<Checkbox {...field} />}
+                    control={<Checkbox {...field} checked={!!field.value}/>}
                     label={label}
                 />
             )}

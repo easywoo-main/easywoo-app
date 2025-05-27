@@ -113,7 +113,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
                             Delete
                         </Button>
                     )}
-                    <Button onClick={()=>console.log(errors)} color="secondary">Cancel</Button>
+                    <Button onClick={onClose} color="secondary">Cancel</Button>
                     <Button  type="submit" variant="contained" disabled={isSaveLoading}>
                         {isSaveLoading ? <CircularProgress size={24} /> : 'Save'}
                     </Button>
