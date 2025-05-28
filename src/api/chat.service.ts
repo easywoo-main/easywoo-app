@@ -3,7 +3,6 @@ import {PageRequestArgs, PageResponse} from "../utils/pageable.utils";
 import {Chat, CreateChatDto, UpdateChatDto} from "../type/chat.type";
 
 export const getPaginationChat = async (option: PageRequestArgs): Promise<PageResponse<Chat>> => {
-    console.log("option",option);
     const { data } = await apiClientV1.get("/chat", {
         params: option,
     });

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import ChatListPage from "./page/chatList/ChatListPage";
 import React from "react";
-import ChatMessageDetails from "./page/chatDetails/ChatDetails";
+import ChatMessageDetailsPage from "./page/chatDetails/ChatDetails";
 
 const App: React.FC = () => {
 
@@ -9,7 +9,7 @@ const App: React.FC = () => {
         <Router>
             <Routes>
                 <Route path="/chat" element={<ChatListPage />} />
-                 <Route path="/chat/:id" element={<ChatMessageDetails />} />
+                 <Route path="/chat/:id" element={<ChatMessageDetailsPage />} />
                 <Route path="/" element={<Navigate to="/chat" replace />} />
             </Routes>
         </Router>

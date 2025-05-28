@@ -70,7 +70,5 @@ export type ChatMessageWithPrevMessage = ChatMessage & {
 };
 
 export interface FilterChatMessage extends PageRequestArgs {
-    chatMessageId?: string;
     chatId?: string;
-    messageChoiceId?: string;
 }

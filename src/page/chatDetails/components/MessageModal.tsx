@@ -3,6 +3,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createUpdateMessageSchema} from "../../../schema/createUpdateMessage.schema";
 import {
+    Box,
     Button,
     Chip,
     CircularProgress,
@@ -99,7 +100,8 @@ const MessageModal: React.FC<MessageModalProps> = ({
                         label="Answers"
                         emptyItem={{ text: "", infoText: "" }}
                         render={(field, label, index) => (
-                            <>
+                            <Box>
+                                <Typography>{label}</Typography>
                                 <ControlTextField
                                     control={control}
                                     errors={errors}
@@ -118,7 +120,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
                                     name={`answers.${index}.goToStep`}
                                     label={`${label} Go to step`}
                                 />
-                            </>
+                            </Box>
                         )}
                     />
 

@@ -5,16 +5,14 @@ import {
     ChatMessageWithPrevMessage,
     ChatMessageWithRelations
 } from "../../../type/chatMessage";
-import {deleteChatMessage, getAllByChatMessageId, updateChatMessage} from "../../../api/chatMessage.service";
+import {deleteChatMessage, updateChatMessage} from "../../../api/chatMessage.service";
 import MessageModal from "./MessageModal";
 import {Dialog} from "@mui/material";
-import {getPaginationStepChatMessage} from "../../../api/stepChatMessage.service";
-import {PageRequestArgs} from "../../../utils/pageable.utils";
 import DeleteModal from "../../../components/DeleteModal";
 
 interface EditMessageModalProps {
     onClose: () => void;
-    onSubmit: (newMessage: ChatMessage) =>  Promise<void>;
+    onSubmit: (newMessage: ChatMessage) =>  Promise<void> | void;
     message: ChatMessageWithRelations;
 }
 

@@ -2,16 +2,18 @@ import React from 'react';
 import {Dialog} from '@mui/material';
 import {createChat} from "../../../api/chat.service";
 import ChatModal from "./ChatModal";
-import {CreateChatDto} from "../../../type/chat.type";
+import {Chat, CreateChatDto} from "../../../type/chat.type";
 
 
 interface CreateChatModalProps {
     onClose: () => void;
+    onSubmit: (data: Chat) => void;
 }
 
-const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
+const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose, onSubmit }) => {
     const handleSave = async (data: CreateChatDto) => {
-        await createChat(data);
+        const chat = await createChat(data);
+        onSubmit(chat)
         onClose();
     };
 

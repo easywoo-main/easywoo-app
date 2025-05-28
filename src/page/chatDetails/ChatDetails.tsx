@@ -13,8 +13,9 @@ import EditChatModal from "../chatList/components/EditChatModal";
 import CreateMessageModal from "./components/CreateMessageModal";
 import SelectUserModal from "./components/SelectUserModal";
 import {User} from "../../type/user.type";
+import ChatMessagesList from "./components/ChatMessagesList";
 
-const ChatMessageDetails: React.FC = () => {
+const ChatMessageDetailsPage: React.FC = () => {
     const [chat, setChat] = useState<Chat>();
     const [isLoading, setIsLoading] = useState(true);
     const [isCreateMessageModalOpen, setIsCreateMessageModalOpen] = useState(false);
@@ -49,7 +50,7 @@ const ChatMessageDetails: React.FC = () => {
     }
 
     return (
-        <Container style={{width: "100vw", height: "100vh", margin: "0", padding: "0"}}>
+        <Box style={{width: "100%", height: "100%", margin: "0", padding: "0"}}>
             <Box
                 sx={{
                     display: "flex",
@@ -80,9 +81,6 @@ const ChatMessageDetails: React.FC = () => {
                     <Button variant="outlined" onClick={() => setIsCreateMessageModalOpen(true)}>
                         Add Step
                     </Button>
-                    <Button variant="outlined" onClick={() => setIsCreateMessageModalOpen(true)}>
-                        List Step
-                    </Button>
                 </Box>
             </Box>
 
@@ -92,7 +90,7 @@ const ChatMessageDetails: React.FC = () => {
                     <CircularProgress/>
                 </Box>
             ) : chat?.startMessageId ? (
-                <ChatTree chat={chat}/>
+                <ChatMessagesList chatId={chat.id}/>
             ) : (
                 <Box sx={{textAlign: "center", mt: 4}}>
                     <Typography variant="h6" gutterBottom>
@@ -118,8 +116,8 @@ const ChatMessageDetails: React.FC = () => {
                     chat={chat!}
                     onSubmit={handleUpdateChat}
                 />}
-        </Container>
+        </Box>
     );
 };
 
-export default ChatMessageDetails;
+export default ChatMessageDetailsPage;
