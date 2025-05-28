@@ -4,6 +4,9 @@ import { Control, Controller } from "react-hook-form";
 import ControlCheckbox from "../../../components/ControlCheckbox";
 import { getAllSliderPropsByChatId } from "../../../api/sliderProp.service";
 import { SliderProp } from "../../../type/messageSlider.type";
+import {getChatById} from "../../../api/chat.service";
+import {AxiosError} from "axios";
+import {Chat} from "../../../type/chat.type";
 
 interface CustomFormProps {
     control: Control<any>;
@@ -12,6 +15,7 @@ interface CustomFormProps {
 
 const VariableForm: React.FC<CustomFormProps> = ({ control, chatId }) => {
     const [loading, setLoading] = React.useState(true);
+    const [chat, setChat] = React.useState<Chat>();
     const [sliderProps, setSliderProps] = React.useState<SliderProp[]>([]);
     const [error, setError] = React.useState<string | null>(null);
 
@@ -19,12 +23,14 @@ const VariableForm: React.FC<CustomFormProps> = ({ control, chatId }) => {
         setLoading(true);
         setError(null);
         try {
-            const data = await getAllSliderPropsByChatId(chatId);
+            const [data, chat] = await Promise.all([ getAllSliderPropsByChatId(chatId), getChatById(chatId)])
+            // const data = await getAllSliderPropsByChatId(chatId);
             setSliderProps(data);
-        } catch (err) {
-            console.error(err);
-            setError("Failed to load slider props");
-        } finally {
+            setChat(chat)
+        }  catch (err: AxiosError | any) {
+            console.log(err?.response?.data?.message);
+            setError(err?.response?.data?.message || 'An error occurred while saving.');
+        }  finally {
             setLoading(false);
         }
     }, [chatId]);
@@ -43,7 +49,7 @@ const VariableForm: React.FC<CustomFormProps> = ({ control, chatId }) => {
         );
     }
 
-    if (error) {
+    if (error || !chat || !sliderProps) {
         return (
             <Box>
                 <Typography color="error">{error}</Typography>
@@ -54,7 +60,7 @@ const VariableForm: React.FC<CustomFormProps> = ({ control, chatId }) => {
     return (
         <Box>
             <Typography>Variable: </Typography>
-            <ControlCheckbox control={control} name="isBarometer" label="Barometer" />
+            <ControlCheckbox control={control} name="isBarometer" label={chat.masterGraph} />
             <Controller
                 name="sliderPropIds"
                 control={control}

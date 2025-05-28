@@ -24,6 +24,7 @@ export type ChatDto = {
     paintPoints: string[]
     formula: string;
     graphType: GraphType;
+    masterGraph: string;
 
     startMessageId: string;
 } & TherapistFormValues

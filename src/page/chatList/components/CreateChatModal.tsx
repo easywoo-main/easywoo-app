@@ -16,6 +16,7 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
     };
 
     const defaultChat: CreateChatDto = {
+        masterGraph: "",
         name: '',
         price: 0,
         freeSteps: 0,

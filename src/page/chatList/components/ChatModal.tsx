@@ -53,6 +53,7 @@ const ChatModal = ({ chat, onClose, onSubmit }: ChatModalProps) => {
                                      label="Has Individual Consultation"/>
                     <ControlCheckbox control={control} name="isDisabled" label="Is Disabled"/>
                     <SliderForm  errors={errors} control={control} />
+                    <ControlTextField control={control} errors={errors} name="masterGraph" label="Master Graph"/>
                     <PainPointsForm
                         control={control}
                         errors={errors}

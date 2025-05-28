@@ -7,14 +7,9 @@ import {
 } from "../../../type/chatMessage";
 import {deleteChatMessage, getAllByChatMessageId, updateChatMessage} from "../../../api/chatMessage.service";
 import MessageModal from "./MessageModal";
-import DeleteModal from "../../../components/DeleteModal";
-import {Dialog, Tab, Tabs} from "@mui/material";
-import ProgressTracker from "./ProgressTracker";
+import {Dialog} from "@mui/material";
 import {getPaginationStepChatMessage} from "../../../api/stepChatMessage.service";
 import {PageRequestArgs} from "../../../utils/pageable.utils";
-import ChatMessageItemProgressTracker from "./ChatMessageItemProgresTracker";
-import MessageChildren from "./MessageChildren";
-import AnswerChildren from "./AnswerChildren";
 
 interface EditMessageModalProps {
     onClose: () => void;
@@ -70,22 +65,6 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
     }
 
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
-            <Tabs
-                value={tab}
-                onChange={handleChangeTab}
-                aria-label="wrapped label tabs example"
-            >
-                <Tab
-                    value="one"
-                    label="Edit message"
-                />
-                {/*<Tab value="two" label="Users"/>*/}
-                <Tab value="tree" label="Go to next step"/>
-                <Tab value="four" label="Next Answers"/>
-                <Tab value="five" label="Restart Message"/>
-            </Tabs>
-
-            {tab === "one" && (<>
                 <MessageModal
                     saveMessage={handleSave}
                     onClose={onClose}
@@ -108,43 +87,14 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                         isAllowManualTime: message.isAllowManualTime,
                         isComment: message.isComment,
                         isBarometer: message.isBarometer,
-
+                        stepId: message.stepId,
                         nextMessageId: message.nextMessageId,
                         chatId: message.chatId,
                         sliderPropIds: message.sliderProps?.map(item => (item.id)) || [],
+                        answers: []
                     }}
                 />
 
-            {isOpenDeleteModal &&
-                <DeleteModal
-                    onDelete={handleDeleteMessage}
-                    onClose={() => setIsOpenDeleteModal(false)}
-                    title="Delete Message"
-                    content='Are you sure you want to delete the message "{message.name}?'
-                />
-            }
-            </>)}
-
-            {tab === "two" && (
-                <ProgressTracker
-                    onClose={onClose}
-                    getPaginationData={handleProgressTracker}
-                    children={(item) => {
-                        return <ChatMessageItemProgressTracker item={item}/>
-                    }}
-                />
-            )}
-
-            {tab === "tree" && (
-                <MessageChildren chatId={message.chatId} messageId={message.id}  onClose ={onClose} getData={getChildrenData} updateData={updateChildrenRelation} selectionCondition={selectionCondition}/>
-            )}
-
-            {tab === "four" && (
-                <AnswerChildren message={message}  onClose ={onClose}/>
-            )}
-            {tab === "five" && (
-                <MessageChildren chatId={message.chatId} messageId={message.id}  onClose ={onClose} getData={getChildrenData} updateData={updateRestartMessage} selectionCondition={restartSelectionCondition}/>
-            )}
         </Dialog>
     );
 };

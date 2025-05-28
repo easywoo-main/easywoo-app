@@ -1,5 +1,5 @@
 import {BaseEntity} from "./chat.type";
-import {MessageChoice, MessageChoiceWithRelationDto} from "./messageChoice.type";
+import {CreateMessageChoiceDto, MessageChoice, MessageChoiceWithRelationDto} from "./messageChoice.type";
 import {SliderProp} from "./messageSlider.type";
 import {InfoPopUp} from "./infoPopUp.type";
 import {PageRequestArgs} from "../utils/pageable.utils";
@@ -17,6 +17,7 @@ export type ChatMessageDto = {
     medias: string[];
     timeouts: number[];
     type?: MessageType;
+    stepId?: number;
 
 
     isCourseEnd?: boolean;
@@ -29,10 +30,15 @@ export type ChatMessageDto = {
     restartMessageId?: string | null;
     chatId: string
 }
+
 export type ChatMessage = BaseEntity & ChatMessageDto
 
 
-export type CreateChatMessageDto = ChatMessageDto & { sliderPropIds: string[] }
+export type CreateChatMessageDto = ChatMessageDto & {
+    sliderPropIds: string[],
+    goToStep: number,
+    answers: (Omit<CreateMessageChoiceDto, "prevMessageId"> & {goToStep: number})[]
+}
 export type UpdateChatMessageDto = Partial<CreateChatMessageDto>
 
 

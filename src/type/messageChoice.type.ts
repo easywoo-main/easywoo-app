@@ -4,7 +4,6 @@ import {BaseEntity} from "./chat.type";
 type MessageChoiceDto = {
     // name: string;
     text: string;
-    file?: string;
     infoText?: string;
     prevMessageId: string;
     nextMessageId?: string | null;

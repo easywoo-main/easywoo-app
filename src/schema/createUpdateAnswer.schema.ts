@@ -3,7 +3,6 @@ export const createUpdateAnswerSchema = Yup.object().shape({
     // name: Yup.string().required('Message name cannot be empty.'),
     text: Yup.string().required('Message text cannot be empty.'),
     infoText: Yup.string().optional(),
-    file: Yup.string().optional(),
     // prevMessageId: Yup.string().uuid().optional(),
 });
 

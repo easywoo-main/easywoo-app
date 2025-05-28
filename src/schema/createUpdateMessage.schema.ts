@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import {MessageType} from "../type/chatMessage";
+import {createUpdateAnswerSchema} from "./createUpdateAnswer.schema";
 
 export const createUpdateMessageSchema = Yup.object().shape({
     stepName: Yup.string().required("Message text cannot be empty."),
@@ -18,6 +19,9 @@ export const createUpdateMessageSchema = Yup.object().shape({
     isCourseEnd: Yup.boolean().default(false),
     isBarometer: Yup.boolean().default(false),
     sliderPropIds: Yup.array().of(Yup.string().uuid()).optional(),
+    stepId: Yup.number().typeError("Step id must be a number.").required("Step id required."),
+    answers: Yup.array().of(createUpdateAnswerSchema)
+
 });
 
 

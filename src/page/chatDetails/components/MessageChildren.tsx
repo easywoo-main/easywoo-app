@@ -47,6 +47,7 @@ export const MessageChildren: React.FC<MessageChildrenProps> = ({ messageId, onC
         setCreatingNew(true);
     };
     const handleModalClose = () => {
+        handleGetData()
         setCreatingNew(false);
     };
 
@@ -86,6 +87,7 @@ export const MessageChildren: React.FC<MessageChildrenProps> = ({ messageId, onC
                 <CreateMessageModal
                     onClose={handleModalClose}
                     chatId={chatId}
+                    prevMessageId={messageId}
                 />
             )}
         </Box>

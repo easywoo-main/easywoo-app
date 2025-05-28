@@ -55,6 +55,7 @@ const EditChatModal: React.FC<EditChatModalProps> = ({chat, onClose, onSubmit}) 
                     formula: chat.formula,
                     graphType: chat.graphType,
                     paintPoints: chat.paintPoints,
+                    masterGraph: chat.masterGraph,
                     sliderProps: sliderProps?.map(slider => ({
                         id: slider.id,
                         name: slider.name,

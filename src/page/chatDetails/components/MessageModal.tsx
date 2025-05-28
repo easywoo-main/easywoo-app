@@ -75,6 +75,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
             <DialogContent>
                 <form onSubmit={handleSubmit(handleSave)}>
                     {chatMessageId && <Typography>Message Step with id: {chatMessageId}</Typography>}
+                    <ControlTextField control={control} errors={errors} name="stepId" label="Step id"/>
                     <ControlTextField control={control} errors={errors} name="stepName" label="Step Name"/>
                     <ControlTextField control={control} errors={errors} name="introText" label="Intro Text"/>
                     <FilesForm control={control} errors={errors} title="Intro Images" name="introImages"/>
@@ -90,9 +91,38 @@ const MessageModal: React.FC<MessageModalProps> = ({
                     <FilesForm control={control} errors={errors} name="images" title="Upload Image"/>
                     <FilesForm control={control} errors={errors} name="medias" title="Upload Media"/>
                     <ChallengeForm errors={errors} control={control}/>
-                    {/*<InfoPopUpForm control={control} errors={errors} />*/}
-                    {/*<Typography component="span">To-do</Typography>*/}
                     <ControlArrayTextField control={control} errors={errors} name="todoList" label="Todo List"/>
+                    <ControlTextField control={control} errors={errors} name="goToStep" label="Go to step"/>
+                    <ControlArrayForm
+                        control={control}
+                        errors={errors}
+                        name="answers"
+                        label="Answers"
+                        emptyItem={{ text: "", infoText: "" }}
+                        render={(field, label, index) => (
+                            <>
+                                <ControlTextField
+                                    control={control}
+                                    errors={errors}
+                                    name={`answers.${index}.text`}
+                                    label={`${label} Answer `}
+                                />
+                                <ControlTextField
+                                    control={control}
+                                    errors={errors}
+                                    name={`answers.${index}.infoText`}
+                                    label={`${label} Help text`}
+                                />
+                                <ControlTextField
+                                    control={control}
+                                    errors={errors}
+                                    name={`answers.${index}.goToStep`}
+                                    label={`${label} Go to step`}
+                                />
+                            </>
+                        )}
+                    />
+
 
                     <Stack direction="row" spacing={1} flexWrap="wrap">
                     {users?.map((user) => (

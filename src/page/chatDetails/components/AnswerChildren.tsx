@@ -52,6 +52,7 @@ export const AnswerChildren: React.FC<MessageChildrenProps> = ({ message, onClos
     };
 
     const handleModalClose = () => {
+        handleGetData()
         setEditingAnswer(null);
         setCreatingNew(false);
     };
