@@ -118,26 +118,6 @@ function SliderForm<TFieldValues extends SliderCreateUpdateProps>({
                 label="Formula Input"
                 placeholder="e.g., sliderName^2 + 3 * 5"
             />
-            {/*<FormControl fullWidth error={!!errors.graphType} variant="outlined" size="small">*/}
-            {/*    <InputLabel id="graphType-label">Master graph</InputLabel>*/}
-            {/*    <Controller*/}
-            {/*        name={"graphType" as Path<TFieldValues>}*/}
-            {/*        control={control}*/}
-            {/*        render={({field}) => (*/}
-            {/*            <Select {...field} labelId="graphType-label" label="Graph Type" fullWidth*/}
-            {/*                    error={!!errors.graphType}>*/}
-            {/*                {Object.values(GraphType).map((type) => (*/}
-            {/*                    <MenuItem key={type} value={type}>*/}
-            {/*                        {type.toString().charAt(0).toUpperCase() + type.toString().slice(1).toLowerCase()}*/}
-            {/*                    </MenuItem>*/}
-            {/*                ))}*/}
-            {/*            </Select>*/}
-            {/*        )}*/}
-            {/*    />*/}
-            {/*</FormControl>*/}
-
-            {/*<ControlSelect control={control} errors={errors} name={"graphType" as Path<TFieldValues>} label="Graph Type"*/}
-            {/*               options={Object.values(GraphType)}/>*/}
         </Box>
     );
 }

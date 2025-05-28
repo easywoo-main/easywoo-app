@@ -3,14 +3,10 @@ import {TreeNode} from '../type';
 import {ChatMessage, MessageType} from "../../../type/chatMessage";
 import {Box, Stack, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
-import EditAnswerModal from "./EditAnswerModal";
-import CreateAnswerModal from './CreateAnswerModal';
 import CreateMessageModal from "./CreateMessageModal";
 import {AddChildrenFunction} from "react-d3-tree/lib/types/types/common";
 import {getChatMessageById} from "../../../api/chatMessage.service";
 import {chatMessageToNode} from '../helper';
-import {MessageChoice} from "../../../type/messageChoice.type";
-import {getMessageChoiceById} from '../../../api/messageChoice.service';
 import EditMessageModal from './EditMessageModal';
 
 interface QuestionComponentProps {
@@ -90,18 +86,6 @@ const Node: React.FC<QuestionComponentProps> = ({
                         >
                             {isAnswer ? " Answer Details" : "Message Details"}
                         </Button>
-
-                        {/*{(treeNode.children.length === 0 ||*/}
-                        {/*    [MessageType.QUESTION_SINGLE].includes(treeNode.attributes.type)) && (*/}
-                        {/*    <Button*/}
-                        {/*        variant="contained"*/}
-                        {/*        color="success"*/}
-                        {/*        fullWidth*/}
-                        {/*        onClick={()=>setIsOpenCreateChildrenModal(true)}*/}
-                        {/*    >*/}
-                        {/*        Add Children*/}
-                        {/*    </Button>*/}
-                        {/*)}*/}
                     </Stack>
                 </Box>
 

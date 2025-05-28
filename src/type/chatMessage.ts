@@ -25,6 +25,7 @@ export type ChatMessageDto = {
     isAllowManualTime?: boolean;
     isComment?: boolean;
     isBarometer?: boolean;
+    isGraph?: boolean;
 
     nextMessageId?: string | null;
     restartMessageId?: string | null;
@@ -36,8 +37,8 @@ export type ChatMessage = BaseEntity & ChatMessageDto
 
 export type CreateChatMessageDto = ChatMessageDto & {
     sliderPropIds: string[],
-    goToStep: number,
-    answers: (Omit<CreateMessageChoiceDto, "prevMessageId"> & {goToStep: number})[]
+    goToStep?: number,
+    answers: (Omit<CreateMessageChoiceDto, "prevMessageId"> & {goToStep?: number})[]
 }
 export type UpdateChatMessageDto = Partial<CreateChatMessageDto>
 
@@ -47,9 +48,9 @@ export enum MessageType {
     TEXT = 'TEXT',
     IMAGE = 'IMAGE',
     MEDIA = 'MEDIA',
-    GRAPH = 'GRAPH',
-    CHALLENGE = "CHALLENGE",
-    QUESTION = 'QUESTION',
+    // GRAPH = 'GRAPH',
+    // CHALLENGE = "CHALLENGE",
+    // QUESTION = 'QUESTION',
 }
 
 export interface ChatMessageWithRelations extends ChatMessage {

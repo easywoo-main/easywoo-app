@@ -1,6 +1,5 @@
 import * as Yup from "yup";
 import {createUpdateSliderPropSchema} from "./createUpdateSliderProp.schema";
-import {GraphType} from "../type/chat.type";
 import {CreateUpdateSliderPropDto} from "../type/messageSlider.type";
 import {MATH_OPERATORS} from "../utils/constant.utils";
 
@@ -12,7 +11,6 @@ export const validationSchema = Yup.object().shape({
     hasIndividualConsultation: Yup.boolean().default(false),
     isDisabled: Yup.boolean().default(false),
     sliderProps: Yup.array().of(createUpdateSliderPropSchema).optional(),
-    graphType: Yup.mixed<GraphType>().oneOf(Object.values(GraphType) as GraphType[]).optional(),
     paintPoints: Yup.array().of(Yup.string()).optional(),
     formula: Yup.string().required("Formula is required")
         .test('is-contains-slider-name', function(value) {

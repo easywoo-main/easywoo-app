@@ -1,7 +1,7 @@
 import React from "react";
 import {Box, Typography} from "@mui/material";
 import ControlCheckbox from "../../../components/ControlCheckbox";
-import {Control, Controller, FieldErrors} from "react-hook-form";
+import {Control, FieldErrors} from "react-hook-form";
 import TimeoutInput from "./TimeoutInput";
 import ControlArrayForm from "../../../components/ControlArrayForm";
 
@@ -14,25 +14,12 @@ const ChallengeForm: React.FC<ChallengeFormProps> = ({control, errors}) => {
     return (
         <Box>
             <Typography variant="h6">Suggested time interval :</Typography>
-            {/*<Controller*/}
-            {/*    name="timeout"*/}
-            {/*    control={control}*/}
-            {/*    rules={{required: "Timeout is required", min: {value: 1, message: "Must be positive"}}}*/}
-            {/*    render={({field}) => (*/}
-            {/*        <TimeoutInput*/}
-            {/*            {...field}*/}
-            {/*            error={!!errors.timeout}*/}
-            {/*            helperText={errors.timeout?.message as string}*/}
-            {/*        />*/}
-            {/*    )}*/}
-            {/*/>*/}
             <ControlArrayForm control={control} errors={errors} name="timeouts" label="Timeout"
                               render={(field, label) => (<TimeoutInput
                                   {...field}
                                   label={label}
                                   error={!!errors.timeout}
-                                  helperText={errors.timeout?.message as string}
-                              />)}/>
+                                  helperText={errors.timeout?.message as string}/>)} emptyItem={undefined}/>
 
             <ControlCheckbox
                 control={control}

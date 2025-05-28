@@ -10,7 +10,7 @@ import { chatMessageToNode } from "../helper";
 
 interface TreeProps {
     chat: Chat;
-    users: User[]
+    users?: User[]
 }
 
 const ChatTree: React.FC<TreeProps> = ({chat, users}) => {
@@ -22,7 +22,7 @@ const ChatTree: React.FC<TreeProps> = ({chat, users}) => {
     }, [chat, users]);
 
     const handleGetRootNode = async (nodeId: string) => {
-        const node = await getChatMessageById(nodeId, users.map(item => item.id));
+        const node = await getChatMessageById(nodeId, users?.map(item => item.id));
         setTreeData([chatMessageToNode(node)]);
     }
 

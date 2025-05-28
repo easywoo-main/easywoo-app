@@ -10,6 +10,7 @@ import MessageModal from "./MessageModal";
 import {Dialog} from "@mui/material";
 import {getPaginationStepChatMessage} from "../../../api/stepChatMessage.service";
 import {PageRequestArgs} from "../../../utils/pageable.utils";
+import DeleteModal from "../../../components/DeleteModal";
 
 interface EditMessageModalProps {
     onClose: () => void;
@@ -19,7 +20,6 @@ interface EditMessageModalProps {
 
 const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, message}) => {
     const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-    const [tab, setTab] = React.useState("one");
 
     const handleSave = async (data: any) => {
         const newChatMessage = await updateChatMessage(message.id, data);
@@ -33,36 +33,6 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
         onClose();
     }
 
-
-    const handleChangeTab = (_event: React.SyntheticEvent, newValue: string) => {
-        setTab(newValue);
-    };
-
-    const handleProgressTracker = async (option: PageRequestArgs) => {
-        return getPaginationStepChatMessage(message.id, option);
-    }
-
-    const {...chatMessageDto}: ChatMessageDto = message;
-    console.log(chatMessageDto)
-
-    const getChildrenData = async  (search: string)=> {
-        return getAllByChatMessageId({search, chatId: message.chatId, chatMessageId: message.id});
-    }
-
-    const updateChildrenRelation = async (nextMessageId: string | null)=>{
-        await updateChatMessage(message.id, { nextMessageId });
-    }
-    const updateRestartMessage =async (restartMessageId: string | null)=>{
-        await updateChatMessage(message.id, { restartMessageId });
-    }
-
-    const selectionCondition = (chatMessage: ChatMessageWithPrevMessage)=>{
-        return chatMessage.prevMessages?.some(prev => prev.id === message.id)  || false
-    }
-
-    const restartSelectionCondition = (chatMessage: ChatMessageWithPrevMessage)=>{
-        return chatMessage.id  === message.restartMessageId;
-    }
 
     return (<Dialog open onClose={onClose} maxWidth="md" fullWidth>
                 <MessageModal
@@ -94,6 +64,13 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                         answers: []
                     }}
                 />
+        {isOpenDeleteModal &&
+            <DeleteModal
+                onDelete={handleDeleteMessage}
+                onClose={() => setIsOpenDeleteModal(false)}
+                title="Delete Answer"
+                content={`Are you sure you want to delete the message ${message.stepName}?`}
+            />}
 
         </Dialog>
     );

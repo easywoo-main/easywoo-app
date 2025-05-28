@@ -20,6 +20,7 @@ export const createUpdateMessageSchema = Yup.object().shape({
     isBarometer: Yup.boolean().default(false),
     sliderPropIds: Yup.array().of(Yup.string().uuid()).optional(),
     stepId: Yup.number().typeError("Step id must be a number.").required("Step id required."),
+    goToStep: Yup.number().typeError("Step id must be a number."),
     answers: Yup.array().of(createUpdateAnswerSchema)
 
 });

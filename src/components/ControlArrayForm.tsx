@@ -19,7 +19,7 @@ interface ControlArrayFormProps<TFieldValues extends FieldValues> {
     label: string;
     render: (field: ControllerRenderProps<TFieldValues>, label: string, index: number) => React.ReactElement;
     defaultValue?: any;
-    emptyItem: any;
+    emptyItem?: any;
 }
 
 function ControlArrayForm<TFieldValues extends FieldValues>({

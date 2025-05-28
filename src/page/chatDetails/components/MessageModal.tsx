@@ -31,8 +31,6 @@ interface MessageModalProps {
     message: CreateChatMessageDto;
     onDelete?: () => void;
     users?: User[];
-    messageChoices?: MessageChoice[];
-    nextMessage?: ChatMessage;
 
     chatMessageId?: string;
     chatId: string;
@@ -45,8 +43,6 @@ const MessageModal: React.FC<MessageModalProps> = ({
                                                        onDelete,
                                                        users,
                                                        chatMessageId,
-                                                       messageChoices,
-                                                       nextMessage,
                                                        chatId
                                                    }) => {
     const [isSaveLoading, setIsSaveLoading] = useState(false);
@@ -84,6 +80,9 @@ const MessageModal: React.FC<MessageModalProps> = ({
                     <ControlCheckbox control={control} name="isCourseEnd" label="Is Course End"/>
                     <ControlCheckbox control={control} name="isOfferRestart" label="Is Offer restart"/>
                     <ControlCheckbox control={control} name="isComment" label="Is Comment"/>
+                    <ControlCheckbox control={control} name="isGraph" label="Is Graph"/>
+
+
                     <ControlSelect control={control} errors={errors} name="type" options={Object.values(MessageType)}
                                    label="Message type"/>
                     <VariableForm control={control} chatId={chatId}  />

@@ -16,11 +16,9 @@ import {User} from "../../type/user.type";
 
 const ChatMessageDetails: React.FC = () => {
     const [chat, setChat] = useState<Chat>();
-    const [users, setUsers] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [isCreateFirstChatMessageModalOpen, setIsCreateFirstChatMessageModalOpen] = useState(false);
+    const [isCreateMessageModalOpen, setIsCreateMessageModalOpen] = useState(false);
     const [isEditChatOpen, setIsEditChatOpen] = useState(false);
-    const [isOpenSelectUserModal, setIsOpenSelectUserModal] = useState(false);
     const {id: chatId} = useParams<{ id: string }>();
     const navigate = useNavigate();
 
@@ -79,11 +77,12 @@ const ChatMessageDetails: React.FC = () => {
                         onClick={() => setIsEditChatOpen(true)}
                         startIcon={<EditIcon/>}
                     >Edit</Button>
-                    <Button
-                        variant="outlined"
-                        onClick={() => setIsOpenSelectUserModal(true)}
-                        startIcon={<PersonIcon/>}
-                    >Users</Button>
+                    <Button variant="outlined" onClick={() => setIsCreateMessageModalOpen(true)}>
+                        Add Step
+                    </Button>
+                    <Button variant="outlined" onClick={() => setIsCreateMessageModalOpen(true)}>
+                        List Step
+                    </Button>
                 </Box>
             </Box>
 
@@ -93,21 +92,21 @@ const ChatMessageDetails: React.FC = () => {
                     <CircularProgress/>
                 </Box>
             ) : chat?.startMessageId ? (
-                <ChatTree chat={chat} users={users}/>
+                <ChatTree chat={chat}/>
             ) : (
                 <Box sx={{textAlign: "center", mt: 4}}>
                     <Typography variant="h6" gutterBottom>
                         No start message found.
                     </Typography>
-                    <Button variant="outlined" onClick={() => setIsCreateFirstChatMessageModalOpen(true)}>
+                    <Button variant="outlined" onClick={() => setIsCreateMessageModalOpen(true)}>
                         Add First Step
                     </Button>
                 </Box>
             )}
 
-            {isCreateFirstChatMessageModalOpen &&
+            {isCreateMessageModalOpen &&
                 <CreateMessageModal
-                    onClose={() => setIsCreateFirstChatMessageModalOpen(false)}
+                    onClose={() => setIsCreateMessageModalOpen(false)}
                     onSubmit={handleAddNewStep}
                     chatId={chatId!}
                     startingChatId={chatId}
@@ -119,15 +118,6 @@ const ChatMessageDetails: React.FC = () => {
                     chat={chat!}
                     onSubmit={handleUpdateChat}
                 />}
-
-            {isOpenSelectUserModal &&
-                <SelectUserModal
-                    onClose={() => setIsOpenSelectUserModal(false)}
-                    setSelectedUsers={setUsers}
-                    selectedUsers={users}
-                    chat={chat!}
-                />
-            }
         </Container>
     );
 };

@@ -25,8 +25,8 @@ const CreateMessageModal: React.FC<Props> = ({
     const handleSave = async (data: any) => {
         data.chatId = chatId;
         data.startingChatId = startingChatId
-        data.prevMessageIds = prevMessageId ? [prevMessageId] : [];
-        data.prevChoiceIds = prevChoiceId ? [prevChoiceId] : [];
+        // data.prevMessageIds = prevMessageId ? [prevMessageId] : [];
+        // data.prevChoiceIds = prevChoiceId ? [prevChoiceId] : [];
         const newChatMessage = await createChatMessage(data);
         if (onSubmit) {
             await onSubmit(newChatMessage);

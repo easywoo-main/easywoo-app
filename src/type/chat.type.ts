@@ -23,7 +23,6 @@ export type ChatDto = {
     isDisabled: boolean;
     paintPoints: string[]
     formula: string;
-    graphType: GraphType;
     masterGraph: string;
 
     startMessageId: string;
@@ -32,7 +31,6 @@ export type ChatDto = {
 
 export type ChatSliderProps = {
     formula: string;
-    graphType: GraphType;
 }
 
 export type SliderCreateUpdateProps = ChatSliderProps & {
@@ -43,14 +41,3 @@ export type SliderCreateUpdateProps = ChatSliderProps & {
 export type CreateChatDto = Omit<ChatDto, "startMessageId"> & SliderCreateUpdateProps
 export type UpdateChatDto = Partial<ChatDto>
 
-
-export enum GraphType {
-    LINE = "LINE",
-    BAR = "BAR",
-    // PIE = "PIE",
-    // DOUGHNUT = "DOUGHNUT",
-    // RADAR = "RADAR",
-    // POLAR_AREA = "POLAR_AREA",
-    // BUBBLE = "BUBBLE",
-    // SCATTER = "SCATTER",
-}

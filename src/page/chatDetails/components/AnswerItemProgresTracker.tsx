@@ -23,13 +23,6 @@ const AnswerItemProgressTracker: React.FC<AnswerItemProgressTrackerProps> = ({st
                     </>
                 }
             />
-            {/*<ListItemText*/}
-            {/*    primary={*/}
-            {/*        <Typography sx={{ fontWeight: 'bold' }}>*/}
-            {/*            test*/}
-            {/*        </Typography>*/}
-            {/*    }*/}
-            {/*/>*/}
             {new Date(stepChatMessage.createdAt).toLocaleString()}
         </ListItem>
     )

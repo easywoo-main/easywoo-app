@@ -3,6 +3,8 @@ import {CreateMessageChoiceDto} from "../../type/messageChoice.type";
 
 
 export const defaultCreateMessage: CreateChatMessageDto = {
+    answers: [],
+    goToStep: undefined,
     stepId: undefined,
     chatId: "",
     images: [],

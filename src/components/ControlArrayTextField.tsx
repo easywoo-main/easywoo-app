@@ -20,17 +20,12 @@ function ControlArrayTextField<TFieldValues extends FieldValues>({
                                                             }: ControlArrayTextFieldProps<TFieldValues>) {
 
     return (
-        <ControlArrayForm control={control} errors={errors} name={name} label={label} render={
-            (field, label)=> (
-                <TextField
+        <ControlArrayForm control={control} errors={errors} name={name} label={label} render={(field, label) => (
+            <TextField
                 {...field}
                 label={label}
                 variant="outlined"
-                fullWidth
-                // error={!!errors?.[name]?.[index]}
-                // helperText={errors?.[name]?.[index] ? (errors[name][index] as any)?.message : ""}
-            />)
-        } />
+                fullWidth/>)} emptyItem={""} />
     );
 }
 
