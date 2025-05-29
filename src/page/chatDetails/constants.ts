@@ -13,7 +13,7 @@ export const defaultCreateMessage: CreateChatMessageDto = {
     introText: "",
     medias: [],
     question: "",
-    sliderPropIds: [],
+    // sliderPropIds: [],
     stepName: "",
     todoList: [],
     timeouts: []

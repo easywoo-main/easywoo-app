@@ -29,6 +29,7 @@ export type ChatMessageDto = {
 
     nextMessageId?: string | null;
     restartMessageId?: string | null;
+    sliderPropId?: string | null;
     chatId: string
 }
 
@@ -36,7 +37,6 @@ export type ChatMessage = BaseEntity & ChatMessageDto
 
 
 export type CreateChatMessageDto = ChatMessageDto & {
-    sliderPropIds: string[],
     goToStep?: number,
     answers: (Omit<CreateMessageChoiceDto, "prevMessageId"> & {goToStep?: number})[]
     restartFrom?: number,

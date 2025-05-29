@@ -80,7 +80,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                             chatId: message.chatId,
                             goToStep: message?.nextMessage?.stepId,
                             restartFrom: message?.restartMessage?.stepId,
-                            sliderPropIds:  [], //message.sliderProp.map((item: { id: string }) => item.id) ||
+                            sliderPropId: message.sliderPropId,
                             answers: message.nextChoices?.map((item) => ({
                                 id: item.id, text: item.text, infoText: item.infoText, goToStep: item.nextMessage?.stepId
                             })) || [],
