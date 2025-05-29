@@ -1,4 +1,4 @@
-import {ChatMessageWithRelations} from "./chatMessage";
+import {ChatMessage, ChatMessageWithRelations} from "./chatMessage";
 import {BaseEntity} from "./chat.type";
 
 type MessageChoiceDto = {
@@ -11,8 +11,8 @@ type MessageChoiceDto = {
 
 export type MessageChoice = BaseEntity & MessageChoiceDto
 
-export type CreateMessageChoiceDto =  MessageChoiceDto
+export type CreateMessageChoiceDto =  MessageChoiceDto & {id?: string};
 export type UpdateMessageChoiceDto =  Partial<CreateMessageChoiceDto>
 export type MessageChoiceWithRelationDto = MessageChoice & {
-    nextMessage?: ChatMessageWithRelations ;
+    nextMessage?: ChatMessage ;
 }

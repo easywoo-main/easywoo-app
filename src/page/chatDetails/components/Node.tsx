@@ -90,7 +90,7 @@ const Node: React.FC<QuestionComponentProps> = ({
                 </Box>
 
                 {isOpenEditModal &&
-                    <EditMessageModal onClose={()=> setIsOpenEditModal(false)} message={treeNode.attributes} onSubmit={handleUpdateChatMessage}/>
+                    <EditMessageModal onClose={()=> setIsOpenEditModal(false)} messageId={treeNode.attributes.id} onSubmit={handleUpdateChatMessage}/>
                 }
 
                 {isOpenCreateChildrenModal &&

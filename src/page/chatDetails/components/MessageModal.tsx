@@ -49,7 +49,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
 
-    const {control,handleSubmit, formState: {errors}} = useForm<CreateChatMessageDto>({
+    const {control,handleSubmit,watch, formState: {errors}} = useForm<CreateChatMessageDto>({
         resolver: yupResolver(createUpdateMessageSchema) as any,
         defaultValues: message
     });
@@ -92,6 +92,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
                     <FilesForm control={control} errors={errors} name="medias" title="Upload Media"/>
                     <ChallengeForm errors={errors} control={control}/>
                     <ControlArrayTextField control={control} errors={errors} name="todoList" label="Todo List"/>
+                    <ControlTextField control={control} errors={errors} name="restartFrom" label="Restart from"/>
                     <ControlTextField control={control} errors={errors} name="goToStep" label="Go to step"/>
                     <ControlArrayForm
                         control={control}
@@ -145,7 +146,10 @@ const MessageModal: React.FC<MessageModalProps> = ({
                         </Button>
                     )}
                     <Button onClick={onClose} color="secondary">Cancel</Button>
-                    <Button  type="submit" variant="contained" disabled={isSaveLoading}>
+                    <Button  type="submit" onClick={()=> {
+                        console.log("savedChatMessage",watch())
+                        console.log("errors", errors)
+                    }} variant="contained" disabled={isSaveLoading}>
                         {isSaveLoading ? <CircularProgress size={24} /> : 'Save'}
                     </Button>
                 </DialogActions>

@@ -35,7 +35,7 @@ const MessageCard: React.FC<Props> = ({ message, onUpdate }) => {
 
             {openEdit && (
                 <EditMessageModal
-                    message={message}
+                    messageId={message.id}
                     onClose={() => setOpenEdit(false)}
                     onSubmit={handleUpdate}
                 />

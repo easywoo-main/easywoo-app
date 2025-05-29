@@ -39,6 +39,7 @@ export type CreateChatMessageDto = ChatMessageDto & {
     sliderPropIds: string[],
     goToStep?: number,
     answers: (Omit<CreateMessageChoiceDto, "prevMessageId"> & {goToStep?: number})[]
+    restartFrom?: number,
 }
 export type UpdateChatMessageDto = Partial<CreateChatMessageDto>
 
@@ -55,12 +56,13 @@ export enum MessageType {
 
 export interface ChatMessageWithRelations extends ChatMessage {
     nextChoices?: MessageChoiceWithRelationDto[],
-    nextMessage?: ChatMessageWithRelations,
-    sliderProps?: SliderProp[]
-    infoPopUps?: InfoPopUp[];
-    stepChatMessages?: StepChatMessage[];
-    prevMessages?: ChatMessage[]
-    prevChoices?: MessageChoice[]
+    nextMessage?: ChatMessage,
+    restartMessage?: ChatMessage,
+    // sliderProps?: SliderProp[]
+    // infoPopUps?: InfoPopUp[];
+    // stepChatMessages?: StepChatMessage[];
+    // prevMessages?: ChatMessage[]
+    // prevChoices?: MessageChoice[]
 }
 
 
