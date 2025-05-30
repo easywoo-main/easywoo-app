@@ -74,6 +74,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                             isOfferRestart: message.isOfferRestart,
                             isAllowManualTime: message.isAllowManualTime,
                             isComment: message.isComment,
+                            isGraph: message.isGraph,
                             isBarometer: message.isBarometer,
                             stepId: message.stepId,
                             nextMessageId: message.nextMessageId,
