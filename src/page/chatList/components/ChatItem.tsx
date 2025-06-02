@@ -30,11 +30,11 @@ const ChatItem: React.FC<ChatItemProps> = ({chat, onUpdateChat}) => {
                 <div>
                     <Button onClick={() => setIsEditModalOpen(true)} color="primary" variant="outlined"
                             sx={{marginRight: 2}}>
-                        Edit Name
+                        Edit course
                     </Button>
                     <Button onClick={() => navigate(`/chat/${chat.id}`)} variant="outlined" color="primary"
                             sx={{marginRight: 2}}>
-                        Edit Message
+                        Edit steps
                     </Button>
                     <Button onClick={() => setIsDeleteModalOpen(true)} variant="outlined" color="error">
                         Delete

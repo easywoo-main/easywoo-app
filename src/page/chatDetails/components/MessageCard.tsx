@@ -23,14 +23,12 @@ const MessageCard: React.FC<Props> = ({ message, onUpdate }) => {
     return (
         <Card>
             <CardContent>
-                <Typography variant="subtitle1">Step ID: {message.stepId}</Typography>
-                <Typography variant="h6">{message.stepName}</Typography>
-                <Box mt={2} display="flex" gap={2}>
-                    <Button onClick={() => setOpenDelete(true)} variant="outlined" color="error">
-                        Delete
-                    </Button>
-                    <Button variant="contained" onClick={() => setOpenEdit(true)}>Edit</Button>
-                </Box>
+                <Typography variant="h5" sx={{ display: 'inline', mr: 8 }}>Step ID: {message.stepId}</Typography>
+                <Typography variant="h5" sx={{ display: 'inline', mr: 8 }}>Step name: {message.stepName}</Typography>
+                <Button onClick={() => setOpenDelete(true)} variant="outlined" color="error" sx={{ ml: 2 }}>
+                    Delete
+                </Button>
+                <Button variant="contained" onClick={() => setOpenEdit(true)} sx={{ ml: 2 }}>Edit</Button>
             </CardContent>
 
             {openEdit && (

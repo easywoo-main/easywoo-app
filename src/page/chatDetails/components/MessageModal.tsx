@@ -78,10 +78,10 @@ const MessageModal: React.FC<MessageModalProps> = ({
                     <FilesForm control={control} errors={errors} title="Intro Images" name="introImages"/>
                     <FilesForm control={control} errors={errors} title={"Intro Media "} name="introMedias"/>
                     <ControlTextField control={control} errors={errors} name="question" label="Question"/>
-                    <ControlCheckbox control={control} name="isCourseEnd" label="Is Course End"/>
-                    <ControlCheckbox control={control} name="isOfferRestart" label="Is Offer restart"/>
-                    <ControlCheckbox control={control} name="isComment" label="Is Comment"/>
-                    <ControlCheckbox control={control} name="isGraph" label="Is Graph"/>
+                    <ControlCheckbox control={control} name="isCourseEnd" label="End of course"/>
+                    <ControlCheckbox control={control} name="isOfferRestart" label="Offer restart"/>
+                    <ControlCheckbox control={control} name="isComment" label="Leave comment"/>
+                    <ControlCheckbox control={control} name="isGraph" label="Show Graph"/>
 
 
                     <ControlSelect control={control} errors={errors} name="type" options={Object.values(MessageType)}

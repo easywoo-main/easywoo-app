@@ -8,7 +8,7 @@ import {PageRequestArgs} from "../../../utils/pageable.utils";
 const ChatMessagesList: React.FC<{ chatId: string }> = ({chatId}) => {
 
     const fetchMessages = async (pageRequest: PageRequestArgs) => {
-        return getAllByChatMessageId({chatId, ...pageRequest});
+        return getAllByChatMessageId({chatId, ...pageRequest, sortBy: {stepId: "desc"}});
     };
 
     return (

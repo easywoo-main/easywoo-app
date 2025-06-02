@@ -29,7 +29,7 @@ export type ChatMessageDto = {
 
     nextMessageId?: string | null;
     restartMessageId?: string | null;
-    sliderPropId?: string | null;
+    sliderPropIds?: string[];
     chatId: string
 }
 
