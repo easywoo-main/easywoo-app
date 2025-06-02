@@ -58,7 +58,7 @@ export interface ChatMessageWithRelations extends ChatMessage {
     nextChoices?: MessageChoiceWithRelationDto[],
     nextMessage?: ChatMessage,
     restartMessage?: ChatMessage,
-    // sliderProps?: SliderProp[]
+    sliderProps?: SliderProp[]
     // infoPopUps?: InfoPopUp[];
     // stepChatMessages?: StepChatMessage[];
     // prevMessages?: ChatMessage[]

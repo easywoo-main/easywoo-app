@@ -1,46 +1,45 @@
-import React, { useCallback, useEffect } from "react";
-import { Box, CircularProgress, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
-import { Control, Controller, useWatch } from "react-hook-form";
+import React, { useEffect, useCallback } from "react";
+import { Box, Checkbox, CircularProgress, FormControlLabel, FormGroup, Typography } from "@mui/material";
+import { Control, Controller } from "react-hook-form";
+import ControlCheckbox from "../../../components/ControlCheckbox";
 import { getAllSliderPropsByChatId } from "../../../api/sliderProp.service";
 import { SliderProp } from "../../../type/messageSlider.type";
-import { getChatById } from "../../../api/chat.service";
-import { AxiosError } from "axios";
-import { Chat } from "../../../type/chat.type";
+import {getChatById} from "../../../api/chat.service";
+import {AxiosError} from "axios";
+import {Chat} from "../../../type/chat.type";
 
 interface CustomFormProps {
     control: Control<any>;
     chatId: string;
-    setValue: any;
 }
 
-const VariableForm: React.FC<CustomFormProps> = ({ control, chatId, setValue }) => {
+const VariableForm: React.FC<CustomFormProps> = ({ control, chatId }) => {
     const [loading, setLoading] = React.useState(true);
     const [chat, setChat] = React.useState<Chat>();
     const [sliderProps, setSliderProps] = React.useState<SliderProp[]>([]);
     const [error, setError] = React.useState<string | null>(null);
 
-    const isBarometer = useWatch({ control, name: "isBarometer" });
-    const sliderPropId = useWatch({ control, name: "sliderPropId" });
-
     const getAllSliderProps = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
-            const [data, chat] = await Promise.all([getAllSliderPropsByChatId(chatId), getChatById(chatId)]);
+            const [data, chat] = await Promise.all([ getAllSliderPropsByChatId(chatId), getChatById(chatId)])
+            // const data = await getAllSliderPropsByChatId(chatId);
             setSliderProps(data);
-            setChat(chat);
-        } catch (err: AxiosError | any) {
+            setChat(chat)
+        }  catch (err: AxiosError | any) {
             console.log(err?.response?.data?.message);
-            setError(err?.response?.data?.message || "An error occurred while loading data.");
-        } finally {
+            setError(err?.response?.data?.message || 'An error occurred while saving.');
+        }  finally {
             setLoading(false);
         }
     }, [chatId]);
 
     useEffect(() => {
-        if (chatId) getAllSliderProps();
+        if (chatId) {
+            getAllSliderProps();
+        }
     }, [chatId, getAllSliderProps]);
-
 
     if (loading) {
         return (
@@ -60,51 +59,36 @@ const VariableForm: React.FC<CustomFormProps> = ({ control, chatId, setValue }) 
 
     return (
         <Box>
-            <Typography>Variable:</Typography>
+            <Typography>Variable: </Typography>
+            <ControlCheckbox control={control} name="isBarometer" label={chat.masterGraph || "Master Graph"}  />
+
             <Controller
-                name="sliderPropId"
+                name="sliderPropIds"
                 control={control}
-                render={({ field }) => {
-
-
-                    const radioValue = (isBarometer ? "isBarometer" : (field.value || ""));
-                    console.log("radioValue", radioValue)
-                    console.log(" (field.value || \"\")",  (field.value || ""));
-                    console.log("value",  field.value )
-                    return (
-                        <RadioGroup
-                            value={radioValue}
-                            onChange={(e) => {
-                                const val = e.target.value;
-
-                                if (val === "isBarometer") {
-                                    setValue("isBarometer", true);
-                                    setValue("sliderPropId", null);
-                                    field.onChange(null);
-                                } else if (val === "") {
-                                    setValue("isBarometer", false);
-                                    setValue("sliderPropId", null);
-                                    field.onChange(null);
-                                } else {
-                                    setValue("isBarometer", false);
-                                    setValue("sliderPropId", val);
-                                    field.onChange(val);
+                render={({ field }) => (
+                    <FormGroup>
+                        {sliderProps.map((sliderProp) => (
+                            <FormControlLabel
+                                key={sliderProp.id}
+                                control={
+                                    <Checkbox
+                                        checked={field.value?.includes(sliderProp.id) || false}
+                                        onChange={(e) => {
+                                            let newValue: string[] = Array.isArray(field.value) ? [...field.value] : [];
+                                            if (e.target.checked) {
+                                                newValue.push(sliderProp.id);
+                                            } else {
+                                                newValue = newValue.filter((id) => id !== sliderProp.id);
+                                            }
+                                            field.onChange(newValue);
+                                        }}
+                                    />
                                 }
-                            }}
-                        >
-                            <FormControlLabel value="" control={<Radio />} label="None" />
-                            <FormControlLabel value="isBarometer" control={<Radio />} label={chat.masterGraph || "Master Graph"} />
-                            {sliderProps.map((sliderProp) => (
-                                <FormControlLabel
-                                    key={sliderProp.id}
-                                    value={sliderProp.id}
-                                    control={<Radio />}
-                                    label={sliderProp.name}
-                                />
-                            ))}
-                        </RadioGroup>
-                    );
-                }}
+                                label={sliderProp.name}
+                            />
+                        ))}
+                    </FormGroup>
+                )}
             />
         </Box>
     );

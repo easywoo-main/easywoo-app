@@ -18,7 +18,7 @@ export const createUpdateMessageSchema = Yup.object().shape({
     isComment: Yup.boolean().default(false),
     isCourseEnd: Yup.boolean().default(false),
     isBarometer: Yup.boolean().default(false),
-    sliderPropIds: Yup.string().uuid().optional(),
+    sliderPropIds: Yup.array().of(Yup.string().uuid().optional()),
     stepId: Yup.number().typeError("Step id must be a number.").required("Step id required."),
     restartFrom:Yup.number()
         .nullable()

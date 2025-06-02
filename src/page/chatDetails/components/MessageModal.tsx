@@ -49,7 +49,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
 
-    const {control,handleSubmit,watch, setValue, formState: {errors}} = useForm<CreateChatMessageDto>({
+    const {control,handleSubmit,watch, formState: {errors}} = useForm<CreateChatMessageDto>({
         resolver: yupResolver(createUpdateMessageSchema) as any,
         defaultValues: message
     });
@@ -86,7 +86,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
 
                     <ControlSelect control={control} errors={errors} name="type" options={Object.values(MessageType)}
                                    label="Message type"/>
-                    <VariableForm control={control} chatId={chatId}  setValue={setValue}/>
+                    <VariableForm control={control} chatId={chatId}/>
                     <Typography>Files</Typography>
                     <FilesForm control={control} errors={errors} name="images" title="Upload Image"/>
                     <FilesForm control={control} errors={errors} name="medias" title="Upload Media"/>
