@@ -3,6 +3,7 @@ import {CreateMessageChoiceDto} from "../../type/messageChoice.type";
 
 
 export const defaultCreateMessage: CreateChatMessageDto = {
+    restartFrom: null,
     answers: [],
     goToStep: undefined,
     stepId: undefined,

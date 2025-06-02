@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createUpdateMessageSchema} from "../../../schema/createUpdateMessage.schema";
@@ -10,6 +10,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormHelperText,
     Stack,
     Typography
 } from "@mui/material";
@@ -19,8 +20,7 @@ import {User} from "../../../type/user.type";
 import {AxiosError} from "axios";
 import ControlTextField from "../../../components/ControlTextField";
 import ControlCheckbox from "../../../components/ControlCheckbox";
-import {MessageChoice} from "../../../type/messageChoice.type";
-import {ChatMessage, CreateChatMessageDto, MessageType} from "../../../type/chatMessage";
+import {CreateChatMessageDto, MessageType} from "../../../type/chatMessage";
 import ControlSelect from "../../../components/ControlSelect";
 import VariableForm from "./VariableForm";
 import ControlArrayForm from "../../../components/ControlArrayForm";
@@ -48,11 +48,47 @@ const MessageModal: React.FC<MessageModalProps> = ({
                                                    }) => {
     const [isSaveLoading, setIsSaveLoading] = useState(false);
     const [error, setError] = useState<string>();
-
+    const [warnings, setWarnings] = useState<any>({});
     const {control,handleSubmit,watch, formState: {errors}} = useForm<CreateChatMessageDto>({
         resolver: yupResolver(createUpdateMessageSchema) as any,
         defaultValues: message
     });
+
+    useEffect(() => {
+        if (message.goToStep && !message.nextMessageId) {
+            setWarnings((prevState: any) => ({...prevState, goToStep: "Go to step invalid"}));
+        }
+        if (message.restartFrom && !message.restartMessageId) {
+            setWarnings((prevState: any) => ({...prevState, restartFrom: "Go to step invalid"}));
+        }
+        message.answers?.forEach((item, index) => {
+            if (!item.goToStep) {
+
+                setWarnings((prevState: any) => ({
+                    ...prevState,
+                    answers: {
+                        ...(prevState.answers || {}),
+                        [index]: {
+                            ...(prevState.answers?.[index] || {}),
+                            goToStep: "Step is missing"
+                        }
+                    }
+                }));
+            } else if (!item.nextMessageId) {
+                console.log(!item.nextMessageId)
+                setWarnings((prevState: any) => ({
+                    ...prevState,
+                    answers: {
+                        ...(prevState.answers || {}),
+                        [index]: {
+                            ...(prevState.answers?.[index] || {}),
+                            goToStep: "Go to step invalid"
+                        }
+                    }
+                }));
+            }
+        });
+    }, [message]);
 
     const handleSave = async (data: CreateChatMessageDto) => {
         setIsSaveLoading(true);
@@ -93,7 +129,13 @@ const MessageModal: React.FC<MessageModalProps> = ({
                     <ChallengeForm errors={errors} control={control}/>
                     <ControlArrayTextField control={control} errors={errors} name="todoList" label="Todo List"/>
                     <ControlTextField control={control} errors={errors} name="restartFrom" label="Restart from"/>
+                    <FormHelperText sx={{color: 'orange'}}>
+                        {warnings?.restartFrom}
+                    </FormHelperText>
                     <ControlTextField control={control} errors={errors} name="goToStep" label="Go to step"/>
+                    <FormHelperText sx={{color: 'orange'}}>
+                        {warnings?.goToStep}
+                    </FormHelperText>
                     <ControlArrayForm
                         control={control}
                         errors={errors}
@@ -121,6 +163,9 @@ const MessageModal: React.FC<MessageModalProps> = ({
                                     name={`answers.${index}.goToStep`}
                                     label={`${label} Go to step`}
                                 />
+                                <FormHelperText sx={{color: 'orange'}}>
+                                    {warnings?.answers?.[index]?.goToStep}
+                                </FormHelperText>
                             </Box>
                         )}
                     />
@@ -131,7 +176,6 @@ const MessageModal: React.FC<MessageModalProps> = ({
                         <Chip
                             key={user.id}
                             label={user.name}
-                            // onDelete={() => removeUser(user.id)}
                             sx={{mb: 1}}
                         />
                     ))}

@@ -1,6 +1,6 @@
 import apiClientV1 from "../config/axios.config";
 import {
-    ChatMessage, ChatMessageWithPrevMessage,
+    ChatMessage, ChatMessageWithChoices,
     ChatMessageWithRelations,
     CreateChatMessageDto,
     FilterChatMessage,
@@ -47,7 +47,7 @@ export const uploadFiles = async (files: File[], folder?: string): Promise<strin
     return response.data;
 }
 
-export const getAllByChatMessageId = async (option: FilterChatMessage): Promise<PageResponse<ChatMessageWithPrevMessage>> => {
+export const getAllByChatMessageId = async (option: FilterChatMessage): Promise<PageResponse<ChatMessageWithChoices>> => {
     const response = await apiClientV1.get('/chat-message', {
         params: option
     });

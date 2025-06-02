@@ -77,13 +77,14 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                             isGraph: message.isGraph,
                             isBarometer: message.isBarometer,
                             stepId: message.stepId,
+                            restartFrom: message?.restartFrom,
                             nextMessageId: message.nextMessageId,
+                            restartMessageId: message.restartMessageId,
                             chatId: message.chatId,
-                            goToStep: message?.nextMessage?.stepId,
-                            restartFrom: message?.restartMessage?.stepId,
+                            goToStep: message?.goToStep,
                             sliderPropIds: message?.sliderProps?.map((item: { id: string }) => item.id) || [],
                             answers: message.nextChoices?.map((item) => ({
-                                id: item.id, text: item.text, infoText: item.infoText, goToStep: item.nextMessage?.stepId
+                                id: item.id, text: item.text, infoText: item.infoText, goToStep: item.goToStep, nextMessageId: item.nextMessageId
                             })) || [],
                         }}
                     />

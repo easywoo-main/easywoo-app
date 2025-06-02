@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {Chat} from "../../type/chat.type";
 import {getChatById} from "../../api/chat.service";
-import ChatTree from "./components/ChatTree";
 import {Box, Button, CircularProgress, Container, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';

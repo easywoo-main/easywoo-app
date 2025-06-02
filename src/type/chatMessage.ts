@@ -18,6 +18,8 @@ export type ChatMessageDto = {
     timeouts: number[];
     type?: MessageType;
     stepId?: number;
+    goToStep?: number | null
+    restartFrom?: number | null;
 
 
     isCourseEnd?: boolean;
@@ -37,9 +39,7 @@ export type ChatMessage = BaseEntity & ChatMessageDto
 
 
 export type CreateChatMessageDto = ChatMessageDto & {
-    goToStep?: number,
-    answers: (Omit<CreateMessageChoiceDto, "prevMessageId"> & {goToStep?: number})[]
-    restartFrom?: number,
+    answers: (Omit<CreateMessageChoiceDto, "prevMessageId">)[]
 }
 export type UpdateChatMessageDto = Partial<CreateChatMessageDto>
 
@@ -54,10 +54,9 @@ export enum MessageType {
     // QUESTION = 'QUESTION',
 }
 
-export interface ChatMessageWithRelations extends ChatMessage {
-    nextChoices?: MessageChoiceWithRelationDto[],
-    nextMessage?: ChatMessage,
-    restartMessage?: ChatMessage,
+export interface ChatMessageWithRelations extends ChatMessageWithChoices {
+    // nextMessage?: ChatMessage,
+    // restartMessage?: ChatMessage,
     sliderProps?: SliderProp[]
     // infoPopUps?: InfoPopUp[];
     // stepChatMessages?: StepChatMessage[];
@@ -66,9 +65,8 @@ export interface ChatMessageWithRelations extends ChatMessage {
 }
 
 
-export type ChatMessageWithPrevMessage = ChatMessage & {
-    prevMessages?: ChatMessage[]
-    prevChoices?: MessageChoice[]
+export type ChatMessageWithChoices = ChatMessage & {
+    nextChoices?: MessageChoice[],
 };
 
 export interface FilterChatMessage extends PageRequestArgs {
