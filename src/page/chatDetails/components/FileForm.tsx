@@ -56,7 +56,7 @@ const FileForm: React.FC<Props> = ({control, errors, name, title = "Upload Files
                                                                                       style={{
                                                                                           maxWidth: 100,
                                                                                           marginRight: 10
-                                                                                      }}/>) : files.value .match(/\.(MP4|MP3|webm|ogg)$/) ? (
+                                                                                      }}/>) : files.value .match(/\.(MP4|MP3|mp4|webm|ogg)$/) ? (
                                              <video controls width={200} style={{marginRight: 10}}>
                                                  <source src={files.value }/>
                                              </video>) : files.value .match(/\.(mp3|wav|ogg)$/) ? (
