@@ -5,6 +5,7 @@ import MessageModal from "./MessageModal";
 import {CircularProgress, Dialog, Typography} from "@mui/material";
 import DeleteModal from "../../../components/DeleteModal";
 import {AxiosError} from "axios";
+import {entityToDto} from "../../../utils/chat-message.mapper";
 
 interface EditMessageModalProps {
     onClose: () => void;
@@ -59,34 +60,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({onClose, onSubmit, m
                         onDelete={() => setIsOpenDeleteModal(true)}
                         chatMessageId={message.id}
                         chatId={message.chatId}
-                        message={{
-                            stepName: message.stepName,
-                            introText: message.introText || '',
-                            introImages: message.introImages || [],
-                            introMedias: message.introMedias || [],
-                            question: message.question || '',
-                            todoList: message.todoList || [],
-                            images: message.images || [],
-                            medias: message.medias || [],
-                            timeouts: message.timeouts,
-                            type: message.type,
-                            isCourseEnd: message.isCourseEnd,
-                            isOfferRestart: message.isOfferRestart,
-                            isAllowManualTime: message.isAllowManualTime,
-                            isComment: message.isComment,
-                            isGraph: message.isGraph,
-                            isBarometer: message.isBarometer,
-                            stepId: message.stepId,
-                            restartFrom: message?.restartFrom,
-                            nextMessageId: message.nextMessageId,
-                            restartMessageId: message.restartMessageId,
-                            chatId: message.chatId,
-                            goToStep: message?.goToStep,
-                            sliderPropIds: message?.sliderProps?.map((item: { id: string }) => item.id) || [],
-                            answers: message.nextChoices?.map((item) => ({
-                                id: item.id, text: item.text, infoText: item.infoText, goToStep: item.goToStep, nextMessageId: item.nextMessageId
-                            })) || [],
-                        }}
+                        message={entityToDto(message)}
                     />
                     {isOpenDeleteModal && (<DeleteModal
                             onDelete={handleDeleteMessage}
