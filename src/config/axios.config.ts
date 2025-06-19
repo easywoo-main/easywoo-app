@@ -35,6 +35,7 @@ const createApiClient = (version: "v1"|"v2")=>{
             if (isTokenExpired(token) && refresh) {
                 try {
                     localStorage.removeItem('accessToken');
+                    console.log("Refresh token expired");
                     const { accessToken: newAccessToken } = await fetchNewAccessToken(refresh);
                     token = newAccessToken;
                     localStorage.setItem('accessToken', newAccessToken);

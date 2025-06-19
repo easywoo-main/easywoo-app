@@ -6,7 +6,8 @@ export const login = async (auth: Login): Promise<AuthState>=>{
     return data;
 }
 
-export const refreshToken = async (token: string): Promise<{ accessToken: string }> => {
-    const { data } = await apiClientV1.post(`/admin-credentials/refresh`, token);
+export const refreshToken = async (refreshToken: string): Promise<{ accessToken: string }> => {
+    const { data } = await apiClientV1.post(`/admin-credentials/refresh`, {refreshToken});
     return data;
 }
+

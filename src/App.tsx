@@ -4,6 +4,7 @@ import React from "react";
 import ChatMessageDetailsPage from "./page/chatDetails/ChatDetails";
 import {QueryClient, QueryClientProvider} from 'react-query';
 import LoginPage from './page/login/LoginPage';
+import AdminListPage from './page/admin/AdminListPage';
 
 const App: React.FC = () => {
     const queryClient = new QueryClient();
@@ -12,6 +13,7 @@ const App: React.FC = () => {
             <Router>
                 <Routes>
                     <Route path="/" element={<Navigate to="/chat" replace/>}/>
+                    <Route path='/admin' element={<AdminListPage />} />
                     <Route path="/chat" element={<ChatListPage/>}/>
                     <Route path="/chat/:id" element={<ChatMessageDetailsPage/>}/>
                     <Route path="/login" element={<LoginPage/>}/>

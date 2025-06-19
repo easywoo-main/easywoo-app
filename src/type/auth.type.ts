@@ -6,6 +6,7 @@ export type Login = {
 export type Admin = {
     id: string;
     userName: string;
+    roleId: string;
     createdAt: string;
     updatedAt: string;
 }
@@ -15,3 +16,11 @@ export type AuthState = {
     accessToken: string;
     refreshToken: string;
 }
+
+export type CreateAdminDto = {
+    userName: string;
+    password: string;
+    roleId: string;
+}
+
+export type UpdateAdminDto = Partial<CreateAdminDto>;
