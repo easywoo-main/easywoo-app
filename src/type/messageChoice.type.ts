@@ -5,6 +5,7 @@ type MessageChoiceDto = {
     // name: string;
     text: string;
     infoText?: string;
+    file?: string;
     goToStep?: number | null
     prevMessageId: string;
     nextMessageId?: string | null;

@@ -25,6 +25,7 @@ import ControlSelect from "../../../components/ControlSelect";
 import VariableForm from "./VariableForm";
 import ControlArrayForm from "../../../components/ControlArrayForm";
 import ControlArrayTextField from "../../../components/ControlArrayTextField";
+import AnswerForm from "./AnswerForm";
 
 interface MessageModalProps {
     onClose: () => void;
@@ -142,32 +143,13 @@ const MessageModal: React.FC<MessageModalProps> = ({
                         name="answers"
                         label="Answers"
                         emptyItem={{ text: "", infoText: "" }}
-                        render={(field, label, index) => (
-                            <Box>
-                                <Typography>{label}</Typography>
-                                <ControlTextField
-                                    control={control}
-                                    errors={errors}
-                                    name={`answers.${index}.text`}
-                                    label={`${label} Answer `}
-                                />
-                                <ControlTextField
-                                    control={control}
-                                    errors={errors}
-                                    name={`answers.${index}.infoText`}
-                                    label={`${label} Help text`}
-                                />
-                                <ControlTextField
-                                    control={control}
-                                    errors={errors}
-                                    name={`answers.${index}.goToStep`}
-                                    label={`${label} Go to step`}
-                                />
-                                <FormHelperText sx={{color: 'orange'}}>
-                                    {warnings?.answers?.[index]?.goToStep}
-                                </FormHelperText>
-                            </Box>
-                        )}
+                        render={(_field, label, index) => (<AnswerForm
+                            control={control}
+                            errors={errors}
+                            warnings={warnings}
+                            label={label}
+                            name={`answers.${index}`}
+                        />)}
                     />
 
 

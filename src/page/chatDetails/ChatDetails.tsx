@@ -10,8 +10,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import EditChatModal from "../chatList/components/EditChatModal";
 import CreateMessageModal from "./components/CreateMessageModal";
-import SelectUserModal from "./components/SelectUserModal";
-import {User} from "../../type/user.type";
 import ChatMessagesList from "./components/ChatMessagesList";
 
 const ChatMessageDetailsPage: React.FC = () => {

@@ -13,17 +13,16 @@ interface Props {
     name: string;
 }
 
-const FilesForm: React.FC<Props> = ({control, errors, name, title = "Upload Files"}) => {
+const FileForm: React.FC<Props> = ({control, errors, name, title = "Upload Files"}) => {
     const [isLoading, setIsLoading] = useState(false);
 
 
     const handleDeleteFile = (files: ControllerRenderProps, fileToDelete: string) => {
         files.onChange(files.value.filter((file: string) => file !== fileToDelete))
     };
-
     return (
         <ControlFileForm control={control} errors={errors} name={name}
-                         method="array"
+                         method="single"
                          render={(handleUpload, files: ControllerRenderProps<FieldValues, string>) => (<>
                              <Button
                                  variant="outlined"
@@ -51,28 +50,28 @@ const FilesForm: React.FC<Props> = ({control, errors, name, title = "Upload File
                              </Button>
 
                              <Stack direction="row" spacing={2} mt={2} flexWrap="wrap">
-                                 {files.value && files.value?.map((file: string, index: number) => (file ? (
-                                     <Box key={index} display="flex" alignItems="center">
-                                         {file.match(/\.(jpeg|jpg|gif|png)$/) ? (<img src={file} alt="preview"
+                                 {files.value ? (
+                                     <Box display="flex" alignItems="center">
+                                         {files.value .match(/\.(jpeg|jpg|gif|png)$/) ? (<img src={files.value } alt="preview"
                                                                                       style={{
                                                                                           maxWidth: 100,
                                                                                           marginRight: 10
-                                                                                      }}/>) : file.match(/\.(MP4|MP3|mp4|webm|ogg)$/) ? (
+                                                                                      }}/>) : files.value .match(/\.(MP4|MP3|mp4|webm|ogg)$/) ? (
                                              <video controls width={200} style={{marginRight: 10}}>
-                                                 <source src={file}/>
-                                             </video>) : file.match(/\.(mp3|wav|ogg)$/) ? (
+                                                 <source src={files.value }/>
+                                             </video>) : files.value .match(/\.(mp3|wav|ogg)$/) ? (
                                              <audio controls style={{marginRight: 10}}>
-                                                 <source src={file}/>
+                                                 <source src={files.value }/>
                                              </audio>) : (<Typography color="error" style={{marginRight: 10}}>Unsupported
                                              file type</Typography>)}
 
-                                         <IconButton onClick={() => handleDeleteFile(files, file)}>
+                                         <IconButton onClick={() => handleDeleteFile(files, files.value )}>
                                              <DeleteIcon color="error"/>
                                          </IconButton>
-                                     </Box>) : null))}
+                                     </Box>) : null}
                              </Stack>
                          </>)}/>
     );
 };
 
-export default FilesForm;
+export default FileForm;

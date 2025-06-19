@@ -31,8 +31,12 @@ function ControlFileForm<TFieldValues extends FieldValues>({
     ) => {
         if (files.length > 0) {
             try {
+                console.log("FILEEEEEEEEEE")
                 const newFiles = await uploadFiles(files, folder);
+                console.log(method)
+                console.log(newFiles);
                 field.onChange(method === "single" ? newFiles[0] : [...field.value,  ...newFiles]);
+                console.log("new file", newFiles);
             } catch (error) {
                 console.error("Upload failed", error);
             }

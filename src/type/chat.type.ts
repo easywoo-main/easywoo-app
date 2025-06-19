@@ -39,5 +39,5 @@ export type SliderCreateUpdateProps = ChatSliderProps & {
 
 
 export type CreateChatDto = Omit<ChatDto, "startMessageId"> & SliderCreateUpdateProps
-export type UpdateChatDto = Partial<ChatDto>
+export type UpdateChatDto = Partial<CreateChatDto>
 
