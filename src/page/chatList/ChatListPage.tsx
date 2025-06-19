@@ -8,25 +8,37 @@ const ChatListPage: React.FC = () => {
     const [showCreateModal, setShowCreateModal] = useState(false);
     const navigate = useNavigate();
     return (<Box>
-            <Box p={3}>
-                <Typography variant="h4">Chat List</Typography>
+            <Box p={3} display="flex" justifyContent="space-between" alignItems="center">
+                <Box>
+                    <Typography variant="h4">Chat List</Typography>
+                    <Button
+                        onClick={() => setShowCreateModal(true)}
+                        variant="contained"
+                        color="primary"
+                        sx={{mt: 2, mb: 2}}
+                    >
+                        Create Chat
+                    </Button>
+                </Box>
                 <Button
-                    onClick={() => setShowCreateModal(true)}
-                    variant="contained"
-                    color="primary"
-                    sx={{mt: 2, mb: 2}}
+                    onClick={() => {
+                        localStorage.removeItem('accessToken');
+                        localStorage.removeItem('refreshToken');
+                        navigate('/login');
+                    }}
+                    variant="outlined"
+                    color="secondary"
+                    sx={{ ml: 2 }}
                 >
-                    Create Chat
+                    Logout
                 </Button>
             </Box>
 
-            <ChatMessagesList />
+            <ChatMessagesList/>
 
             {showCreateModal && (<CreateChatModal onClose={() => setShowCreateModal(false)}
-                                                  onSubmit={(chat) => navigate(`/chat/${chat.id}`)}/>
-            )}
-        </Box>
-    );
+                                                  onSubmit={(chat) => navigate(`/chat/${chat.id}`)}/>)}
+        </Box>);
 };
 
 export default ChatListPage;
