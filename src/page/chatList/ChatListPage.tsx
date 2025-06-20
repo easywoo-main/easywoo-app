@@ -22,6 +22,16 @@ const ChatListPage: React.FC = () => {
                 </Box>
                 <Button
                     onClick={() => {
+                        navigate('/admin');
+                    }}
+                    variant="outlined"
+                    color="secondary"
+                    sx={{ ml: 2 }}
+                >
+                    Manage Admin
+                </Button>
+                <Button
+                    onClick={() => {
                         localStorage.removeItem('accessToken');
                         localStorage.removeItem('refreshToken');
                         navigate('/login');
